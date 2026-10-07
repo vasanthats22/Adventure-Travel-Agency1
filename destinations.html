@@ -1,0 +1,1752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Adventure Travel Agency - Destinations</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Caveat:wght@600;700&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+
+<style>
+  :root {
+    --adv-primary:    #1f3d2b;
+    --adv-primary-d:  #152a1e;
+    --adv-accent:     #d98e3f;
+    --adv-accent-d:   #b8742c;
+    --adv-sage:       #a8b89a;
+    --adv-cream:      #d4cfc0;
+    --adv-bg:         #f5f2ea;
+    --adv-card:       #ffffff;
+    --adv-text:       #1f3d2b;
+    --adv-text-soft:  #5a6b5c;
+    --adv-border:     rgba(31, 61, 43, 0.12);
+    --adv-shadow:     rgba(15, 30, 22, 0.08);
+    --adv-shadow-hi:  rgba(15, 30, 22, 0.16);
+    --nav-height:     110px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', 'Segoe UI', Roboto, sans-serif; }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
+  body {
+    background: var(--adv-bg);
+    color: var(--adv-text);
+    overflow-x: hidden;
+    line-height: 1.6;
+    width: 100%;
+    padding-top: var(--nav-height);
+  }
+  #header-placeholder { width: 100%; }
+  #footer-placeholder { width: 100%; }
+
+  @media (max-width: 1100px) { :root { --nav-height: 160px; } }
+  @media (max-width: 768px)  { :root { --nav-height: 95px; } }
+  @media (max-width: 480px)  { :root { --nav-height: 85px; } }
+
+  .d-wrap { max-width: 1300px; margin: 0 auto; padding: 0 24px; }
+  .d-section { padding: 80px 0; position: relative; }
+  .d-section.section-alt { background: #ffffff; }
+
+  .d-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(217, 142, 63, 0.14);
+    color: var(--adv-accent-d);
+    padding: 6px 16px; border-radius: 50px;
+    font-size: 0.7rem; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .d-tag i { font-size: 0.72rem; }
+
+  .d-title {
+    font-size: clamp(1.6rem, 4vw, 2.6rem);
+    font-weight: 900; color: var(--adv-text);
+    letter-spacing: -0.03em; line-height: 1.15;
+    margin-bottom: 14px;
+    word-wrap: break-word;
+  }
+  .d-title span { color: var(--adv-accent); }
+
+  .d-sub {
+    font-size: 0.98rem; color: var(--adv-text-soft);
+    max-width: 620px; line-height: 1.7;
+  }
+  .d-center { text-align: center; }
+  .d-center .d-sub { margin-left: auto; margin-right: auto; }
+
+  .d-section-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-bottom: 50px;
+  }
+  .d-section-head.center-head {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .d-section-cta {
+    text-align: center;
+    margin-top: 50px;
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* Buttons */
+  .d-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 13px 28px; border-radius: 50px;
+    font-weight: 700; font-size: 0.85rem;
+    text-decoration: none; transition: all 0.3s ease;
+    border: 2px solid transparent; cursor: pointer;
+    letter-spacing: 0.3px;
+    font-family: inherit;
+  }
+  .d-btn.primary {
+    background: var(--adv-accent); color: var(--adv-primary-d);
+    box-shadow: 0 8px 22px rgba(217, 142, 63, 0.35);
+  }
+  .d-btn.primary:hover {
+    background: #e8a558; transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(217, 142, 63, 0.5);
+  }
+  .d-btn.outline {
+    background: transparent; color: var(--adv-text);
+    border-color: rgba(31, 61, 43, 0.25);
+  }
+  .d-btn.outline:hover {
+    background: var(--adv-primary); color: #fff;
+    border-color: var(--adv-primary); transform: translateY(-3px);
+  }
+  .d-btn.ghost {
+    background: rgba(255, 255, 255, 0.1); color: #fff;
+    border-color: rgba(217, 142, 63, 0.5);
+    backdrop-filter: blur(8px);
+  }
+  .d-btn.ghost:hover {
+    background: rgba(217, 142, 63, 0.25);
+    border-color: var(--adv-accent);
+    transform: translateY(-3px);
+  }
+
+  /* =========================================================
+     SECTION 1 — POSTCARD COLLAGE HERO
+     Overlapping tilted postcards · no fullscreen bg · no video
+     ========================================================= */
+  .d-hero {
+    padding: 60px 0 100px;
+    background: linear-gradient(180deg, #f5f2ea 0%, #ebe5d5 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .d-hero::before {
+    content: '';
+    position: absolute;
+    top: -120px; left: -160px;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(217, 142, 63, 0.18), transparent 70%);
+    pointer-events: none;
+  }
+  .d-hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 60px;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+  }
+  .d-hero-text .d-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5.5vw, 4rem);
+    line-height: 1.08;
+    margin-bottom: 22px;
+  }
+  .d-hero-text .d-title em {
+    font-style: italic;
+    color: var(--adv-accent);
+  }
+  .d-hero-text .d-sub {
+    font-size: 1.02rem;
+    margin-bottom: 32px;
+  }
+  .d-hero-btns {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 34px;
+  }
+
+  /* postcard collage */
+  .d-postcards {
+    position: relative;
+    min-height: 520px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .d-postcard {
+    position: absolute;
+    background: #ffffff;
+    padding: 12px 12px 42px;
+    border-radius: 4px;
+    box-shadow: 0 20px 50px rgba(15, 30, 22, 0.22);
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), z-index 0.3s;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .d-postcard img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 2px;
+  }
+  .d-postcard-caption {
+    position: absolute;
+    bottom: 10px;
+    left: 0; right: 0;
+    text-align: center;
+    font-family: 'Caveat', cursive;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--adv-primary);
+    line-height: 1;
+  }
+  .d-postcard-caption i {
+    font-size: 0.75rem;
+    color: var(--adv-accent);
+    margin-right: 4px;
+  }
+
+  /* Individual postcard positions & rotations */
+  .d-postcard.pc-1 {
+    width: 220px;
+    height: 270px;
+    top: 20px;
+    left: 8%;
+    transform: rotate(-8deg);
+    z-index: 3;
+  }
+  .d-postcard.pc-2 {
+    width: 240px;
+    height: 300px;
+    top: 80px;
+    right: 6%;
+    transform: rotate(6deg);
+    z-index: 2;
+  }
+  .d-postcard.pc-3 {
+    width: 200px;
+    height: 250px;
+    bottom: 20px;
+    left: 30%;
+    transform: rotate(2deg);
+    z-index: 4;
+  }
+
+  .d-postcard:hover {
+    transform: rotate(0deg) translateY(-12px) scale(1.05);
+    z-index: 10;
+  }
+  /* Pinned "stamp" decoration */
+  .d-postcard::before {
+    content: '';
+    position: absolute;
+    top: -6px; right: 18px;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--adv-accent);
+    box-shadow: 0 3px 8px rgba(217, 142, 63, 0.6);
+  }
+
+  .d-hero-mini-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    padding-top: 26px;
+    border-top: 1px solid rgba(31, 61, 43, 0.12);
+  }
+  .d-hero-mini-stat h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: var(--adv-primary);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .d-hero-mini-stat p {
+    font-size: 0.7rem;
+    color: var(--adv-text-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    font-weight: 700;
+  }
+
+  /* =========================================================
+     SECTION 2 — HORIZONTAL SCROLL-SNAP GALLERY
+     ========================================================= */
+  .d-scroll-section {
+    background: #ffffff;
+  }
+  .d-scroll-gallery {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding: 10px 4px 30px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    scrollbar-color: var(--adv-accent) transparent;
+  }
+  .d-scroll-gallery::-webkit-scrollbar { height: 8px; }
+  .d-scroll-gallery::-webkit-scrollbar-track { background: rgba(31, 61, 43, 0.08); border-radius: 10px; }
+  .d-scroll-gallery::-webkit-scrollbar-thumb { background: var(--adv-accent); border-radius: 10px; }
+  .d-scroll-gallery::-webkit-scrollbar-thumb:hover { background: var(--adv-accent-d); }
+
+  .d-scroll-card {
+    flex: 0 0 auto;
+    width: 340px;
+    height: 440px;
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+    scroll-snap-align: start;
+    cursor: pointer;
+    box-shadow: 0 15px 40px rgba(15, 30, 22, 0.15);
+    transition: all 0.4s ease;
+    text-decoration: none;
+    color: #ffffff;
+    display: block;
+  }
+  .d-scroll-card:hover {
+    transform: translateY(-8px) scale(1.01);
+    box-shadow: 0 30px 60px rgba(15, 30, 22, 0.28);
+  }
+  .d-scroll-card img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    position: absolute;
+    inset: 0;
+    transition: transform 0.7s ease;
+  }
+  .d-scroll-card:hover img { transform: scale(1.08); }
+  .d-scroll-card::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(21, 42, 30, 0.05) 0%, rgba(21, 42, 30, 0.85) 100%);
+    z-index: 1;
+  }
+  .d-scroll-card-content {
+    position: absolute;
+    bottom: 24px; left: 24px; right: 24px;
+    z-index: 2;
+  }
+  .d-scroll-flag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.95);
+    color: var(--adv-primary);
+    padding: 5px 12px;
+    border-radius: 30px;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .d-scroll-flag i { color: var(--adv-accent); }
+  .d-scroll-card-content h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+  }
+  .d-scroll-card-content p {
+    font-size: 0.78rem;
+    color: var(--adv-sage);
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+  .d-scroll-progress {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  .d-scroll-hint {
+    font-size: 0.72rem;
+    color: var(--adv-text-soft);
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .d-scroll-hint i {
+    color: var(--adv-accent);
+    animation: slideRight 1.5s ease-in-out infinite;
+  }
+  @keyframes slideRight {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(6px); }
+  }
+
+  /* =========================================================
+     SECTION 3 — NUMBERED LIST WITH HOVER-PREVIEW
+     ========================================================= */
+  .d-list-section {
+    background: var(--adv-primary);
+    color: #ffffff;
+    position: relative;
+    overflow: hidden;
+  }
+  .d-list-section::before {
+    content: '';
+    position: absolute;
+    bottom: -200px; left: -120px;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(217, 142, 63, 0.18), transparent 70%);
+    pointer-events: none;
+  }
+  .d-list-section .d-title { color: #ffffff; }
+  .d-list-section .d-sub { color: var(--adv-sage); }
+  .d-list-section .d-tag {
+    background: rgba(217, 142, 63, 0.2);
+    border: 1px solid rgba(217, 142, 63, 0.4);
+    color: var(--adv-accent);
+  }
+
+  .d-list-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+  }
+  .d-list-rows {
+    display: flex;
+    flex-direction: column;
+  }
+  .d-list-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 0;
+    border-bottom: 1px solid rgba(168, 184, 154, 0.15);
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.35s ease;
+    cursor: pointer;
+    position: relative;
+  }
+  .d-list-row:last-child { border-bottom: none; }
+  .d-list-row-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem;
+    font-weight: 900;
+    color: rgba(217, 142, 63, 0.35);
+    line-height: 1;
+    min-width: 60px;
+    transition: all 0.35s ease;
+  }
+  .d-list-row-info { flex: 1; padding: 0 20px; }
+  .d-list-row-info h4 {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 4px;
+    transition: all 0.3s ease;
+  }
+  .d-list-row-info p {
+    font-size: 0.78rem;
+    color: var(--adv-sage);
+    font-weight: 600;
+  }
+  .d-list-row-arrow {
+    color: var(--adv-accent);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    opacity: 0.5;
+  }
+  .d-list-row:hover { padding-left: 12px; }
+  .d-list-row:hover .d-list-row-num { color: var(--adv-accent); }
+  .d-list-row:hover .d-list-row-info h4 { color: var(--adv-accent); }
+  .d-list-row:hover .d-list-row-arrow { opacity: 1; transform: translateX(6px); }
+
+  /* hover-preview image pane */
+  .d-list-preview {
+    position: relative;
+    height: 500px;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+    border: 2px solid rgba(217, 142, 63, 0.25);
+    background: #0f1f16;
+  }
+  .d-list-preview-img {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    display: block;
+  }
+  .d-list-preview-img.active { opacity: 1; }
+  .d-list-preview-badge {
+    position: absolute;
+    top: 20px; left: 20px;
+    background: rgba(217, 142, 63, 0.95);
+    color: var(--adv-primary-d);
+    padding: 8px 18px;
+    border-radius: 30px;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    z-index: 3;
+    box-shadow: 0 10px 25px rgba(217, 142, 63, 0.5);
+  }
+
+  /* =========================================================
+     SECTION 4 — BIG TYPOGRAPHY STAT WALL
+     ========================================================= */
+  .d-stats-wall {
+    background: #f5f2ea;
+  }
+  .d-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--adv-border);
+    border-left: 1px solid var(--adv-border);
+  }
+  .d-stat-block {
+    padding: 50px 40px;
+    border-right: 1px solid var(--adv-border);
+    border-bottom: 1px solid var(--adv-border);
+    transition: all 0.4s ease;
+    background: transparent;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .d-stat-block::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: var(--adv-primary);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+  }
+  .d-stat-block:hover::before { transform: scaleY(1); }
+  .d-stat-block:hover .d-stat-value { color: var(--adv-accent); }
+  .d-stat-block:hover .d-stat-label { color: var(--adv-sage); }
+  .d-stat-block:hover .d-stat-detail { color: var(--adv-cream); }
+  .d-stat-block:hover .d-stat-icon { color: var(--adv-accent); }
+
+  .d-stat-inner {
+    position: relative;
+    z-index: 2;
+  }
+  .d-stat-icon {
+    font-size: 1.8rem;
+    color: var(--adv-accent);
+    margin-bottom: 20px;
+    transition: color 0.4s ease;
+  }
+  .d-stat-value {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    font-weight: 900;
+    line-height: 0.95;
+    color: var(--adv-primary);
+    letter-spacing: -0.04em;
+    margin-bottom: 12px;
+    transition: color 0.4s ease;
+  }
+  .d-stat-value span { color: var(--adv-accent); }
+  .d-stat-label {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--adv-primary);
+    margin-bottom: 8px;
+    transition: color 0.4s ease;
+  }
+  .d-stat-detail {
+    font-size: 0.85rem;
+    color: var(--adv-text-soft);
+    line-height: 1.6;
+    max-width: 380px;
+    transition: color 0.4s ease;
+  }
+
+  /* =========================================================
+     SECTION 5 — CIRCULAR SEASONS ORBIT
+     ========================================================= */
+  .d-orbit-section {
+    background: linear-gradient(180deg, #f5f2ea 0%, #ebe5d5 100%);
+    overflow: hidden;
+  }
+  .d-orbit-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    aspect-ratio: 1/1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+  }
+  /* dashed orbit ring */
+  .d-orbit-ring {
+    position: absolute;
+    width: 78%;
+    height: 78%;
+    border: 2px dashed rgba(217, 142, 63, 0.35);
+    border-radius: 50%;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    animation: orbitRotate 60s linear infinite;
+  }
+  @keyframes orbitRotate {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+  .d-orbit-center {
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--adv-primary), var(--adv-primary-d));
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    box-shadow: 0 30px 70px rgba(15, 30, 22, 0.35), inset 0 -6px 0 0 var(--adv-accent);
+    z-index: 2;
+    border: 6px solid #ffffff;
+    position: relative;
+  }
+  .d-orbit-center i {
+    font-size: 1.6rem;
+    color: var(--adv-accent);
+    margin-bottom: 8px;
+  }
+  .d-orbit-center h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 4px;
+  }
+  .d-orbit-center p {
+    font-size: 0.68rem;
+    color: var(--adv-sage);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+  }
+
+  /* Season dots around the circle */
+  .d-orbit-node {
+    position: absolute;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(15, 30, 22, 0.25);
+    border: 5px solid #ffffff;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    cursor: pointer;
+    text-decoration: none;
+    z-index: 3;
+  }
+  .d-orbit-node img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  .d-orbit-node:hover {
+    transform: scale(1.12);
+    box-shadow: 0 25px 55px rgba(217, 142, 63, 0.4);
+    z-index: 10;
+  }
+  .d-orbit-node:hover img { transform: scale(1.1); }
+  .d-orbit-label {
+    position: absolute;
+    bottom: -36px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--adv-primary);
+    color: #ffffff;
+    padding: 6px 16px;
+    border-radius: 30px;
+    font-size: 0.72rem;
+    font-weight: 800;
+    white-space: nowrap;
+    letter-spacing: 0.4px;
+    box-shadow: 0 8px 20px rgba(15, 30, 22, 0.25);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 2px solid var(--adv-accent);
+  }
+  .d-orbit-label i { color: var(--adv-accent); font-size: 0.7rem; }
+
+  /* Position nodes at cardinal points */
+  .d-orbit-node.pos-top    { top: -30px;  left: 50%; transform: translateX(-50%); }
+  .d-orbit-node.pos-right  { top: 50%;   right: -30px; transform: translateY(-50%); }
+  .d-orbit-node.pos-bottom { bottom: -30px; left: 50%; transform: translateX(-50%); }
+  .d-orbit-node.pos-left   { top: 50%;   left: -30px; transform: translateY(-50%); }
+
+  /* Correct hover transform for edge nodes */
+  .d-orbit-node.pos-top:hover    { transform: translateX(-50%) scale(1.12); }
+  .d-orbit-node.pos-bottom:hover { transform: translateX(-50%) scale(1.12); }
+  .d-orbit-node.pos-right:hover  { transform: translateY(-50%) scale(1.12); }
+  .d-orbit-node.pos-left:hover   { transform: translateY(-50%) scale(1.12); }
+
+  /* =========================================================
+     SECTION 6 — ACCORDION TRAVEL TIPS
+     ========================================================= */
+  .d-accordion-section {
+    background: #ffffff;
+  }
+  .d-accordion {
+    max-width: 860px;
+    margin: 0 auto;
+    border-top: 1px solid var(--adv-border);
+  }
+  .d-accordion-item {
+    border-bottom: 1px solid var(--adv-border);
+    transition: background 0.3s ease;
+  }
+  .d-accordion-item.open {
+    background: #f9f6f0;
+  }
+  .d-accordion-btn {
+    width: 100%;
+    padding: 26px 20px 26px 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    text-align: left;
+    font-family: inherit;
+    color: inherit;
+  }
+  .d-accordion-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: rgba(217, 142, 63, 0.35);
+    min-width: 50px;
+    transition: color 0.3s ease;
+  }
+  .d-accordion-item.open .d-accordion-num { color: var(--adv-accent); }
+  .d-accordion-q {
+    flex: 1;
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--adv-text);
+    letter-spacing: -0.01em;
+  }
+  .d-accordion-icon {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: rgba(217, 142, 63, 0.12);
+    color: var(--adv-accent-d);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    transition: all 0.35s ease;
+    flex-shrink: 0;
+  }
+  .d-accordion-item.open .d-accordion-icon {
+    background: var(--adv-accent);
+    color: var(--adv-primary-d);
+    transform: rotate(45deg);
+  }
+  .d-accordion-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.45s ease, padding 0.45s ease;
+    padding: 0 20px 0 74px;
+    color: var(--adv-text-soft);
+    font-size: 0.92rem;
+    line-height: 1.75;
+  }
+  .d-accordion-item.open .d-accordion-body {
+    max-height: 400px;
+    padding: 0 20px 26px 74px;
+  }
+  .d-accordion-body p { margin-bottom: 12px; }
+  .d-accordion-body a {
+    color: var(--adv-accent-d);
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .d-accordion-body a:hover { color: var(--adv-primary); text-decoration: underline; }
+
+  /* =========================================================
+     SECTION 7 — SPLIT-SCREEN STORIES
+     ========================================================= */
+  .d-split-section {
+    background: linear-gradient(180deg, #f5f2ea 0%, #ebe5d5 100%);
+  }
+  .d-split-list {
+    display: flex;
+    flex-direction: column;
+    gap: 100px;
+  }
+  .d-split-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border-radius: 28px;
+    overflow: hidden;
+    box-shadow: 0 30px 70px rgba(15, 30, 22, 0.18);
+    min-height: 380px;
+  }
+  .d-split-img {
+    position: relative;
+    overflow: hidden;
+    background: #152a1e;
+  }
+  .d-split-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.7s ease;
+    position: absolute;
+    inset: 0;
+  }
+  .d-split-row:hover .d-split-img img { transform: scale(1.05); }
+  .d-split-quote {
+    background: #ffffff;
+    padding: 50px 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+  }
+  .d-split-quote::before {
+    content: '\201C';
+    position: absolute;
+    top: 20px; right: 30px;
+    font-family: 'Playfair Display', serif;
+    font-size: 6rem;
+    color: rgba(217, 142, 63, 0.12);
+    line-height: 1;
+    pointer-events: none;
+  }
+  .d-split-quote-text {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.15rem, 2.2vw, 1.5rem);
+    font-weight: 700;
+    line-height: 1.5;
+    color: var(--adv-text);
+    margin-bottom: 22px;
+    letter-spacing: -0.01em;
+    position: relative;
+    z-index: 2;
+  }
+  .d-split-quote-text em { color: var(--adv-accent); font-style: italic; }
+  .d-split-author {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding-top: 22px;
+    border-top: 1px solid var(--adv-border);
+    position: relative;
+    z-index: 2;
+  }
+  .d-split-author img {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--adv-accent);
+  }
+  .d-split-author-info h4 {
+    font-size: 0.92rem;
+    font-weight: 800;
+    color: var(--adv-text);
+    margin-bottom: 2px;
+  }
+  .d-split-author-info p {
+    font-size: 0.72rem;
+    color: var(--adv-text-soft);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+  .d-split-author-info p i {
+    color: var(--adv-accent);
+    margin-right: 4px;
+  }
+
+  /* Alternate image side */
+  .d-split-row.reverse .d-split-img { order: 2; }
+
+  /* =========================================================
+     SECTION 8 — SPLIT CTA BANNER (text left · image right)
+     ========================================================= */
+  .d-cta-banner {
+    background: #ffffff;
+    padding: 80px 24px;
+  }
+  .d-cta-inner {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 0;
+    border-radius: 32px;
+    overflow: hidden;
+    box-shadow: 0 40px 90px rgba(15, 30, 22, 0.28);
+    min-height: 440px;
+  }
+  .d-cta-text {
+    background: linear-gradient(135deg, var(--adv-primary) 0%, var(--adv-primary-d) 100%);
+    padding: 70px 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    color: #ffffff;
+  }
+  .d-cta-text::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(217, 142, 63, 0.35) 1px, transparent 1px);
+    background-size: 34px 34px;
+    opacity: 0.15;
+    pointer-events: none;
+  }
+  .d-cta-text-inner {
+    position: relative;
+    z-index: 2;
+  }
+  .d-cta-script {
+    font-family: 'Caveat', cursive;
+    font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+    color: var(--adv-accent);
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+  .d-cta-text h2 {
+    font-family: 'Playfair Display', serif;
+    color: #ffffff;
+    font-size: clamp(1.7rem, 4vw, 2.6rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1.12;
+    margin-bottom: 18px;
+  }
+  .d-cta-text h2 em { color: var(--adv-accent); font-style: italic; }
+  .d-cta-text p {
+    color: var(--adv-cream);
+    font-size: 0.98rem;
+    line-height: 1.7;
+    margin-bottom: 30px;
+    max-width: 460px;
+  }
+  .d-cta-btns {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .d-cta-img {
+    position: relative;
+    overflow: hidden;
+    background: #152a1e;
+  }
+  .d-cta-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.7s ease;
+    position: absolute;
+    inset: 0;
+  }
+  .d-cta-inner:hover .d-cta-img img { transform: scale(1.06); }
+
+  /* =========================================================
+     RESPONSIVE
+     ========================================================= */
+  @media (max-width: 1100px) {
+    /* Hero */
+    .d-hero-grid { grid-template-columns: 1fr; gap: 40px; }
+    .d-postcards { min-height: 420px; }
+    .d-postcard.pc-1 { width: 180px; height: 220px; left: 6%; }
+    .d-postcard.pc-2 { width: 200px; height: 250px; right: 4%; }
+    .d-postcard.pc-3 { width: 170px; height: 210px; }
+
+    /* Numbered list */
+    .d-list-layout { grid-template-columns: 1fr; gap: 40px; }
+    .d-list-preview { height: 400px; }
+
+    /* Stats wall */
+    .d-stats-grid { grid-template-columns: 1fr; }
+
+    /* Orbit */
+    .d-orbit-wrap { max-width: 620px; }
+    .d-orbit-node { width: 110px; height: 110px; }
+    .d-orbit-center { width: 160px; height: 160px; }
+
+    /* Split */
+    .d-split-row { grid-template-columns: 1fr; min-height: auto; }
+    .d-split-row.reverse .d-split-img { order: 0; }
+    .d-split-img { height: 320px; position: relative; }
+    .d-split-quote { padding: 40px 30px; }
+
+    /* CTA */
+    .d-cta-inner { grid-template-columns: 1fr; min-height: auto; }
+    .d-cta-text { padding: 50px 40px; }
+    .d-cta-img { height: 320px; position: relative; }
+  }
+
+  @media (max-width: 768px) {
+    .d-section { padding: 60px 0; }
+    .d-wrap { padding: 0 20px; }
+    .d-hero { padding: 40px 0 60px; }
+
+    /* Postcards smaller */
+    .d-postcards { min-height: 340px; }
+    .d-postcard.pc-1 { width: 140px; height: 175px; left: 4%; top: 10px; }
+    .d-postcard.pc-2 { width: 160px; height: 200px; right: 3%; top: 50px; }
+    .d-postcard.pc-3 { width: 140px; height: 175px; bottom: 10px; left: 32%; }
+    .d-postcard-caption { font-size: 1.1rem; }
+
+    .d-hero-mini-stats { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .d-hero-mini-stat h4 { font-size: 1.35rem; }
+
+    /* Scroll cards */
+    .d-scroll-card { width: 280px; height: 380px; }
+
+    /* List */
+    .d-list-row { padding: 18px 0; }
+    .d-list-row-num { font-size: 1.8rem; min-width: 44px; }
+    .d-list-row-info { padding: 0 14px; }
+    .d-list-row-info h4 { font-size: 1rem; }
+    .d-list-preview { height: 340px; }
+
+    /* Stats wall */
+    .d-stat-block { padding: 36px 26px; }
+    .d-stat-value { font-size: clamp(2.6rem, 12vw, 4rem); }
+    .d-stat-label { font-size: 0.98rem; }
+    .d-stat-detail { font-size: 0.8rem; }
+
+    /* Orbit */
+    .d-orbit-wrap { max-width: 480px; padding: 30px; }
+    .d-orbit-node { width: 90px; height: 90px; border-width: 4px; }
+    .d-orbit-center { width: 130px; height: 130px; border-width: 5px; }
+    .d-orbit-center i { font-size: 1.2rem; }
+    .d-orbit-center h3 { font-size: 1rem; }
+    .d-orbit-center p { font-size: 0.6rem; }
+    .d-orbit-label { padding: 4px 12px; font-size: 0.65rem; }
+    .d-orbit-node.pos-top { top: -20px; }
+    .d-orbit-node.pos-bottom { bottom: -20px; }
+    .d-orbit-node.pos-right { right: -20px; }
+    .d-orbit-node.pos-left { left: -20px; }
+
+    /* Accordion */
+    .d-accordion-btn { padding: 20px 10px 20px 0; gap: 16px; }
+    .d-accordion-num { font-size: 1.15rem; min-width: 36px; }
+    .d-accordion-q { font-size: 0.95rem; }
+    .d-accordion-icon { width: 34px; height: 34px; font-size: 0.8rem; }
+    .d-accordion-body { padding-left: 54px; font-size: 0.88rem; }
+    .d-accordion-item.open .d-accordion-body { padding: 0 16px 22px 54px; }
+
+    /* Split */
+    .d-split-list { gap: 60px; }
+    .d-split-img { height: 260px; }
+    .d-split-quote { padding: 34px 26px; }
+    .d-split-quote-text { font-size: 1.05rem; }
+
+    /* CTA */
+    .d-cta-banner { padding: 60px 20px; }
+    .d-cta-text { padding: 40px 30px; }
+    .d-cta-img { height: 260px; }
+  }
+
+  @media (max-width: 480px) {
+    .d-section { padding: 50px 0; }
+    .d-wrap { padding: 0 16px; }
+
+    /* Hero */
+    .d-hero { padding: 30px 0 50px; }
+    .d-hero-text .d-title { font-size: 1.9rem; }
+    .d-hero-btns { flex-direction: column; width: 100%; }
+    .d-hero-btns .d-btn { width: 100%; justify-content: center; }
+    .d-hero-mini-stats { grid-template-columns: 1fr 1fr; }
+
+    /* Postcards scale down more */
+    .d-postcards { min-height: 280px; }
+    .d-postcard.pc-1 { width: 110px; height: 140px; left: 4%; top: 6px; }
+    .d-postcard.pc-2 { width: 130px; height: 165px; right: 3%; top: 40px; }
+    .d-postcard.pc-3 { width: 110px; height: 140px; bottom: 6px; left: 34%; }
+    .d-postcard { padding: 8px 8px 32px; }
+    .d-postcard-caption { font-size: 0.95rem; bottom: 8px; }
+
+    /* Scroll gallery */
+    .d-scroll-card { width: 240px; height: 330px; }
+    .d-scroll-card-content h3 { font-size: 1.2rem; }
+
+    /* List */
+    .d-list-row-info h4 { font-size: 0.95rem; }
+    .d-list-row-info p { font-size: 0.72rem; }
+
+    /* Stats */
+    .d-stat-block { padding: 30px 20px; }
+
+    /* Orbit */
+    .d-orbit-wrap { max-width: 100%; padding: 20px; }
+    .d-orbit-node { width: 68px; height: 68px; border-width: 3px; }
+    .d-orbit-center { width: 105px; height: 105px; border-width: 4px; }
+    .d-orbit-center i { font-size: 1rem; margin-bottom: 4px; }
+    .d-orbit-center h3 { font-size: 0.85rem; }
+    .d-orbit-center p { font-size: 0.55rem; }
+    .d-orbit-label { padding: 3px 10px; font-size: 0.6rem; bottom: -26px; }
+    .d-orbit-node.pos-top { top: -14px; }
+    .d-orbit-node.pos-bottom { bottom: -14px; }
+    .d-orbit-node.pos-right { right: -14px; }
+    .d-orbit-node.pos-left { left: -14px; }
+
+    /* Accordion */
+    .d-accordion-q { font-size: 0.88rem; }
+    .d-accordion-body { font-size: 0.82rem; padding-left: 46px; }
+    .d-accordion-item.open .d-accordion-body { padding: 0 14px 18px 46px; }
+
+    /* Split */
+    .d-split-img { height: 220px; }
+    .d-split-quote { padding: 28px 22px; }
+    .d-split-quote-text { font-size: 0.98rem; }
+    .d-split-author img { width: 42px; height: 42px; }
+
+    /* CTA */
+    .d-cta-text { padding: 34px 22px; }
+    .d-cta-btns { flex-direction: column; width: 100%; }
+    .d-cta-btns .d-btn { width: 100%; justify-content: center; }
+    .d-cta-img { height: 220px; }
+
+    .d-section-cta { flex-direction: column; width: 100%; }
+    .d-section-cta .d-btn { width: 100%; justify-content: center; }
+  }
+
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: #f5f2ea; }
+  ::-webkit-scrollbar-thumb { background: var(--adv-accent); border-radius: 10px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--adv-accent-d); }
+</style>
+</head>
+<body>
+
+<div id="header-placeholder"></div>
+
+<!-- ===== SECTION 1 — POSTCARD COLLAGE HERO ===== -->
+<section class="d-hero">
+  <div class="d-wrap">
+    <div class="d-hero-grid">
+      <div class="d-hero-text" data-aos="fade-right" data-aos-duration="900">
+        <div class="d-tag"><i class="fa-solid fa-location-dot"></i> Destinations</div>
+        <h1 class="d-title">Places that <em>change</em> you forever.</h1>
+        <p class="d-sub">From Himalayan ridgelines to Andaman coral gardens — 47 handpicked destinations across 12 countries. Every one led by experts who call it home.</p>
+
+        <div class="d-hero-btns">
+          <a href="404.html" class="d-btn primary"><i class="fa-solid fa-globe"></i> Browse Destinations</a>
+          <a href="404.html" class="d-btn outline"><i class="fa-solid fa-map"></i> View World Map</a>
+        </div>
+
+        <div class="d-hero-mini-stats">
+          <div class="d-hero-mini-stat"><h4>47</h4><p>Destinations</p></div>
+          <div class="d-hero-mini-stat"><h4>12</h4><p>Countries</p></div>
+          <div class="d-hero-mini-stat"><h4>4.9★</h4><p>Rating</p></div>
+        </div>
+      </div>
+
+      <div class="d-postcards" data-aos="fade-left" data-aos-duration="900">
+        <a href="404.html" class="d-postcard pc-1">
+          <img src="forest1.webp" alt="Everest" loading="lazy">
+          <div class="d-postcard-caption"><i class="fa-solid fa-mountain"></i> Everest, Nepal</div>
+        </a>
+        <a href="404.html" class="d-postcard pc-2">
+          <img src="scuba1.webp" alt="Iceland" loading="lazy">
+          <div class="d-postcard-caption"><i class="fa-solid fa-snowflake"></i> Iceland</div>
+        </a>
+        <a href="404.html" class="d-postcard pc-3">
+          <img src="river1.webp" alt="Serengeti" loading="lazy">
+          <div class="d-postcard-caption"><i class="fa-solid fa-binoculars"></i> Serengeti</div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 2 — HORIZONTAL SCROLL GALLERY ===== -->
+<section class="d-section d-scroll-section section-alt">
+  <div class="d-wrap">
+    <div class="d-section-head" data-aos="fade-up">
+      <div>
+        <div class="d-tag"><i class="fa-solid fa-arrow-right-arrow-left"></i> Scroll To Explore</div>
+        <h2 class="d-title">Destinations Worth <span>Every Mile</span></h2>
+        <p class="d-sub">Swipe or scroll sideways through our most-booked destinations.</p>
+      </div>
+      <a href="404.html" class="d-btn outline"><i class="fa-solid fa-list"></i> See All 47</a>
+    </div>
+  </div>
+
+  <div class="d-wrap">
+    <div class="d-scroll-gallery" data-aos="fade-up" data-aos-delay="100">
+      <a href="404.html" class="d-scroll-card">
+        <img src="at1.webp" alt="Everest" loading="lazy">
+        <div class="d-scroll-card-content">
+          <span class="d-scroll-flag"><i class="fa-solid fa-mountain"></i> Nepal</span>
+          <h3>Everest Base Camp</h3>
+          <p>14 days · 5,364 m · 12 treks</p>
+        </div>
+      </a>
+      <a href="404.html" class="d-scroll-card">
+        <img src="climb1.webp" alt="Serengeti" loading="lazy">
+        <div class="d-scroll-card-content">
+          <span class="d-scroll-flag"><i class="fa-solid fa-binoculars"></i> Tanzania</span>
+          <h3>Serengeti</h3>
+          <p>7 days · Big Five · 8 safaris</p>
+        </div>
+      </a>
+      <a href="404.html" class="d-scroll-card">
+        <img src="cyclingg1.webp" alt="Iceland" loading="lazy">
+        <div class="d-scroll-card-content">
+          <span class="d-scroll-flag"><i class="fa-solid fa-snowflake"></i> Iceland</span>
+          <h3>Ring Road</h3>
+          <p>9 days · Aurora · 7 tours</p>
+        </div>
+      </a>
+      <a href="404.html" class="d-scroll-card">
+        <img src="forest2.webp" alt="Ladakh" loading="lazy">
+        <div class="d-scroll-card-content">
+          <span class="d-scroll-flag"><i class="fa-solid fa-water"></i> India</span>
+          <h3>Zanskar Valley</h3>
+          <p>5 days · Class IV · 6 tours</p>
+        </div>
+      </a>
+      <a href="404.html" class="d-scroll-card">
+        <img src="river2.webp" alt="Andaman" loading="lazy">
+        <div class="d-scroll-card-content">
+          <span class="d-scroll-flag"><i class="fa-solid fa-fish"></i> India</span>
+          <h3>Andaman Islands</h3>
+          <p>6 days · Coral reefs · 5 tours</p>
+        </div>
+      </a>
+      <a href="404.html" class="d-scroll-card">
+        <img src="safari2.webp" alt="Annapurna" loading="lazy">
+        <div class="d-scroll-card-content">
+          <span class="d-scroll-flag"><i class="fa-solid fa-person-hiking"></i> Nepal</span>
+          <h3>Annapurna Circuit</h3>
+          <p>12 days · Thorong La · 9 treks</p>
+        </div>
+      </a>
+    </div>
+
+    <div class="d-scroll-progress">
+      <span class="d-scroll-hint"><i class="fa-solid fa-arrow-right"></i> Swipe to see more</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 3 — NUMBERED LIST WITH HOVER-PREVIEW ===== -->
+<section class="d-section d-list-section">
+  <div class="d-wrap">
+    <div class="d-section-head center-head" data-aos="fade-up">
+      <div>
+        <div class="d-tag"><i class="fa-solid fa-list-ol"></i> Top Regions</div>
+        <h2 class="d-title">Our Most <span>Loved Places</span></h2>
+        <p class="d-sub">Hover any row to preview the region — click to explore.</p>
+      </div>
+    </div>
+
+    <div class="d-list-layout">
+      <div class="d-list-rows" data-aos="fade-right" data-aos-duration="900">
+        <a href="404.html" class="d-list-row" data-preview="p1">
+          <div class="d-list-row-num">01</div>
+          <div class="d-list-row-info">
+            <h4>Nepal & Himalaya</h4>
+            <p>Everest · Annapurna · Langtang</p>
+          </div>
+          <i class="fa-solid fa-arrow-right d-list-row-arrow"></i>
+        </a>
+        <a href="404.html" class="d-list-row" data-preview="p2">
+          <div class="d-list-row-num">02</div>
+          <div class="d-list-row-info">
+            <h4>Tanzania & East Africa</h4>
+            <p>Serengeti · Kilimanjaro · Masai Mara</p>
+          </div>
+          <i class="fa-solid fa-arrow-right d-list-row-arrow"></i>
+        </a>
+        <a href="404.html" class="d-list-row" data-preview="p3">
+          <div class="d-list-row-num">03</div>
+          <div class="d-list-row-info">
+            <h4>Iceland & Nordic</h4>
+            <p>Aurora · Ice caves · Glacier hikes</p>
+          </div>
+          <i class="fa-solid fa-arrow-right d-list-row-arrow"></i>
+        </a>
+        <a href="404.html" class="d-list-row" data-preview="p4">
+          <div class="d-list-row-num">04</div>
+          <div class="d-list-row-info">
+            <h4>Ladakh & Kashmir</h4>
+            <p>Zanskar · Nubra Valley · Pangong</p>
+          </div>
+          <i class="fa-solid fa-arrow-right d-list-row-arrow"></i>
+        </a>
+        <a href="404.html" class="d-list-row" data-preview="p5">
+          <div class="d-list-row-num">05</div>
+          <div class="d-list-row-info">
+            <h4>Andaman Islands</h4>
+            <p>Coral reefs · Havelock · Night dives</p>
+          </div>
+          <i class="fa-solid fa-arrow-right d-list-row-arrow"></i>
+        </a>
+      </div>
+
+      <div class="d-list-preview" data-aos="fade-left" data-aos-duration="900">
+        <span class="d-list-preview-badge"><i class="fa-solid fa-eye"></i> Preview</span>
+        <img class="d-list-preview-img active" data-preview-img="p1" src="trek1.webp" alt="Nepal" loading="lazy">
+        <img class="d-list-preview-img" data-preview-img="p2" src="scuba3.webp" alt="Tanzania" loading="lazy">
+        <img class="d-list-preview-img" data-preview-img="p3" src="safari3.webp" alt="Iceland" loading="lazy">
+        <img class="d-list-preview-img" data-preview-img="p4" src="river3.webp" alt="Ladakh" loading="lazy">
+        <img class="d-list-preview-img" data-preview-img="p5" src="at2.webp" alt="Andaman" loading="lazy">
+      </div>
+    </div>
+
+    <div class="d-section-cta" data-aos="fade-up">
+      <a href="404.html" class="d-btn primary"><i class="fa-solid fa-map-location-dot"></i> See Full Region Guide</a>
+      <a href="404.html" class="d-btn ghost"><i class="fa-solid fa-heart"></i> Save Favorites</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 4 — BIG TYPOGRAPHY STAT WALL ===== -->
+<section class="d-section d-stats-wall">
+  <div class="d-wrap">
+    <div class="d-section-head center-head" data-aos="fade-up">
+      <div>
+        <div class="d-tag"><i class="fa-solid fa-chart-simple"></i> By The Numbers</div>
+        <h2 class="d-title">The Scale of <span>Adventure</span></h2>
+        <p class="d-sub">What our collective exploration looks like, in numbers.</p>
+      </div>
+    </div>
+
+    <div class="d-stats-grid">
+      <a href="404.html" class="d-stat-block" data-aos="fade-up">
+        <div class="d-stat-inner">
+          <i class="fa-solid fa-mountain-sun d-stat-icon"></i>
+          <div class="d-stat-value">5,416<span>m</span></div>
+          <div class="d-stat-label">Highest Altitude Reached</div>
+          <p class="d-stat-detail">Annapurna Circuit's Thorong La pass — our most-photographed summit view.</p>
+        </div>
+      </a>
+
+      <a href="404.html" class="d-stat-block" data-aos="fade-up" data-aos-delay="100">
+        <div class="d-stat-inner">
+          <i class="fa-solid fa-globe d-stat-icon"></i>
+          <div class="d-stat-value">12</div>
+          <div class="d-stat-label">Countries Covered</div>
+          <p class="d-stat-detail">Across 4 continents — from Himalayan high passes to East African savannahs.</p>
+        </div>
+      </a>
+
+      <a href="404.html" class="d-stat-block" data-aos="fade-up" data-aos-delay="200">
+        <div class="d-stat-inner">
+          <i class="fa-solid fa-route d-stat-icon"></i>
+          <div class="d-stat-value">3,240<span>km</span></div>
+          <div class="d-stat-label">Total Trail Distance</div>
+          <p class="d-stat-detail">Combined length of every guided route in our catalogue — and counting.</p>
+        </div>
+      </a>
+
+      <a href="404.html" class="d-stat-block" data-aos="fade-up" data-aos-delay="300">
+        <div class="d-stat-inner">
+          <i class="fa-solid fa-users d-stat-icon"></i>
+          <div class="d-stat-value">8,400<span>+</span></div>
+          <div class="d-stat-label">Travellers Guided</div>
+          <p class="d-stat-detail">Since 2018 — from first-time hikers to veteran mountaineers.</p>
+        </div>
+      </a>
+    </div>
+
+    <div class="d-section-cta" data-aos="fade-up">
+      <a href="404.html" class="d-btn primary"><i class="fa-solid fa-file-lines"></i> See Full Impact Report</a>
+      <a href="404.html" class="d-btn outline"><i class="fa-solid fa-trophy"></i> View Achievements</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 5 — CIRCULAR SEASONS ORBIT ===== -->
+<section class="d-section d-orbit-section">
+  <div class="d-wrap">
+    <div class="d-section-head center-head" data-aos="fade-up">
+      <div>
+        <div class="d-tag"><i class="fa-solid fa-calendar-days"></i> Year-Round Adventures</div>
+        <h2 class="d-title">A Season For <span>Every Explorer</span></h2>
+        <p class="d-sub">Four distinct seasons. Four distinct adventures. Where will each one take you?</p>
+      </div>
+    </div>
+
+    <div class="d-orbit-wrap" data-aos="zoom-in" data-aos-duration="900">
+      <div class="d-orbit-ring"></div>
+
+      <!-- center -->
+      <div class="d-orbit-center">
+        <i class="fa-solid fa-compass"></i>
+        <h3>Year Round</h3>
+        <p>Pick a season</p>
+      </div>
+
+      <!-- 4 season nodes -->
+      <a href="404.html" class="d-orbit-node pos-top" aria-label="Spring">
+        <img src="trek3.webp" alt="Spring" loading="lazy">
+        <span class="d-orbit-label"><i class="fa-solid fa-seedling"></i> Spring</span>
+      </a>
+
+      <a href="404.html" class="d-orbit-node pos-right" aria-label="Summer">
+        <img src="safari4.webp" alt="Summer" loading="lazy">
+        <span class="d-orbit-label"><i class="fa-solid fa-sun"></i> Summer</span>
+      </a>
+
+      <a href="404.html" class="d-orbit-node pos-bottom" aria-label="Autumn">
+        <img src="river4.webp" alt="Autumn" loading="lazy">
+        <span class="d-orbit-label"><i class="fa-solid fa-leaf"></i> Autumn</span>
+      </a>
+
+      <a href="404.html" class="d-orbit-node pos-left" aria-label="Winter">
+        <img src="scuba4.webp" alt="Winter" loading="lazy">
+        <span class="d-orbit-label"><i class="fa-solid fa-snowflake"></i> Winter</span>
+      </a>
+    </div>
+
+    <div class="d-section-cta" data-aos="fade-up">
+      <a href="404.html" class="d-btn primary"><i class="fa-solid fa-calendar-plus"></i> View Seasonal Calendar</a>
+      <a href="404.html" class="d-btn outline"><i class="fa-solid fa-download"></i> Download Season Guide</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 6 — ACCORDION TRAVEL TIPS ===== -->
+<section class="d-section d-accordion-section section-alt">
+  <div class="d-wrap">
+    <div class="d-section-head center-head" data-aos="fade-up">
+      <div>
+        <div class="d-tag"><i class="fa-solid fa-circle-info"></i> Practical Tips</div>
+        <h2 class="d-title">Everything You <span>Need To Know</span></h2>
+        <p class="d-sub">Quick answers to the questions every traveller asks before booking.</p>
+      </div>
+    </div>
+
+    <div class="d-accordion" data-aos="fade-up" data-aos-delay="100">
+      <div class="d-accordion-item open">
+        <button class="d-accordion-btn" type="button">
+          <span class="d-accordion-num">01</span>
+          <span class="d-accordion-q">When is the best time to visit the Himalaya?</span>
+          <span class="d-accordion-icon"><i class="fa-solid fa-plus"></i></span>
+        </button>
+        <div class="d-accordion-body">
+          <p>The two golden windows for Himalayan trekking are <strong>March to May</strong> (spring) and <strong>September to November</strong> (autumn). Spring brings blooming rhododendrons and milder temperatures; autumn offers the clearest mountain views and most stable weather.</p>
+          <p>Avoid the monsoon months (June–August) for lower-altitude treks, though rain-shadow regions like Upper Mustang and Ladakh remain viable.</p>
+          <p>Read our full <a href="404.html">season-by-season guide</a> for details.</p>
+        </div>
+      </div>
+
+      <div class="d-accordion-item">
+        <button class="d-accordion-btn" type="button">
+          <span class="d-accordion-num">02</span>
+          <span class="d-accordion-q">Do I need a visa for these destinations?</span>
+          <span class="d-accordion-icon"><i class="fa-solid fa-plus"></i></span>
+        </button>
+        <div class="d-accordion-body">
+          <p>Visa requirements vary by destination. <strong>Nepal</strong> offers visa-on-arrival for most nationalities. <strong>Tanzania</strong> uses an e-Visa system. <strong>Iceland</strong> is part of the Schengen Area — check your nationality's Schengen requirements.</p>
+          <p>We handle visa assistance for all bookings — see our <a href="404.html">visa support page</a>.</p>
+        </div>
+      </div>
+
+      <div class="d-accordion-item">
+        <button class="d-accordion-btn" type="button">
+          <span class="d-accordion-num">03</span>
+          <span class="d-accordion-q">What's the average daily budget?</span>
+          <span class="d-accordion-icon"><i class="fa-solid fa-plus"></i></span>
+        </button>
+        <div class="d-accordion-body">
+          <p>Budget varies by destination. Roughly: <strong>Nepal</strong> — $40–70/day, <strong>Ladakh</strong> — $35–60/day, <strong>Tanzania</strong> — $200–400/day (safari), <strong>Iceland</strong> — $150–250/day.</p>
+          <p>All Stackly trips include guides, permits, accommodation, meals on trail, and internal transport. <a href="404.html">See detailed cost breakdown</a>.</p>
+        </div>
+      </div>
+
+      <div class="d-accordion-item">
+        <button class="d-accordion-btn" type="button">
+          <span class="d-accordion-num">04</span>
+          <span class="d-accordion-q">How fit do I need to be?</span>
+          <span class="d-accordion-icon"><i class="fa-solid fa-plus"></i></span>
+        </button>
+        <div class="d-accordion-body">
+          <p>It depends on the trip. Beginner treks (like easy safari and short hill walks) need only basic fitness. High-altitude routes (like Everest Base Camp) require good cardio, strong legs, and mental stamina.</p>
+          <p>We recommend 6–8 weeks of preparatory hiking before any challenging trek. <a href="404.html">See our training guide</a>.</p>
+        </div>
+      </div>
+
+      <div class="d-accordion-item">
+        <button class="d-accordion-btn" type="button">
+          <span class="d-accordion-num">05</span>
+          <span class="d-accordion-q">What about travel insurance?</span>
+          <span class="d-accordion-icon"><i class="fa-solid fa-plus"></i></span>
+        </button>
+        <div class="d-accordion-body">
+          <p>Comprehensive travel insurance is <strong>mandatory</strong> on all Stackly trips. Your policy must cover high-altitude trekking (up to 6,000m), emergency evacuation, medical expenses, and trip cancellation.</p>
+          <p>We partner with <a href="404.html">World Nomads</a> and can help you find the right policy.</p>
+        </div>
+      </div>
+
+      <div class="d-accordion-item">
+        <button class="d-accordion-btn" type="button">
+          <span class="d-accordion-num">06</span>
+          <span class="d-accordion-q">Can I customise my itinerary?</span>
+          <span class="d-accordion-icon"><i class="fa-solid fa-plus"></i></span>
+        </button>
+        <div class="d-accordion-body">
+          <p>Absolutely — custom trips are our specialty. Tell us your dates, interests, group size, and budget, and we'll design a completely tailored itinerary with private guides and custom routes.</p>
+          <p><a href="404.html">Start a custom trip enquiry</a> and we'll respond within 24 hours.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-section-cta" data-aos="fade-up">
+      <a href="404.html" class="d-btn primary"><i class="fa-solid fa-phone"></i> Talk to a Travel Expert</a>
+      <a href="404.html" class="d-btn outline"><i class="fa-solid fa-envelope"></i> Send Us a Question</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 7 — SPLIT-SCREEN STORIES ===== -->
+<section class="d-section d-split-section">
+  <div class="d-wrap">
+    <div class="d-section-head center-head" data-aos="fade-up">
+      <div>
+        <div class="d-tag"><i class="fa-solid fa-quote-left"></i> Traveler Stories</div>
+        <h2 class="d-title">Real Places. <span>Real Impact.</span></h2>
+        <p class="d-sub">Three travellers, three destinations, three stories that stuck.</p>
+      </div>
+    </div>
+
+    <div class="d-split-list">
+
+      <!-- Row 1 — image left -->
+      <div class="d-split-row" data-aos="fade-up">
+        <div class="d-split-img">
+          <img src="safari5.webp" alt="Everest" loading="lazy">
+        </div>
+        <div class="d-split-quote">
+          <p class="d-split-quote-text">"Standing at Base Camp, I finally understood why people spend their whole lives chasing mountains. This isn't just a trek — it's a <em>reset</em>."</p>
+          <div class="d-split-author">
+            <img src="forest4.webp" alt="Priya" loading="lazy">
+            <div class="d-split-author-info">
+              <h4>Priya Sharma</h4>
+              <p><i class="fa-solid fa-mountain"></i> Everest Base Camp · Nepal</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 2 — image right (reverse) -->
+      <div class="d-split-row reverse" data-aos="fade-up">
+        <div class="d-split-img">
+          <img src="forest5.webp" alt="Serengeti" loading="lazy">
+        </div>
+        <div class="d-split-quote">
+          <p class="d-split-quote-text">"Our guide Amara spotted every animal before we did. By day three, I'd seen all Big Five and cried at a sunrise over a million wildebeest. <em>Once in a lifetime.</em>"</p>
+          <div class="d-split-author">
+            <img src="river5.webp" alt="Maria" loading="lazy">
+            <div class="d-split-author-info">
+              <h4>Maria Rodriguez</h4>
+              <p><i class="fa-solid fa-binoculars"></i> Serengeti · Tanzania</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 3 — image left -->
+      <div class="d-split-row" data-aos="fade-up">
+        <div class="d-split-img">
+          <img src="forest4.webp" alt="Iceland" loading="lazy">
+        </div>
+        <div class="d-split-quote">
+          <p class="d-split-quote-text">"Iceland feels like another planet. We saw the aurora three nights running, dove between tectonic plates, and drank hot chocolate on a black sand beach. <em>Nothing compares.</em>"</p>
+          <div class="d-split-author">
+            <img src="at2.webp" alt="David" loading="lazy">
+            <div class="d-split-author-info">
+              <h4>David Chen</h4>
+              <p><i class="fa-solid fa-snowflake"></i> Iceland Ring Road</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="d-section-cta" data-aos="fade-up">
+      <a href="404.html" class="d-btn primary"><i class="fa-solid fa-images"></i> Read All Stories</a>
+      <a href="404.html" class="d-btn outline"><i class="fa-solid fa-pen"></i> Share Your Story</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SECTION 8 — SPLIT CTA BANNER ===== -->
+<section class="d-cta-banner">
+  <div class="d-cta-inner" data-aos="zoom-in" data-aos-duration="900">
+    <div class="d-cta-text">
+      <div class="d-cta-text-inner">
+        <div class="d-cta-script">Your journey begins here</div>
+        <h2>Pick your <em>place.</em> We'll handle the rest.</h2>
+        <p>47 destinations. 12 countries. 4 continents. One expert team. Tell us where you want to go — or let us help you decide — and start your next adventure today.</p>
+        <div class="d-cta-btns">
+          <a href="404.html" class="d-btn primary"><i class="fa-solid fa-compass"></i> Find My Destination</a>
+          <a href="404.html" class="d-btn ghost"><i class="fa-solid fa-phone"></i> Talk to an Expert</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-cta-img">
+      <img src="forest3.webp" alt="Iceland" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+  /* ===== AOS ===== */
+  AOS.init({
+    duration: 800,
+    easing: 'ease-out-cubic',
+    once: true,
+    offset: 80
+  });
+  window.addEventListener('load', () => AOS.refresh());
+
+  /* ===== HOVER-PREVIEW (Section 3) ===== */
+  const previewRows = document.querySelectorAll('.d-list-row[data-preview]');
+  const previewImgs = document.querySelectorAll('.d-list-preview-img');
+  previewRows.forEach(row => {
+    row.addEventListener('mouseenter', function () {
+      const target = this.getAttribute('data-preview');
+      previewImgs.forEach(img => {
+        img.classList.toggle('active', img.getAttribute('data-preview-img') === target);
+      });
+    });
+    // Touch-friendly: also trigger on click for mobile
+    row.addEventListener('click', function () {
+      const target = this.getAttribute('data-preview');
+      previewImgs.forEach(img => {
+        img.classList.toggle('active', img.getAttribute('data-preview-img') === target);
+      });
+    });
+  });
+
+  /* ===== ACCORDION (Section 6) ===== */
+  document.querySelectorAll('.d-accordion-btn').forEach(btn => {
+    btn.addEventListener('click', function () {
+      const item = this.closest('.d-accordion-item');
+      const isOpen = item.classList.contains('open');
+      // Close all others
+      document.querySelectorAll('.d-accordion-item').forEach(i => i.classList.remove('open'));
+      // Toggle current
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  /* ===== HEADER & FOOTER ===== */
+  fetch('header.html')
+    .then(r => r.ok ? r.text() : Promise.reject('Header not found'))
+    .then(d => {
+      document.getElementById('header-placeholder').innerHTML = d;
+      initHeader();
+      AOS.refresh();
+    })
+    .catch(err => console.error('Header load failed:', err));
+
+  fetch('footer.html')
+    .then(r => r.ok ? r.text() : Promise.reject('Footer not found'))
+    .then(d => {
+      document.getElementById('footer-placeholder').innerHTML = d;
+      if (typeof initFooter === 'function') initFooter();
+      AOS.refresh();
+    })
+    .catch(err => console.error('Footer load failed:', err));
+
+  function initHeader() {
+    const hamburger = document.getElementById('hamburgerBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    if (hamburger && mobileMenu) {
+      hamburger.addEventListener('click', function () {
+        hamburger.classList.toggle('active');
+        mobileMenu.classList.toggle('active');
+        document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+      });
+      document.addEventListener('click', function (e) {
+        if (mobileMenu.classList.contains('active')) {
+          if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) {
+            hamburger.classList.remove('active');
+            mobileMenu.classList.remove('active');
+            document.body.style.overflow = '';
+          }
+        }
+      });
+    }
+  }
+
+  window.handleLogout = function (e) {
+    if (e) e.preventDefault();
+    try {
+      sessionStorage.removeItem('stackly_session');
+      localStorage.removeItem('stackly_session');
+    } catch (err) {}
+    window.location.replace('login.html');
+  };
+
+  console.log('🌍 Destinations page ready — 8 fresh sections, no repeats');
+});
+</script>
+
+</body>
+</html>

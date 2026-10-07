@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Adventure Travel Agency - Group Leader Dashboard</title>
+
+<!-- ============================================================
+     AUTH GUARD — Blocks direct access unless logged in as group leader.
+     If you open this file directly (no session) → redirect to login.
+     ✅ AUTH GUARD IS PRESENT
+     ============================================================ -->
+<script>
+(function guardGroupLeaderDashboard() {
+  try {
+    const raw = sessionStorage.getItem('stackly_session') || localStorage.getItem('stackly_session');
+    const session = raw ? JSON.parse(raw) : null;
+    const now = Date.now();
+    const isValid = session &&
+                    session.authenticated === true &&
+                    typeof session.expiresAt === 'number' &&
+                    session.expiresAt > now &&
+                    session.role === 'group-leader';
+    if (!isValid) {
+      sessionStorage.removeItem('stackly_session');
+      localStorage.removeItem('stackly_session');
+      window.location.replace('login.html');
+      throw new Error('AUTH_REDIRECT');
+    }
+    window.__STACKLY_USER__ = session;
+  } catch (err) {
+    if (err && err.message === 'AUTH_REDIRECT') return;
+    try {
+      sessionStorage.removeItem('stackly_session');
+      localStorage.removeItem('stackly_session');
+    } catch (_) {}
+    window.location.replace('login.html');
+  }
+})();
+</script>
+
+<style>
+  html, body { visibility: hidden; }
+  body.sh-ready { visibility: visible; }
+</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: { sans: ['Inter', 'sans-serif'] },
+      colors: {
+        adv: {
+          forest:     '#1f3d2b',
+          forestDark: '#152a1e',
+          amber:      '#d98e3f',
+          amberDark:  '#b8742c',
+          sage:       '#a8b89a',
+          cream:      '#d4cfc0',
+          bg:         '#f5f2ea'
+        }
+      }
+    }
+  }
+}
+</script>
+
+<style>
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: #f5f2ea; }
+  ::-webkit-scrollbar-thumb { background: #d98e3f; border-radius: 10px; }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background-color: #f5f2ea; overflow: hidden; height: 100vh; }
+
+  .card {
+    background: #FFFFFF;
+    border-radius: 16px;
+    border: 1px solid rgba(31, 61, 43, 0.12);
+    box-shadow: 0 4px 18px rgba(15, 30, 22, 0.05);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: all 0.3s ease;
+    overflow: visible;
+  }
+  .card:hover {
+    box-shadow: 0 8px 25px rgba(217, 142, 63, 0.18);
+    transform: translateY(-2px);
+    border-color: rgba(217, 142, 63, 0.3);
+  }
+  .card-shadow { box-shadow: 0 4px 6px -1px rgba(15, 30, 22, 0.05), 0 2px 4px -1px rgba(15, 30, 22, 0.03); }
+
+  .chart-h-2 { height: 130px; width: 100%; }
+
+  /* ===== SIDEBAR ===== */
+  .sidebar {
+    height: 100vh; max-height: 100vh; margin: 0;
+    border: none; border-right: 3px solid #d98e3f;
+    box-shadow: 4px 0 24px rgba(15, 30, 22, 0.15);
+    display: flex; flex-direction: column;
+    background: linear-gradient(180deg, #1f3d2b 0%, #152a1e 100%);
+    border-radius: 0 !important;
+  }
+  .sidebar-logo-area {
+    height: 72px; display: flex; align-items: center;
+    padding: 0 24px; border-bottom: 1px solid rgba(168, 184, 154, 0.2); flex-shrink: 0;
+  }
+  .sidebar .nav-link {
+    transition: all 0.3s ease; cursor: pointer;
+    padding: 8px 12px !important; font-size: 0.8rem !important;
+    color: #d4cfc0; border-left: 3px solid transparent;
+    border-radius: 0 12px 12px 0;
+  }
+  .sidebar .nav-link i { color: #a8b89a; transition: all 0.3s ease; }
+  .sidebar .nav-link:hover { background: rgba(168, 184, 154, 0.16); color: #ffffff; border-left-color: #a8b89a; }
+  .sidebar .nav-link:hover i { color: #d98e3f; }
+  .sidebar .nav-link.active {
+    background: linear-gradient(135deg, #d98e3f, #b8742c) !important;
+    color: #1f3d2b !important; border-radius: 12px;
+    border-left-color: #d98e3f;
+    box-shadow: 0 4px 14px rgba(217, 142, 63, 0.45);
+  }
+  .sidebar .nav-link.active i { color: #1f3d2b !important; }
+  .sidebar hr { border-color: rgba(168, 184, 154, 0.22); }
+
+  .nav-scroll { overflow-y: auto; flex: 1; }
+  .nav-scroll::-webkit-scrollbar { width: 3px; }
+  .nav-scroll::-webkit-scrollbar-thumb { background: #d98e3f; border-radius: 10px; }
+  .nav-scroll::-webkit-scrollbar-track { background: transparent; }
+
+  .content-section { display: none; }
+  .content-section.active { display: block; }
+
+  /* ===== MOBILE NAV ===== */
+  .mobile-nav-bar {
+    display: none;
+    background: linear-gradient(180deg, #1f3d2b 0%, #152a1e 100%);
+    border-bottom: 3px solid #d98e3f;
+    padding: 12px 16px;
+    overflow-x: auto; white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; gap: 8px;
+  }
+  .mobile-nav-bar::-webkit-scrollbar { display: none; }
+  .mobile-nav-bar .nav-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: transparent; border: none; padding: 8px 18px;
+    font-size: 0.8rem; font-weight: 600; color: #d4cfc0;
+    cursor: pointer; border-radius: 30px; transition: all 0.3s;
+    font-family: inherit; white-space: nowrap; text-decoration: none;
+  }
+  .mobile-nav-bar .nav-btn i { color: #d98e3f; font-size: 0.9rem; }
+  .mobile-nav-bar .nav-btn:hover { background: rgba(168, 184, 154, 0.16); color: #ffffff; }
+  .mobile-nav-bar .nav-btn.active {
+    background: linear-gradient(135deg, #d98e3f, #b8742c);
+    color: #1f3d2b;
+    box-shadow: 0 4px 15px rgba(217, 142, 63, 0.45);
+  }
+  .mobile-nav-bar .nav-btn.active i { color: #1f3d2b; }
+  .mobile-header-logo { display: none; }
+
+  /* ===== NOTIFICATIONS ===== */
+  .notification-dropdown {
+    display: none; position: fixed; top: 70px; right: 20px;
+    background: white; border-radius: 16px;
+    border: 1px solid rgba(31, 61, 43, 0.2);
+    box-shadow: 0 20px 60px rgba(15, 30, 22, 0.25);
+    width: 380px; z-index: 99999; padding: 8px 0;
+    max-height: 460px; overflow-y: auto;
+    border-top: 3px solid #d98e3f;
+  }
+  .notification-dropdown.show { display: block; animation: dropdownSlide 0.25s ease; }
+  @keyframes dropdownSlide {
+    from { opacity: 0; transform: translateY(-10px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .notification-dropdown .notif-header {
+    padding: 12px 20px 10px; font-weight: 800; font-size: 0.9rem;
+    color: #1f3d2b; border-bottom: 1px solid rgba(31, 61, 43, 0.15);
+    display: flex; justify-content: space-between; align-items: center;
+    position: sticky; top: 0; background: white;
+    border-radius: 16px 16px 0 0; z-index: 2;
+  }
+  .notification-dropdown .notif-header .notif-badge {
+    background: #d98e3f; color: #1f3d2b; font-size: 0.6rem;
+    font-weight: 800; padding: 2px 10px; border-radius: 20px;
+  }
+  .notification-dropdown .notif-item {
+    padding: 12px 20px; display: flex; gap: 12px; align-items: flex-start;
+    border-bottom: 1px solid #f0ede4; transition: background 0.2s;
+    cursor: default;
+  }
+  .notification-dropdown .notif-item:hover { background: #f5f2ea; }
+  .notification-dropdown .notif-item .notif-icon {
+    width: 40px; height: 40px; min-width: 40px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center; font-size: 0.85rem;
+  }
+  .notification-dropdown .notif-item .notif-content { flex: 1; min-width: 0; }
+  .notification-dropdown .notif-item .notif-title { font-size: 0.85rem; font-weight: 700; color: #1f3d2b; }
+  .notification-dropdown .notif-item .notif-desc { font-size: 0.75rem; color: #5a6b5c; margin-top: 2px; word-wrap: break-word; }
+  .notification-dropdown .notif-item .notif-time { font-size: 0.6rem; color: #9a9b90; margin-top: 3px; }
+  .notification-dropdown .notif-footer {
+    display: block;
+    padding: 12px 20px; text-align: center; font-size: 0.75rem;
+    color: #d98e3f; font-weight: 700; cursor: pointer; text-decoration: none;
+    border-top: 1px solid rgba(31, 61, 43, 0.15);
+    position: sticky; bottom: 0; background: white; border-radius: 0 0 16px 16px;
+  }
+  .notification-dropdown .notif-footer:hover { background: #f5f2ea; color: #b8742c; }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 1023px) {
+    .sidebar { display: none !important; }
+    body { padding: 0 !important; overflow-x: hidden !important; }
+    .ml-4 { margin-left: 0 !important; }
+    .mobile-nav-bar { display: flex !important; padding: 16px 20px !important; gap: 12px !important; }
+    .mobile-nav-bar .nav-btn { padding: 12px 24px !important; font-size: 0.9rem !important; gap: 12px !important; }
+    .mobile-nav-bar .nav-btn i { font-size: 1.1rem !important; }
+    .mobile-header-logo { display: block !important; }
+    .mobile-header-logo img { height: 50px !important; width: auto !important; object-fit: contain !important; }
+    .main-header { padding-left: 16px !important; padding-right: 16px !important; min-height: 72px !important; height: auto !important; flex-wrap: wrap !important; gap: 8px !important; }
+    .main-header .flex.items-center.gap-4 { flex-wrap: wrap !important; gap: 6px !important; }
+    .main-header .header-title-block { display: none !important; }
+    .content-title-block { display: block !important; margin-bottom: 16px !important; }
+    .content-title-block h1 { font-size: 1.05rem !important; font-weight: 800 !important; color: #1f3d2b !important; line-height: 1.2 !important; }
+    .content-title-block p { font-size: 0.7rem !important; color: #5a6b5c !important; margin-top: 2px !important; font-weight: 500 !important; }
+    .main-content-wrapper { height: 100vh !important; max-width: 100vw !important; overflow-x: hidden !important; }
+    .dashboard-body-scroll { overflow-x: hidden !important; max-width: 100% !important; padding: 16px !important; }
+    .card, .card-shadow { max-width: 100% !important; overflow: visible !important; }
+    .grid-cols-2.lg\:grid-cols-5 { grid-template-columns: repeat(2, 1fr) !important; }
+    .chart-h-2 { height: 160px; }
+    .section-gap { margin-bottom: 24px !important; }
+    .card.p-4 { padding: 16px !important; }
+    .notification-dropdown { width: 360px !important; right: 20px !important; top: 68px !important; }
+  }
+  @media (max-width: 640px) {
+    .header-date-range { display: none !important; }
+    .header-user-text { display: none !important; }
+    .grid-cols-2.lg\:grid-cols-5 { grid-template-columns: 1fr !important; gap: 12px !important; }
+    .p-4.lg\:p-6 { padding: 12px !important; }
+    .gap-6 { gap: 10px !important; }
+    .mobile-nav-bar { padding: 14px 14px !important; gap: 10px !important; }
+    .mobile-nav-bar .nav-btn { padding: 10px 18px !important; font-size: 0.75rem !important; }
+    .dashboard-body-scroll { padding: 12px !important; }
+    .section-gap { margin-bottom: 16px !important; }
+    .mobile-header-logo img { height: 44px !important; }
+    .notification-dropdown { width: 320px !important; right: 12px !important; top: 64px !important; max-height: 380px !important; }
+    .content-section.active { display: block !important; width: 100% !important; }
+  }
+
+  .main-content-wrapper { height: 100vh; display: flex; flex-direction: column; max-width: 100vw; overflow-x: hidden; background: #f5f2ea; }
+  .dashboard-body-scroll { flex: 1; overflow-y: auto; overflow-x: hidden; max-width: 100%; background: #f5f2ea; }
+  .main-header { border-radius: 0 !important; }
+  .section-gap { margin-bottom: 28px; }
+  .sidebar .nav-link i { width: 20px; font-size: 0.85rem; }
+  .dropdown-toggle { cursor: pointer; }
+  #adminDropdownMenu { display: none; }
+  #adminDropdownMenu.show { display: block; }
+
+  /* Status pills */
+  .status-pill { display:inline-block; padding:3px 10px; border-radius:20px; font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:0.3px; }
+  .status-confirmed  { background:rgba(76,175,80,0.14);  color:#1f5a2e; }
+  .status-upcoming   { background:rgba(217,142,63,0.18); color:#8a5a00; }
+  .status-planning   { background:rgba(31,61,43,0.12);   color:#1f3d2b; }
+  .status-completed  { background:rgba(168,184,154,0.32); color:#4E8A63; }
+  .status-urgent     { background:rgba(192,57,43,0.12);  color:#991B1B; }
+
+  /* Progress bars */
+  .prog-bar-bg   { background:#ece8dd; height:6px; border-radius:10px; overflow:hidden; }
+  .prog-bar-fill { height:100%; border-radius:10px; transition: width 0.6s ease; }
+
+  /* Member avatar stack */
+  .avatar-stack { display: flex; }
+  .avatar-stack .avatar {
+    width: 28px; height: 28px; border-radius: 50%;
+    border: 2px solid #fff; margin-left: -8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 800; color: #fff;
+  }
+  .avatar-stack .avatar:first-child { margin-left: 0; }
+
+  /* ===== TITLE BLOCK inside content (mobile) ===== */
+  .content-title-block { display: none; }
+</style>
+</head>
+<body class="flex h-screen overflow-hidden bg-[#f5f2ea] p-0">
+
+<!-- ===== SIDEBAR ===== -->
+<aside class="w-64 bg-white border-r border-gray-200 flex flex-col overflow-hidden flex-shrink-0 z-20 sidebar">
+  <div class="sidebar-logo-area">
+    <a href="index.html" class="flex items-center">
+      <img src="Stacklylogo3.webp" alt="Stackly Adventures" class="h-12 w-auto object-contain rounded-md"
+           onerror="this.outerHTML='<span style=&quot;color:#d98e3f;font-weight:800;font-size:1.1rem;&quot;><i class=&quot;fa-solid fa-mountain&quot;></i> Stackly</span>';">
+    </a>
+  </div>
+
+  <nav class="nav-scroll px-4 py-3 space-y-0.5 flex-1">
+    <a href="#" class="flex items-center gap-3 px-4 py-2.5 nav-link active mt-2" data-page="dashboard">
+      <i class="fa-solid fa-border-all w-5 text-sm"></i>
+      <span class="font-semibold text-sm">Dashboard</span>
+    </a>
+    <a href="#" class="flex items-center gap-3 px-4 py-2.5 nav-link" data-page="groups">
+      <i class="fa-solid fa-users w-5 text-sm"></i>
+      <span class="font-semibold">My Groups</span>
+    </a>
+    <a href="#" class="flex items-center gap-3 px-4 py-2.5 nav-link" data-page="members">
+      <i class="fa-solid fa-user-group w-5 text-sm"></i>
+      <span class="font-semibold">Members</span>
+    </a>
+    <a href="#" class="flex items-center gap-3 px-4 py-2.5 nav-link" data-page="itinerary">
+      <i class="fa-solid fa-calendar-days w-5 text-sm"></i>
+      <span class="font-semibold">Itinerary</span>
+    </a>
+    <a href="#" class="flex items-center gap-3 px-4 py-2.5 nav-link" data-page="guides">
+      <i class="fa-solid fa-user-tie w-5 text-sm"></i>
+      <span class="font-semibold">Guides</span>
+    </a>
+    <a href="#" class="flex items-center gap-3 px-4 py-2.5 nav-link" data-page="reports">
+      <i class="fa-solid fa-chart-line w-5 text-sm"></i>
+      <span class="font-semibold">Reports</span>
+    </a>
+    <a href="#" class="flex items-center gap-3 px-4 py-2.5 nav-link" data-page="settings">
+      <i class="fa-solid fa-gear w-5 text-sm"></i>
+      <span class="font-semibold">Settings</span>
+    </a>
+
+    <div class="pt-2 pb-1.5"><hr></div>
+
+    <a href="login.html" class="flex items-center gap-3 px-4 py-2.5 text-red-300 hover:bg-red-500/10 hover:text-red-200 transition text-sm nav-link" onclick="handleLogout(event)">
+      <i class="fa-solid fa-right-from-bracket w-5 text-sm"></i>
+      <span class="font-semibold">Logout</span>
+    </a>
+    <div class="h-4"></div>
+  </nav>
+
+  <div class="px-4 pb-4 flex-shrink-0">
+    <div class="bg-[#152a1e] rounded-2xl p-3 border border-[#a8b89a]/30 text-center relative overflow-hidden">
+      <div class="absolute -top-4 -right-4 w-10 h-10 bg-[#d98e3f]/25 rounded-full opacity-60"></div>
+      <div class="w-7 h-7 bg-[#d98e3f]/20 rounded-full flex items-center justify-center text-[#d98e3f] mx-auto mb-1">
+        <i class="fa-solid fa-flag text-xs"></i>
+      </div>
+      <p class="text-[9px] font-bold text-white">Group Leader</p>
+      <p class="text-[8px] text-[#a8b89a] mt-0.5 mb-1.5" id="sidebarUserName">Stackly Adventures</p>
+      <div class="flex items-center justify-center gap-1.5 bg-[#1f3d2b] rounded-full px-2.5 py-1 border border-[#a8b89a]/40 shadow-sm w-max mx-auto">
+        <span class="w-1.5 h-1.5 bg-green-400 rounded-full"></span>
+        <span class="text-[8px] font-bold text-green-400">Leading squad</span>
+      </div>
+    </div>
+    <div class="text-center mt-2 text-[8px] text-[#a8b89a]/70">© 2026 Stackly</div>
+  </div>
+</aside>
+
+<!-- ===== MAIN ===== -->
+<main class="flex-1 flex flex-col h-screen overflow-hidden bg-[#f5f2ea] ml-0 main-content-wrapper">
+
+  <header class="bg-white border-b border-gray-200 px-8 flex items-center justify-between h-[72px] flex-shrink-0 main-header">
+    <div class="flex items-center gap-4">
+      <div class="mobile-header-logo">
+        <a href="index.html" class="flex items-center">
+          <img src="Stacklylogo3.webp" alt="Stackly" class="h-12 w-auto object-contain rounded-md">
+        </a>
+      </div>
+      <div class="header-title-block">
+        <h1 class="text-lg font-extrabold text-[#1f3d2b] tracking-tight" id="pageTitle">Group Leader Dashboard</h1>
+        <p class="text-xs text-[#5a6b5c] leading-tight mt-0.5 font-medium" id="pageSubtitle">Lead your tribe to adventure.</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-6">
+      <div class="flex items-center gap-2 bg-[#f5f2ea] border border-gray-200 rounded-lg px-3 py-1.5 text-xs text-[#1f3d2b] cursor-pointer hover:bg-gray-50 transition desktop-date font-semibold" id="dateRangePicker">
+        <i class="fa-regular fa-calendar text-[#d98e3f]"></i>
+        <span class="font-medium" id="dateRangeText">Today, Jun 10 2026</span>
+        <i class="fa-solid fa-chevron-down text-[9px] ml-1 text-[#5a6b5c]"></i>
+      </div>
+      <div class="relative cursor-pointer text-[#1f3d2b] hover:text-[#d98e3f] transition dropdown-toggle" id="notificationBell">
+        <i class="fa-regular fa-bell text-base sm:text-lg"></i>
+        <span class="absolute -top-1 -right-1 bg-[#d98e3f] text-[#1f3d2b] text-[8px] font-extrabold w-4 h-4 flex items-center justify-center rounded-full border-2 border-white">5</span>
+
+        <div class="notification-dropdown" id="notificationDropdown">
+          <div class="notif-header">
+            <span>Notifications</span>
+            <span class="notif-badge">5 new</span>
+          </div>
+          <!-- Notification items: NOT clickable -->
+          <div class="notif-item">
+            <div class="notif-icon bg-[#d98e3f]/15 text-[#d98e3f]"><i class="fa-solid fa-user-plus"></i></div>
+            <div class="notif-content">
+              <div class="notif-title">New Member Joined</div>
+              <div class="notif-desc">Rahul Verma joined "Himalaya Trek Batch 7"</div>
+              <div class="notif-time">3 min ago</div>
+            </div>
+          </div>
+          <div class="notif-item">
+            <div class="notif-icon bg-[#a8b89a]/30 text-[#4E8A63]"><i class="fa-solid fa-user-tie"></i></div>
+            <div class="notif-content">
+              <div class="notif-title">Guide Assignment Confirmed</div>
+              <div class="notif-desc">Tenzing Sherpa will lead your EBC group</div>
+              <div class="notif-time">12 min ago</div>
+            </div>
+          </div>
+          <div class="notif-item">
+            <div class="notif-icon bg-red-50 text-red-600"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            <div class="notif-content">
+              <div class="notif-title">Payment Pending</div>
+              <div class="notif-desc">3 members haven't paid the deposit yet</div>
+              <div class="notif-time">45 min ago</div>
+            </div>
+          </div>
+          <div class="notif-item">
+            <div class="notif-icon bg-green-50 text-green-600"><i class="fa-solid fa-check"></i></div>
+            <div class="notif-content">
+              <div class="notif-title">Itinerary Approved</div>
+              <div class="notif-desc">Zanskar Rafting group itinerary approved</div>
+              <div class="notif-time">2 hours ago</div>
+            </div>
+          </div>
+          <div class="notif-item">
+            <div class="notif-icon bg-blue-50 text-blue-600"><i class="fa-solid fa-comment-dots"></i></div>
+            <div class="notif-content">
+              <div class="notif-title">Member Message</div>
+              <div class="notif-desc">Priya asked about gear requirements</div>
+              <div class="notif-time">4 hours ago</div>
+            </div>
+          </div>
+          <!-- Only this footer is clickable → 404.html -->
+          <a href="404.html" class="notif-footer">View all notifications →</a>
+        </div>
+      </div>
+      <div class="flex items-center gap-4 border-l pl-6 border-gray-200">
+        <div class="text-right hidden sm:block header-user-text">
+          <p class="text-xs font-extrabold text-[#1f3d2b] leading-tight" id="headerUserName">Leader</p>
+          <p class="text-[9px] text-[#5a6b5c] font-bold leading-tight mt-0.5 uppercase">Group Leader</p>
+        </div>
+        <div class="w-8 h-8 bg-[#d98e3f] rounded-full flex items-center justify-center text-[#1f3d2b] font-extrabold text-[10px] cursor-pointer relative hover:bg-[#b8742c] transition dropdown-toggle" id="profileDropdown">
+          <span id="avatarInitials">G</span>
+          <span class="absolute bottom-0 right-0 w-3 h-3 bg-white rounded-full flex items-center justify-center border-2 border-[#d98e3f]">
+            <i class="fa-solid fa-chevron-down text-[6px] text-[#d98e3f]"></i>
+          </span>
+          <div class="absolute top-full right-0 mt-2 bg-white border border-gray-200 rounded-xl shadow-lg w-40 py-1 z-50" id="adminDropdownMenu">
+            <a href="404.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"><i class="fa-regular fa-user mr-2 text-[#d98e3f]"></i>Profile</a>
+            <a href="404.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"><i class="fa-solid fa-gear mr-2 text-[#d98e3f]"></i>Settings</a>
+            <hr class="my-1">
+            <a href="login.html" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50" onclick="handleLogout(event)"><i class="fa-solid fa-right-from-bracket mr-2"></i>Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== MOBILE NAV ===== -->
+  <div class="mobile-nav-bar">
+    <a href="#" class="nav-btn active" data-page="dashboard"><i class="fa-solid fa-border-all"></i> Dashboard</a>
+    <a href="#" class="nav-btn" data-page="groups"><i class="fa-solid fa-users"></i> Groups</a>
+    <a href="#" class="nav-btn" data-page="members"><i class="fa-solid fa-user-group"></i> Members</a>
+    <a href="#" class="nav-btn" data-page="itinerary"><i class="fa-solid fa-calendar-days"></i> Itinerary</a>
+    <a href="#" class="nav-btn" data-page="guides"><i class="fa-solid fa-user-tie"></i> Guides</a>
+    <a href="#" class="nav-btn" data-page="reports"><i class="fa-solid fa-chart-line"></i> Reports</a>
+    <a href="#" class="nav-btn" data-page="settings"><i class="fa-solid fa-gear"></i> Settings</a>
+    <a href="login.html" class="nav-btn" onclick="handleLogout(event)"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+  </div>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <div class="flex-1 overflow-y-auto p-4 lg:p-6 bg-[#f5f2ea] dashboard-body-scroll">
+
+    <!-- Title block shown ONLY on mobile, inside content, under navbar -->
+    <div class="content-title-block">
+      <h1 id="pageTitleMobile">Group Leader Dashboard</h1>
+      <p id="pageSubtitleMobile">Lead your tribe to adventure.</p>
+    </div>
+
+    <!-- ===== DASHBOARD ===== -->
+    <div id="section-dashboard" class="content-section active">
+
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 section-gap">
+        <div class="card p-3">
+          <div class="flex items-center justify-between mb-1">
+            <div class="w-8 h-8 bg-[#d98e3f]/15 rounded-lg flex items-center justify-center text-[#d98e3f]"><i class="fa-solid fa-users text-sm"></i></div>
+            <span class="text-[9px] text-green-600 font-bold"><i class="fa-solid fa-arrow-up"></i> +3</span>
+          </div>
+          <p class="text-[10px] text-[#5a6b5c] font-bold uppercase tracking-wide">Active Groups</p>
+          <p class="text-xl font-extrabold text-[#1f3d2b]">6</p>
+        </div>
+        <div class="card p-3">
+          <div class="flex items-center justify-between mb-1">
+            <div class="w-8 h-8 bg-[#a8b89a]/25 rounded-lg flex items-center justify-center text-[#4E8A63]"><i class="fa-solid fa-user-group text-sm"></i></div>
+            <span class="text-[9px] text-[#5a6b5c] font-medium">+12 new</span>
+          </div>
+          <p class="text-[10px] text-[#5a6b5c] font-bold uppercase tracking-wide">Total Members</p>
+          <p class="text-xl font-extrabold text-[#1f3d2b]">48</p>
+        </div>
+        <div class="card p-3">
+          <div class="flex items-center justify-between mb-1">
+            <div class="w-8 h-8 bg-[#1f3d2b]/10 rounded-lg flex items-center justify-center text-[#1f3d2b]"><i class="fa-solid fa-calendar-check text-sm"></i></div>
+            <span class="text-[9px] text-[#5a6b5c] font-medium">2 this month</span>
+          </div>
+          <p class="text-[10px] text-[#5a6b5c] font-bold uppercase tracking-wide">Upcoming Trips</p>
+          <p class="text-xl font-extrabold text-[#1f3d2b]">4</p>
+        </div>
+        <div class="card p-3">
+          <div class="flex items-center justify-between mb-1">
+            <div class="w-8 h-8 bg-[#d98e3f]/15 rounded-lg flex items-center justify-center text-[#d98e3f]"><i class="fa-solid fa-star text-sm"></i></div>
+            <span class="text-[9px] text-[#5a6b5c] font-medium">Leader</span>
+          </div>
+          <p class="text-[10px] text-[#5a6b5c] font-bold uppercase tracking-wide">Your Rating</p>
+          <p class="text-xl font-extrabold text-[#1f3d2b]">4.8★</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-3 lg:gap-4 section-gap">
+        <div class="card p-4">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-extrabold text-[#1f3d2b] text-[13px]">📊 Member Signups</h3>
+            <span class="text-[8px] text-[#5a6b5c] bg-[#ece8dd] px-1.5 py-0.5 rounded-full font-bold uppercase">Last 6 weeks</span>
+          </div>
+          <div class="chart-h-2"><canvas id="signupChart"></canvas></div>
+        </div>
+        <div class="card p-4">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-extrabold text-[#1f3d2b] text-[13px]">🧭 Group Categories</h3>
+            <span class="text-[8px] text-[#5a6b5c] bg-[#ece8dd] px-1.5 py-0.5 rounded-full font-bold uppercase">By Type</span>
+          </div>
+          <div class="chart-h-2"><canvas id="categoryChart"></canvas></div>
+        </div>
+        <div class="card p-4">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-extrabold text-[#1f3d2b] text-[13px]">⭐ Member Satisfaction</h3>
+            <span class="text-[8px] text-[#5a6b5c] bg-[#ece8dd] px-1.5 py-0.5 rounded-full font-bold uppercase">Rating</span>
+          </div>
+          <div class="chart-h-2"><canvas id="satisfactionChart"></canvas></div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-[60%_40%] gap-3 lg:gap-4 section-gap">
+        <div class="card p-4">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="font-extrabold text-[#1f3d2b] text-[13px]">👥 My Groups</h3>
+            <a href="404.html" class="text-[10px] text-[#d98e3f] font-bold hover:underline uppercase">View All</a>
+          </div>
+          <div class="space-y-2">
+            <div class="bg-[#f5f2ea] p-3 rounded-xl border border-gray-100 flex justify-between items-center gap-2">
+              <div class="min-w-0">
+                <p class="text-[11px] font-extrabold text-[#1f3d2b] truncate">🏔️ Everest Base Camp Batch 7</p>
+                <p class="text-[9px] text-[#5a6b5c]">Nepal · 14 days · 12 members</p>
+                <div class="avatar-stack mt-1.5">
+                  <div class="avatar bg-[#d98e3f]">A</div>
+                  <div class="avatar bg-[#a8b89a]">B</div>
+                  <div class="avatar bg-[#1f3d2b]">C</div>
+                  <div class="avatar bg-[#b8742c]">+9</div>
+                </div>
+              </div>
+              <span class="status-pill status-confirmed">Confirmed</span>
+            </div>
+            <div class="bg-[#f5f2ea] p-3 rounded-xl border border-gray-100 flex justify-between items-center gap-2">
+              <div class="min-w-0">
+                <p class="text-[11px] font-extrabold text-[#1f3d2b] truncate">🌊 Zanskar River Rafting Squad</p>
+                <p class="text-[9px] text-[#5a6b5c]">Ladakh · 5 days · 8 members</p>
+                <div class="avatar-stack mt-1.5">
+                  <div class="avatar bg-[#d98e3f]">D</div>
+                  <div class="avatar bg-[#a8b89a]">E</div>
+                  <div class="avatar bg-[#1f3d2b]">+6</div>
+                </div>
+              </div>
+              <span class="status-pill status-upcoming">Upcoming</span>
+            </div>
+            <div class="bg-[#f5f2ea] p-3 rounded-xl border border-gray-100 flex justify-between items-center gap-2">
+              <div class="min-w-0">
+                <p class="text-[11px] font-extrabold text-[#1f3d2b] truncate">🦁 Serengeti Safari Group</p>
+                <p class="text-[9px] text-[#5a6b5c]">Tanzania · 7 days · 10 members</p>
+                <div class="avatar-stack mt-1.5">
+                  <div class="avatar bg-[#d98e3f]">F</div>
+                  <div class="avatar bg-[#a8b89a]">G</div>
+                  <div class="avatar bg-[#1f3d2b]">H</div>
+                  <div class="avatar bg-[#b8742c]">+7</div>
+                </div>
+              </div>
+              <span class="status-pill status-planning">Planning</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-3 lg:space-y-4">
+          <div class="card p-4">
+            <h3 class="font-extrabold text-[#1f3d2b] text-[13px] mb-2">📋 Leader Tasks</h3>
+            <div class="space-y-1.5">
+              <div class="flex items-center gap-2 text-[10px]">
+                <input type="checkbox" checked class="accent-[#d98e3f]">
+                <span class="text-[#5a6b5c] line-through">Confirm guide for EBC Batch 7</span>
+              </div>
+              <div class="flex items-center gap-2 text-[10px]">
+                <input type="checkbox" class="accent-[#d98e3f]">
+                <span class="text-[#1f3d2b] font-semibold flex-1">Collect pending payments (3 members)</span>
+                <span class="text-[8px] bg-red-50 text-red-600 px-1.5 py-0.5 rounded font-bold">HIGH</span>
+              </div>
+              <div class="flex items-center gap-2 text-[10px]">
+                <input type="checkbox" class="accent-[#d98e3f]">
+                <span class="text-[#5a6b5c]">Share packing list with Zanskar squad</span>
+              </div>
+              <div class="flex items-center gap-2 text-[10px]">
+                <input type="checkbox" class="accent-[#d98e3f]">
+                <span class="text-[#5a6b5c]">Book safari vehicles for Serengeti</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card p-4">
+            <h3 class="font-extrabold text-[#1f3d2b] text-[13px] mb-2">⚡ Quick Actions</h3>
+            <div class="grid grid-cols-2 gap-2">
+              <a href="404.html" class="bg-[#f5f2ea] hover:bg-[#1f3d2b] hover:text-white transition border border-gray-200 rounded-lg p-2 text-[10px] font-bold text-[#1f3d2b] text-center"><i class="fa-solid fa-plus text-[#d98e3f] mr-1"></i>New Group</a>
+              <a href="404.html" class="bg-[#f5f2ea] hover:bg-[#1f3d2b] hover:text-white transition border border-gray-200 rounded-lg p-2 text-[10px] font-bold text-[#1f3d2b] text-center"><i class="fa-solid fa-user-plus text-[#d98e3f] mr-1"></i>Invite</a>
+              <a href="404.html" class="bg-[#f5f2ea] hover:bg-[#1f3d2b] hover:text-white transition border border-gray-200 rounded-lg p-2 text-[10px] font-bold text-[#1f3d2b] text-center"><i class="fa-solid fa-user-tie text-[#d98e3f] mr-1"></i>Guides</a>
+              <a href="404.html" class="bg-[#f5f2ea] hover:bg-[#1f3d2b] hover:text-white transition border border-gray-200 rounded-lg p-2 text-[10px] font-bold text-[#1f3d2b] text-center"><i class="fa-solid fa-bullhorn text-[#d98e3f] mr-1"></i>Announce</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== MY GROUPS ===== -->
+    <div id="section-groups" class="content-section">
+      <div class="card p-5">
+        <h2 class="text-lg font-extrabold text-[#1f3d2b] mb-4"><i class="fa-solid fa-users text-[#d98e3f] mr-2"></i> My Groups</h2>
+        <div class="space-y-3">
+          <div class="bg-[#f5f2ea] p-4 rounded-xl border border-gray-100 flex justify-between items-center gap-2 flex-wrap">
+            <div>
+              <p class="font-bold text-[#1f3d2b] text-sm">🏔️ Everest Base Camp Batch 7</p>
+              <p class="text-xs text-[#5a6b5c]">Nepal · 14 days · 12 members · Guide: Tenzing</p>
+              <p class="text-[10px] text-[#9a9b90] mt-0.5">Departing Jun 12, 2026</p>
+            </div>
+            <span class="status-pill status-confirmed">Confirmed</span>
+          </div>
+          <div class="bg-[#f5f2ea] p-4 rounded-xl border border-gray-100 flex justify-between items-center gap-2 flex-wrap">
+            <div>
+              <p class="font-bold text-[#1f3d2b] text-sm">🌊 Zanskar River Rafting Squad</p>
+              <p class="text-xs text-[#5a6b5c]">Ladakh · 5 days · 8 members · Guide: Lobsang</p>
+              <p class="text-[10px] text-[#9a9b90] mt-0.5">Departing Jul 03, 2026</p>
+            </div>
+            <span class="status-pill status-upcoming">Upcoming</span>
+          </div>
+          <div class="bg-[#f5f2ea] p-4 rounded-xl border border-gray-100 flex justify-between items-center gap-2 flex-wrap">
+            <div>
+              <p class="font-bold text-[#1f3d2b] text-sm">🦁 Serengeti Safari Group</p>
+              <p class="text-xs text-[#5a6b5c]">Tanzania · 7 days · 10 members · Guide: Amara</p>
+              <p class="text-[10px] text-[#9a9b90] mt-0.5">Departing Aug 21, 2026</p>
+            </div>
+            <span class="status-pill status-planning">Planning</span>
+          </div>
+          <div class="bg-[#f5f2ea] p-4 rounded-xl border border-gray-100 flex justify-between items-center gap-2 flex-wrap">
+            <div>
+              <p class="font-bold text-[#1f3d2b] text-sm">🏔️ Annapurna Circuit Group</p>
+              <p class="text-xs text-[#5a6b5c]">Nepal · 12 days · 14 members · Guide: Tenzing</p>
+              <p class="text-[10px] text-[#9a9b90] mt-0.5">Departing Oct 05, 2026</p>
+            </div>
+            <span class="status-pill status-upcoming">Upcoming</span>
+          </div>
+        </div>
+        <a href="404.html" class="inline-block mt-4 bg-[#d98e3f] hover:bg-[#b8742c] transition text-[#1f3d2b] font-bold text-xs px-5 py-2 rounded-lg">
+          <i class="fa-solid fa-plus mr-1"></i> Create New Group
+        </a>
+      </div>
+    </div>
+
+    <!-- ===== MEMBERS ===== -->
+    <div id="section-members" class="content-section">
+      <div class="card p-5">
+        <h2 class="text-lg font-extrabold text-[#1f3d2b] mb-4"><i class="fa-solid fa-user-group text-[#d98e3f] mr-2"></i> Members</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-[#f5f2ea] p-4 rounded-xl border border-gray-100">
+            <h3 class="font-bold text-[#1f3d2b] mb-3 text-sm">Member Status</h3>
+            <p class="text-xs text-[#5a6b5c] mb-1">Paid: <span class="text-[#d98e3f] font-bold">38 members</span></p>
+            <div class="prog-bar-bg mb-3"><div class="prog-bar-fill" style="width:79%;background:#d98e3f;"></div></div>
+            <p class="text-xs text-[#5a6b5c] mb-1">Pending Payment: <span class="text-[#d98e3f] font-bold">7 members</span></p>
+            <div class="prog-bar-bg mb-3"><div class="prog-bar-fill" style="width:15%;background:#a8b89a;"></div></div>
+            <p class="text-xs text-[#5a6b5c] mb-1">Not Confirmed: <span class="text-[#d98e3f] font-bold">3 members</span></p>
+            <div class="prog-bar-bg"><div class="prog-bar-fill" style="width:6%;background:#1f3d2b;"></div></div>
+          </div>
+          <div class="bg-[#f5f2ea] p-4 rounded-xl border border-gray-100">
+            <h3 class="font-bold text-[#1f3d2b] mb-3 text-sm">Recently Joined</h3>
+            <div class="space-y-2">
+              <div class="flex items-center gap-2">
+                <div class="w-7 h-7 rounded-full bg-[#d98e3f] flex items-center justify-center text-white text-[10px] font-bold">R</div>
+                <div class="flex-1 min-w-0">
+                  <p class="text-xs font-bold text-[#1f3d2b] truncate">Rahul Verma</p>
+                  <p class="text-[9px] text-[#5a6b5c]">EBC Batch 7 · 3 min ago</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <div class="w-7 h-7 rounded-full bg-[#a8b89a] flex items-center justify-center text-white text-[10px] font-bold">P</div>
+                <div class="flex-1 min-w-0">
+                  <p class="text-xs font-bold text-[#1f3d2b] truncate">Priya Sharma</p>
+                  <p class="text-[9px] text-[#5a6b5c]">Zanskar Squad · 1 hour ago</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <div class="w-7 h-7 rounded-full bg-[#1f3d2b] flex items-center justify-center text-white text-[10px] font-bold">A</div>
+                <div class="flex-1 min-w-0">
+                  <p class="text-xs font-bold text-[#1f3d2b] truncate">Arjun Mehta</p>
+                  <p class="text-[9px] text-[#5a6b5c]">Serengeti Group · 5 hours ago</p>
+                </div>
+              </div>
+            </div>
+            <a href="404.html" class="inline-block mt-3 bg-[#d98e3f] hover:bg-[#b8742c] transition text-[#1f3d2b] font-bold text-xs px-4 py-1.5 rounded-lg">
+              <i class="fa-solid fa-user-plus mr-1"></i> Invite Member
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== ITINERARY ===== -->
+    <div id="section-itinerary" class="content-section">
+      <div class="card p-5">
+        <h2 class="text-lg font-extrabold text-[#1f3d2b] mb-4"><i class="fa-solid fa-calendar-days text-[#d98e3f] mr-2"></i> Itinerary</h2>
+        <div class="space-y-3">
+          <div class="bg-[#f5f2ea] p-4 rounded-xl border border-gray-100">
+            <div class="flex justify-between items-start flex-wrap gap-2">
+              <div>
+                <p class="font-bold text-[#1f3d2b] text-sm">📅 Day 1 — Arrival in Kathmandu</p>
+                <p class="text-xs text-[#5a6b5c] mt-0.5">Group: EBC Batch 7 · 12 members</p>
+              </div>
+              <span class="status-pill status-confirmed">Today</span>
+            </div>
+          </div>
+          <div class="bg-[#f5f2ea] p-4 rounded-xl border border-gray-100">
+            <div class="flex justify-between items-start flex-wrap gap-2">
+              <div>
+                <p class="font-bold text-[#1f3d2b] text-sm">📅 Day 2 — Fly to Lukla, Trek to Phakding</p>
+                <p class="text-xs text-[#5a6b5c] mt-0.5">Group: EBC Batch 7 · 12 members</p>
+              </div>
+              <span class="status-pill status-upcoming">Tomorrow</span>
+            </div>
+          </div>
+          <div class="bg-[#f5f2ea] p-4 rounded-xl border border-gray-100">
+            <div class="flex justify-between items-start flex-wrap gap-2">
+              <div>
+                <p class="font-bold text-[#1f3d2b] text-sm">📅 Day 3 — Trek to Namche Bazaar</p>
+                <p class="text-xs text-[#5a6b5c] mt-0.5">Group: EBC Batch 7 · 12 members</p>
+              </div>
+              <span class="status-pill status-planning">Planned</span>
+            </div>
+          </div>
+        </div>
+        <a href="404.html" class="inline-block mt-4 bg-[#d98e3f] hover:bg-[#b8742c] transition text-[#1f3d2b] font-bold text-xs px-5 py-2 rounded-lg">
+          <i class="fa-solid fa-plus mr-1"></i> Add Itinerary Day
+        </a>
+      </div>
+    </div>
+
+    <!-- ===== GUIDES ===== -->
+    <div id="section-guides" class="content-section">
+      <div class="card p-5">
+        <h2 class="text-lg font-extrabold text-[#1f3d2b] mb-4"><i class="fa-solid fa-user-tie text-[#d98e3f] mr-2"></i> Assigned Guides</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          <div class="bg-[#f5f2ea] p-4 rounded-xl border border-gray-100 text-center">
+            <div class="w-14 h-14 bg-[#d98e3f] rounded-full mx-auto flex items-center justify-center text-white text-lg font-extrabold mb-2">T</div>
+            <p class="font-extrabold text-[#1f3d2b] text-sm">Tenzing Sherpa</p>
+            <p class="text-xs text-[#5a6b5c]">Everest Region · 4.9★</p>
+            <span class="status-pill status-confirmed mt-2 inline-block">Assigned</span>
+          </div>
+          <div class="bg-[#f5f2ea] p-4 rounded-xl border border-gray-100 text-center">
+            <div class="w-14 h-14 bg-[#a8b89a] rounded-full mx-auto flex items-center justify-center text-white text-lg font-extrabold mb-2">L</div>
+            <p class="font-extrabold text-[#1f3d2b] text-sm">Lobsang Dorje</p>
+            <p class="text-xs text-[#5a6b5c]">Ladakh · 4.8★</p>
+            <span class="status-pill status-upcoming mt-2 inline-block">Pending Confirm</span>
+          </div>
+          <div class="bg-[#f5f2ea] p-4 rounded-xl border border-gray-100 text-center">
+            <div class="w-14 h-14 bg-[#1f3d2b] rounded-full mx-auto flex items-center justify-center text-white text-lg font-extrabold mb-2">A</div>
+            <p class="font-extrabold text-[#1f3d2b] text-sm">Amara Nyerere</p>
+            <p class="text-xs text-[#5a6b5c]">Serengeti · 5.0★</p>
+            <span class="status-pill status-confirmed mt-2 inline-block">Assigned</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== REPORTS ===== -->
+    <div id="section-reports" class="content-section">
+      <div class="card p-5">
+        <h2 class="text-lg font-extrabold text-[#1f3d2b] mb-4"><i class="fa-solid fa-chart-line text-[#d98e3f] mr-2"></i> Reports</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-[#f5f2ea] p-4 rounded-xl border border-gray-100">
+            <h3 class="font-bold text-[#1f3d2b] mb-3 text-sm">Leader Summary</h3>
+            <p class="text-xs text-[#5a6b5c] mb-1">Groups Led: <span class="text-[#d98e3f] font-bold">6</span></p>
+            <p class="text-xs text-[#5a6b5c] mb-1">Total Members Managed: <span class="text-[#d98e3f] font-bold">48</span></p>
+            <p class="text-xs text-[#5a6b5c] mb-1">Trips Completed: <span class="text-[#d98e3f] font-bold">18</span></p>
+            <p class="text-xs text-[#5a6b5c]">Average Rating: <span class="text-[#d98e3f] font-bold">4.8★</span></p>
+          </div>
+          <div class="bg-[#f5f2ea] p-4 rounded-xl border border-gray-100">
+            <h3 class="font-bold text-[#1f3d2b] mb-3 text-sm">Download</h3>
+            <a href="404.html" class="block text-xs bg-white hover:bg-[#1f3d2b] hover:text-white transition border border-gray-200 rounded-lg p-2 font-bold text-[#1f3d2b] mb-2">
+              <i class="fa-solid fa-file-pdf text-[#d98e3f] mr-2"></i> Group Performance Report
+            </a>
+            <a href="404.html" class="block text-xs bg-white hover:bg-[#1f3d2b] hover:text-white transition border border-gray-200 rounded-lg p-2 font-bold text-[#1f3d2b]">
+              <i class="fa-solid fa-file-alt text-[#d98e3f] mr-2"></i> Member Attendance Report
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SETTINGS (all cards clickable → 404.html) ===== -->
+    <div id="section-settings" class="content-section">
+      <div class="card p-5">
+        <h2 class="text-lg font-extrabold text-[#1f3d2b] mb-4"><i class="fa-solid fa-gear text-[#d98e3f] mr-2"></i> Settings</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <a href="404.html" class="bg-[#f5f2ea] p-4 rounded-xl border border-gray-200 hover:border-[#d98e3f] transition block">
+            <i class="fa-solid fa-user text-[#d98e3f] text-xl mb-2"></i>
+            <p class="font-bold text-[#1f3d2b] text-sm">Profile Info</p>
+            <p class="text-xs text-[#5a6b5c]">Name, photo, bio</p>
+          </a>
+          <a href="404.html" class="bg-[#f5f2ea] p-4 rounded-xl border border-gray-200 hover:border-[#d98e3f] transition block">
+            <i class="fa-solid fa-bell text-[#d98e3f] text-xl mb-2"></i>
+            <p class="font-bold text-[#1f3d2b] text-sm">Notifications</p>
+            <p class="text-xs text-[#5a6b5c]">Group alerts, member messages</p>
+          </a>
+          <a href="404.html" class="bg-[#f5f2ea] p-4 rounded-xl border border-gray-200 hover:border-[#d98e3f] transition block">
+            <i class="fa-solid fa-shield-halved text-[#d98e3f] text-xl mb-2"></i>
+            <p class="font-bold text-[#1f3d2b] text-sm">Privacy</p>
+            <p class="text-xs text-[#5a6b5c]">Password, group visibility</p>
+          </a>
+          <a href="404.html" class="bg-[#f5f2ea] p-4 rounded-xl border border-gray-200 hover:border-[#d98e3f] transition block">
+            <i class="fa-solid fa-credit-card text-[#d98e3f] text-xl mb-2"></i>
+            <p class="font-bold text-[#1f3d2b] text-sm">Payments</p>
+            <p class="text-xs text-[#5a6b5c]">Group payments, refunds</p>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="h-4"></div>
+  </div>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+  document.body.classList.add('sh-ready');
+
+  const session = window.__STACKLY_USER__;
+  if (session && session.name) {
+    const displayName = session.name || 'Leader';
+    const initial = displayName.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
+    const subtitle = document.getElementById('pageSubtitle');
+    if (subtitle) subtitle.textContent = "Welcome back, " + displayName.split(' ')[0] + ". Ready to lead?";
+    const subtitleMobile = document.getElementById('pageSubtitleMobile');
+    if (subtitleMobile) subtitleMobile.textContent = "Welcome back, " + displayName.split(' ')[0] + ". Ready to lead?";
+    const hn = document.getElementById('headerUserName');
+    if (hn) hn.textContent = displayName;
+    const av = document.getElementById('avatarInitials');
+    if (av) av.textContent = initial;
+    const su = document.getElementById('sidebarUserName');
+    if (su) su.textContent = displayName;
+  }
+
+  const pageTitles = {
+    dashboard:  ['Group Leader Dashboard', 'Lead your tribe to adventure.'],
+    groups:     ['My Groups', 'Manage all your active and upcoming group trips.'],
+    members:    ['Members', 'Track and manage your group members.'],
+    itinerary:  ['Itinerary', 'Plan and share daily trip schedules.'],
+    guides:     ['Assigned Guides', 'The experts leading your group adventures.'],
+    reports:    ['Reports', 'Your group stats and leader achievements.'],
+    settings:   ['Settings', 'Manage your group leader profile.']
+  };
+
+  window.navigateTo = function (page) {
+    document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+    const target = document.getElementById('section-' + page);
+    if (target) target.classList.add('active');
+    if (pageTitles[page]) {
+      document.getElementById('pageTitle').textContent = pageTitles[page][0];
+      document.getElementById('pageSubtitle').textContent = pageTitles[page][1];
+      const pm = document.getElementById('pageTitleMobile');
+      const psm = document.getElementById('pageSubtitleMobile');
+      if (pm) pm.textContent = pageTitles[page][0];
+      if (psm) psm.textContent = pageTitles[page][1];
+    }
+    document.querySelectorAll('.sidebar .nav-link').forEach(l => {
+      l.classList.remove('active');
+      if (l.getAttribute('data-page') === page) l.classList.add('active');
+    });
+    document.querySelectorAll('.mobile-nav-bar .nav-btn').forEach(b => {
+      b.classList.remove('active');
+      if (b.getAttribute('data-page') === page) b.classList.add('active');
+    });
+    const scroll = document.querySelector('.dashboard-body-scroll');
+    if (scroll) scroll.scrollTop = 0;
+  };
+
+  document.querySelectorAll('.sidebar .nav-link').forEach(l => {
+    l.addEventListener('click', function (e) {
+      e.preventDefault();
+      const p = this.getAttribute('data-page');
+      if (p) navigateTo(p);
+    });
+  });
+  document.querySelectorAll('.mobile-nav-bar .nav-btn').forEach(b => {
+    b.addEventListener('click', function (e) {
+      const p = b.getAttribute('data-page');
+      if (p) { e.preventDefault(); navigateTo(p); }
+    });
+  });
+
+  const datePicker = document.getElementById('dateRangePicker');
+  const dateText = document.getElementById('dateRangeText');
+  if (datePicker) {
+    datePicker.addEventListener('click', function () {
+      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      const today = new Date();
+      const formatted = today.getDate() + ' ' + months[today.getMonth()] + ' ' + today.getFullYear();
+      dateText.textContent = 'Today, ' + formatted;
+    });
+  }
+
+  const bell = document.getElementById('notificationBell');
+  const drop = document.getElementById('notificationDropdown');
+  if (bell && drop) {
+    bell.addEventListener('click', function (e) {
+      e.stopPropagation();
+      drop.classList.toggle('show');
+    });
+    document.addEventListener('click', function (e) {
+      if (!bell.contains(e.target)) drop.classList.remove('show');
+    });
+  }
+
+  const prof = document.getElementById('profileDropdown');
+  const profMenu = document.getElementById('adminDropdownMenu');
+  if (prof && profMenu) {
+    prof.addEventListener('click', function (e) {
+      e.stopPropagation();
+      profMenu.classList.toggle('show');
+    });
+    document.addEventListener('click', function (e) {
+      if (!prof.contains(e.target)) profMenu.classList.remove('show');
+    });
+  }
+
+  console.log('🏔️ Group Leader Dashboard ready');
+});
+
+function handleLogout(e) {
+  if (e) e.preventDefault();
+  try {
+    sessionStorage.removeItem('stackly_session');
+    localStorage.removeItem('stackly_session');
+  } catch (err) {}
+  window.location.replace('login.html');
+}
+</script>
+
+<!-- CHARTS -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const colors = { forest: '#1f3d2b', amber: '#d98e3f', amberDark: '#b8742c', sage: '#a8b89a' };
+
+  const signupEl = document.getElementById('signupChart');
+  if (signupEl) {
+    new Chart(signupEl, {
+      type: 'line',
+      data: {
+        labels: ['W1','W2','W3','W4','W5','W6'],
+        datasets: [{
+          data: [4, 7, 6, 10, 8, 12],
+          borderColor: colors.amber,
+          backgroundColor: 'rgba(217,142,63,0.15)',
+          tension: 0.4, borderWidth: 2.5, pointRadius: 3,
+          pointBackgroundColor: colors.amber, fill: true
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: { beginAtZero: true, grid: { color: '#ece8dd' }, ticks: { font: { size: 8 } } },
+          x: { grid: { display: false }, ticks: { font: { size: 8 } } }
+        }
+      }
+    });
+  }
+
+  const catEl = document.getElementById('categoryChart');
+  if (catEl) {
+    new Chart(catEl, {
+      type: 'doughnut',
+      data: {
+        labels: ['Trek','Raft','Safari','City'],
+        datasets: [{
+          data: [3, 1, 1, 1],
+          backgroundColor: [colors.amber, colors.amberDark, colors.forest, colors.sage],
+          borderWidth: 2, borderColor: '#fff', hoverOffset: 5
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, padding: 6, font: { size: 8 } } } },
+        cutout: '60%'
+      }
+    });
+  }
+
+  const satEl = document.getElementById('satisfactionChart');
+  if (satEl) {
+    new Chart(satEl, {
+      type: 'bar',
+      data: {
+        labels: ['5★','4★','3★','2★','1★'],
+        datasets: [{
+          data: [28, 14, 4, 1, 1],
+          backgroundColor: colors.amber,
+          borderRadius: 6,
+          barThickness: 14
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: { beginAtZero: true, grid: { color: '#ece8dd' }, ticks: { font: { size: 8 } } },
+          x: { grid: { display: false }, ticks: { font: { size: 8 } } }
+        }
+      }
+    });
+  }
+});
+</script>
+
+<!-- ===== BFCACHE GUARD (back-button after logout) ===== -->
+<script>
+window.addEventListener('pageshow', function (e) {
+  if (!e.persisted) return;
+  const raw = sessionStorage.getItem('stackly_session') || localStorage.getItem('stackly_session');
+  const session = raw ? JSON.parse(raw) : null;
+  const valid = session &&
+                session.authenticated === true &&
+                session.expiresAt > Date.now() &&
+                session.role === 'group-leader';
+  if (!valid) window.location.replace('login.html');
+});
+</script>
+
+</body>
+</html>

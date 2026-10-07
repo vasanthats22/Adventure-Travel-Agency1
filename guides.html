@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Adventure Travel Agency - Guides</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+
+<style>
+  :root {
+    --adv-primary:    #1f3d2b;
+    --adv-primary-d:  #152a1e;
+    --adv-accent:     #d98e3f;
+    --adv-accent-d:   #b8742c;
+    --adv-sage:       #a8b89a;
+    --adv-cream:      #d4cfc0;
+    --adv-bg:         #f5f2ea;
+    --adv-card:       #ffffff;
+    --adv-text:       #1f3d2b;
+    --adv-text-soft:  #5a6b5c;
+    --adv-border:     rgba(31, 61, 43, 0.12);
+    --adv-shadow:     rgba(15, 30, 22, 0.08);
+    --adv-shadow-hi:  rgba(15, 30, 22, 0.16);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', 'Segoe UI', Roboto, sans-serif; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--adv-bg);
+    color: var(--adv-text);
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  #header-placeholder { width: 100%; }
+  #footer-placeholder { width: 100%; }
+
+  .g-wrap { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+  .g-section { padding: 90px 0; position: relative; }
+
+  .g-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(217, 142, 63, 0.14);
+    color: var(--adv-accent-d);
+    padding: 6px 16px; border-radius: 50px;
+    font-size: 0.7rem; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .g-tag i { font-size: 0.72rem; }
+
+  .g-title {
+    font-size: clamp(1.7rem, 4vw, 2.6rem);
+    font-weight: 900; color: var(--adv-text);
+    letter-spacing: -0.03em; line-height: 1.15;
+    margin-bottom: 14px;
+  }
+  .g-title span { color: var(--adv-accent); }
+
+  .g-sub {
+    font-size: 0.98rem; color: var(--adv-text-soft);
+    max-width: 620px; line-height: 1.7;
+  }
+
+  .g-center { text-align: center; }
+  .g-center .g-sub { margin-left: auto; margin-right: auto; }
+
+  .g-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 13px 28px; border-radius: 50px;
+    font-weight: 700; font-size: 0.85rem;
+    text-decoration: none; transition: all 0.3s ease;
+    border: 2px solid transparent; cursor: pointer;
+    letter-spacing: 0.3px;
+  }
+  .g-btn.primary {
+    background: var(--adv-accent); color: var(--adv-primary-d);
+    box-shadow: 0 8px 22px rgba(217, 142, 63, 0.35);
+  }
+  .g-btn.primary:hover {
+    background: #e8a558; transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(217, 142, 63, 0.5);
+  }
+  .g-btn.outline {
+    background: transparent; color: var(--adv-text);
+    border-color: rgba(31, 61, 43, 0.25);
+  }
+  .g-btn.outline:hover {
+    background: var(--adv-primary); color: #fff;
+    border-color: var(--adv-primary); transform: translateY(-3px);
+  }
+  .g-btn.ghost {
+    background: rgba(255, 255, 255, 0.1); color: #fff;
+    border-color: rgba(217, 142, 63, 0.5);
+    backdrop-filter: blur(8px);
+  }
+  .g-btn.ghost:hover {
+    background: rgba(217, 142, 63, 0.25);
+    border-color: var(--adv-accent);
+    transform: translateY(-3px);
+  }
+
+  /* =========================================================
+     SECTION 1 — HERO
+     ========================================================= */
+  .g-hero {
+    position: relative;
+    padding: 130px 0 90px;
+    overflow: hidden;
+    background: linear-gradient(180deg, #f5f2ea 0%, #ede8dd 100%);
+  }
+  .g-hero-shape {
+    position: absolute;
+    top: -100px; right: -120px;
+    width: 480px; height: 480px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(217, 142, 63, 0.18), transparent 70%);
+    pointer-events: none;
+  }
+  .g-hero-inner {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+  }
+  .g-hero-left .g-title { margin-bottom: 20px; }
+  .g-hero-left .g-sub { margin-bottom: 32px; }
+  .g-hero-btns {
+    display: flex; gap: 14px; flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+  .g-hero-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    border-top: 1px solid rgba(31, 61, 43, 0.12);
+    padding-top: 26px;
+  }
+  .g-hero-stat h4 {
+    font-size: 1.7rem; font-weight: 900;
+    color: var(--adv-primary); line-height: 1;
+    margin-bottom: 4px;
+  }
+  .g-hero-stat p {
+    font-size: 0.72rem; color: var(--adv-text-soft);
+    text-transform: uppercase; letter-spacing: 0.6px;
+    font-weight: 600;
+  }
+
+  .g-hero-right {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 14px;
+    height: 560px;
+  }
+  .g-hero-img-main {
+    grid-row: 1 / 3;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    border-radius: 24px;
+    box-shadow: 0 30px 60px rgba(15, 30, 22, 0.25);
+  }
+  .g-hero-img-sm-1,
+  .g-hero-img-sm-2 {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(15, 30, 22, 0.18);
+  }
+  .g-hero-badge-float {
+    position: absolute;
+    top: -20px; left: -30px;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 14px 18px;
+    box-shadow: 0 15px 40px rgba(15, 30, 22, 0.18);
+    display: flex; align-items: center; gap: 12px;
+    animation: floatY 3.5s ease-in-out infinite;
+    z-index: 5;
+  }
+  @keyframes floatY {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  .g-hero-badge-float i {
+    width: 40px; height: 40px;
+    background: linear-gradient(135deg, var(--adv-accent), var(--adv-accent-d));
+    color: #fff; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+  }
+  .g-hero-badge-float-text p:first-child {
+    font-size: 0.65rem; color: var(--adv-text-soft);
+    text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;
+  }
+  .g-hero-badge-float-text p:last-child {
+    font-size: 0.9rem; font-weight: 800;
+    color: var(--adv-primary);
+  }
+
+  /* =========================================================
+     SECTION 2 — MARQUEE
+     ========================================================= */
+  .g-marquee {
+    background: var(--adv-primary);
+    padding: 22px 0;
+    overflow: hidden;
+    position: relative;
+  }
+  .g-marquee-track {
+    display: flex;
+    gap: 60px;
+    animation: marquee 30s linear infinite;
+    width: max-content;
+  }
+  .g-marquee-track span {
+    font-family: 'Caveat', cursive;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--adv-cream);
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .g-marquee-track span i { color: var(--adv-accent); font-size: 1rem; }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* =========================================================
+     SECTION 3 — TEAM GRID
+     ========================================================= */
+  .g-team-scroll {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(280px, 1fr);
+    gap: 22px;
+    overflow-x: auto;
+    padding: 10px 4px 24px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+  }
+  .g-team-scroll::-webkit-scrollbar { height: 6px; }
+  .g-team-scroll::-webkit-scrollbar-thumb { background: var(--adv-accent); border-radius: 10px; }
+  .g-team-scroll::-webkit-scrollbar-track { background: rgba(31, 61, 43, 0.08); border-radius: 10px; }
+
+  .g-guide-card {
+    scroll-snap-align: start;
+    background: var(--adv-card);
+    border-radius: 22px;
+    overflow: hidden;
+    border: 1px solid var(--adv-border);
+    transition: all 0.35s ease;
+    min-width: 280px;
+    position: relative;
+  }
+  .g-guide-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 24px 50px var(--adv-shadow-hi);
+    border-color: var(--adv-accent);
+  }
+  .g-guide-img-wrap {
+    position: relative;
+    height: 280px;
+    overflow: hidden;
+  }
+  .g-guide-img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+  .g-guide-card:hover .g-guide-img { transform: scale(1.08); }
+  .g-guide-img-wrap::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 55%, rgba(21, 42, 30, 0.85) 100%);
+  }
+  .g-guide-rating {
+    position: absolute;
+    top: 14px; right: 14px;
+    background: rgba(255, 255, 255, 0.95);
+    color: var(--adv-primary);
+    padding: 5px 12px; border-radius: 30px;
+    font-size: 0.75rem; font-weight: 800;
+    display: flex; align-items: center; gap: 5px;
+    backdrop-filter: blur(8px);
+    z-index: 2;
+  }
+  .g-guide-rating i { color: var(--adv-accent); font-size: 0.7rem; }
+
+  .g-guide-status {
+    position: absolute;
+    top: 14px; left: 14px;
+    padding: 5px 12px; border-radius: 30px;
+    font-size: 0.62rem; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    z-index: 2;
+  }
+  .g-guide-status.available { background: rgba(76, 175, 80, 0.95); color: #fff; }
+  .g-guide-status.ontour    { background: rgba(217, 142, 63, 0.95); color: var(--adv-primary-d); }
+
+  .g-guide-info {
+    position: absolute;
+    bottom: 14px; left: 18px; right: 18px;
+    z-index: 2; color: #ffffff;
+  }
+  .g-guide-info h3 {
+    font-size: 1.15rem; font-weight: 800;
+    letter-spacing: -0.01em;
+    margin-bottom: 2px;
+  }
+  .g-guide-info p {
+    font-size: 0.72rem; color: var(--adv-sage);
+    font-weight: 600;
+  }
+  .g-guide-body {
+    padding: 20px 22px 22px;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .g-guide-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .g-guide-tags span {
+    background: rgba(217, 142, 63, 0.12);
+    color: var(--adv-accent-d);
+    padding: 3px 10px; border-radius: 20px;
+    font-size: 0.65rem; font-weight: 700;
+  }
+  .g-guide-body p {
+    font-size: 0.82rem; color: var(--adv-text-soft);
+    line-height: 1.6;
+  }
+  .g-guide-body .g-btn {
+    padding: 10px 16px; font-size: 0.78rem;
+    justify-content: center;
+  }
+  .g-team-cta {
+    text-align: center;
+    margin-top: 40px;
+  }
+
+  /* =========================================================
+     SECTION 4 — WHY (3 images + button)
+     ========================================================= */
+  .g-why {
+    background: var(--adv-primary);
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+  .g-why::before {
+    content: '';
+    position: absolute;
+    top: -150px; left: -100px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(217, 142, 63, 0.15), transparent 70%);
+    border-radius: 50%;
+  }
+  .g-why .g-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 60px;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+  }
+  .g-why-imgs { display: grid; grid-template-columns: 1fr; gap: 16px; }
+  .g-why-img-1 {
+    width: 100%;
+    border-radius: 24px;
+    object-fit: cover;
+    height: 320px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+  }
+  .g-why-imgs-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .g-why-img-2, .g-why-img-3 {
+    width: 100%;
+    border-radius: 20px;
+    object-fit: cover;
+    height: 180px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+  }
+  .g-why .g-title { color: #ffffff; }
+  .g-why .g-sub { color: var(--adv-sage); }
+  .g-why-list {
+    display: flex; flex-direction: column;
+    gap: 22px; margin-top: 32px;
+  }
+  .g-why-item {
+    display: flex; gap: 20px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid rgba(168, 184, 154, 0.15);
+    transition: transform 0.3s;
+  }
+  .g-why-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .g-why-item:hover { transform: translateX(6px); }
+  .g-why-num {
+    font-family: 'Caveat', cursive;
+    font-size: 2.6rem;
+    font-weight: 700;
+    color: var(--adv-accent);
+    line-height: 1;
+    min-width: 50px;
+  }
+  .g-why-text h4 {
+    font-size: 1.05rem; font-weight: 800;
+    color: #ffffff; margin-bottom: 5px;
+  }
+  .g-why-text p {
+    font-size: 0.85rem; color: var(--adv-sage);
+    line-height: 1.65;
+  }
+  .g-why-cta {
+    margin-top: 34px;
+    display: flex; gap: 14px; flex-wrap: wrap;
+  }
+
+  /* =========================================================
+     SECTION 5 — SPECIALTIES (hero image + icon grid + CTA)
+     ========================================================= */
+  .g-spec-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    margin-top: 50px;
+  }
+  .g-spec-hero-img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    border-radius: 24px;
+    box-shadow: 0 20px 50px var(--adv-shadow-hi);
+  }
+  .g-specialties {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+  .g-spec-card {
+    background: var(--adv-card);
+    border: 1px solid var(--adv-border);
+    border-radius: 20px;
+    padding: 28px 24px;
+    transition: all 0.35s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .g-spec-card::after {
+    content: attr(data-num);
+    position: absolute;
+    top: -10px; right: 14px;
+    font-family: 'Caveat', cursive;
+    font-size: 4.5rem;
+    font-weight: 700;
+    color: rgba(217, 142, 63, 0.1);
+    line-height: 1;
+    pointer-events: none;
+  }
+  .g-spec-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--adv-accent);
+    box-shadow: 0 20px 40px var(--adv-shadow-hi);
+  }
+  .g-spec-icon {
+    width: 54px; height: 54px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(217, 142, 63, 0.18), rgba(217, 142, 63, 0.05));
+    color: var(--adv-accent);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem;
+    margin-bottom: 18px;
+    transition: all 0.4s ease;
+    position: relative; z-index: 2;
+  }
+  .g-spec-card:hover .g-spec-icon {
+    background: var(--adv-accent); color: #fff;
+    transform: rotate(-6deg) scale(1.08);
+  }
+  .g-spec-card h4 {
+    font-size: 1rem; font-weight: 800;
+    color: var(--adv-text); margin-bottom: 8px;
+    position: relative; z-index: 2;
+  }
+  .g-spec-card p {
+    font-size: 0.82rem; color: var(--adv-text-soft);
+    line-height: 1.6;
+    position: relative; z-index: 2;
+  }
+  .g-spec-cta {
+    text-align: center;
+    margin-top: 44px;
+    display: flex; gap: 14px;
+    justify-content: center; flex-wrap: wrap;
+  }
+
+  /* =========================================================
+     SECTION 6 — FEATURED (with thumbnails + buttons)
+     ========================================================= */
+  .g-featured {
+    background: linear-gradient(180deg, var(--adv-bg) 0%, #ede8dd 100%);
+  }
+  .g-featured-card {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    border-radius: 28px;
+    overflow: hidden;
+    background: var(--adv-card);
+    border: 1px solid var(--adv-border);
+    box-shadow: 0 24px 60px var(--adv-shadow);
+    margin-top: 40px;
+  }
+  .g-featured-left { display: flex; flex-direction: column; }
+  .g-featured-img-wrap {
+    position: relative;
+    flex: 1;
+    min-height: 340px;
+    overflow: hidden;
+  }
+  .g-featured-img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    position: absolute; inset: 0;
+    transition: transform 0.6s ease, opacity 0.3s ease;
+  }
+  .g-featured-card:hover .g-featured-img { transform: scale(1.05); }
+  .g-featured-badge {
+    position: absolute;
+    top: 24px; left: 24px;
+    background: var(--adv-accent);
+    color: var(--adv-primary-d);
+    padding: 8px 18px; border-radius: 30px;
+    font-size: 0.7rem; font-weight: 800;
+    letter-spacing: 1px; text-transform: uppercase;
+    box-shadow: 0 8px 20px rgba(217, 142, 63, 0.4);
+    z-index: 2;
+  }
+  .g-featured-thumbs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    padding: 12px;
+    background: #f5f2ea;
+  }
+  .g-featured-thumb {
+    width: 100%;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+    border: 2px solid transparent;
+  }
+  .g-featured-thumb:hover {
+    border-color: var(--adv-accent);
+    transform: scale(1.03);
+  }
+  .g-featured-body {
+    padding: 48px 44px;
+    display: flex; flex-direction: column;
+    justify-content: center;
+    gap: 18px;
+  }
+  .g-featured-quote {
+    font-family: 'Caveat', cursive;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--adv-accent-d);
+    line-height: 1.3;
+  }
+  .g-featured-body h3 {
+    font-size: 1.7rem; font-weight: 900;
+    color: var(--adv-text);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+  .g-featured-body .role {
+    font-size: 0.82rem; font-weight: 700;
+    color: var(--adv-accent-d);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+  .g-featured-body p {
+    font-size: 0.92rem;
+    color: var(--adv-text-soft);
+    line-height: 1.75;
+  }
+  .g-featured-stats {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 22px 0;
+    border-top: 1px solid rgba(31, 61, 43, 0.1);
+    border-bottom: 1px solid rgba(31, 61, 43, 0.1);
+  }
+  .g-featured-stat h4 {
+    font-size: 1.4rem; font-weight: 900;
+    color: var(--adv-primary);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .g-featured-stat p {
+    font-size: 0.7rem; color: var(--adv-text-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+  }
+  .g-featured-btns {
+    display: flex; gap: 12px;
+    flex-wrap: wrap; margin-top: 8px;
+  }
+
+  /* =========================================================
+     SECTION 7 — TESTIMONIALS (with CTA)
+     ========================================================= */
+  .g-testis {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 50px;
+  }
+  .g-testi {
+    background: var(--adv-card);
+    border: 1px solid var(--adv-border);
+    border-radius: 24px 24px 24px 4px;
+    padding: 30px 26px;
+    position: relative;
+    transition: all 0.35s ease;
+  }
+  .g-testi:hover {
+    transform: translateY(-6px);
+    border-color: var(--adv-accent);
+    box-shadow: 0 18px 40px var(--adv-shadow-hi);
+  }
+  .g-testi-stars {
+    color: var(--adv-accent);
+    font-size: 0.85rem;
+    margin-bottom: 14px;
+    display: flex; gap: 3px;
+  }
+  .g-testi-text {
+    font-size: 0.9rem;
+    color: var(--adv-text);
+    line-height: 1.7;
+    margin-bottom: 22px;
+    font-style: italic;
+  }
+  .g-testi-text::before {
+    content: '"';
+    font-family: 'Caveat', cursive;
+    font-size: 2rem;
+    color: var(--adv-accent);
+    line-height: 0;
+    margin-right: 4px;
+    vertical-align: -8px;
+  }
+  .g-testi-author {
+    display: flex; align-items: center; gap: 12px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(31, 61, 43, 0.08);
+  }
+  .g-testi-author img {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--adv-accent);
+  }
+  .g-testi-author-text p:first-child {
+    font-size: 0.85rem; font-weight: 800;
+    color: var(--adv-text);
+  }
+  .g-testi-author-text p:last-child {
+    font-size: 0.7rem; color: var(--adv-text-soft);
+    font-weight: 500;
+  }
+  .g-testi-cta {
+    text-align: center;
+    margin-top: 48px;
+    display: flex; gap: 14px;
+    justify-content: center; flex-wrap: wrap;
+  }
+
+  /* =========================================================
+     SECTION 8 — CTA
+     ========================================================= */
+  .g-cta {
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    padding: 110px 24px;
+  }
+  .g-cta-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('at1.webp');
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
+  }
+  .g-cta-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(31, 61, 43, 0.94) 0%, rgba(21, 42, 30, 0.9) 100%);
+    z-index: 2;
+  }
+  .g-cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(217, 142, 63, 0.35) 1px, transparent 1px);
+    background-size: 34px 34px;
+    opacity: 0.18;
+    z-index: 3;
+  }
+  .g-cta-inner {
+    position: relative; z-index: 4;
+    max-width: 780px; margin: 0 auto;
+  }
+  .g-cta-script {
+    font-family: 'Caveat', cursive;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    color: var(--adv-accent);
+    margin-bottom: 12px;
+    font-weight: 700;
+  }
+  .g-cta h2 {
+    color: #ffffff;
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    margin-bottom: 18px;
+  }
+  .g-cta p {
+    color: var(--adv-cream);
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 34px;
+  }
+  .g-cta-btns {
+    display: flex; gap: 14px;
+    justify-content: center; flex-wrap: wrap;
+    margin-bottom: 44px;
+  }
+  .g-cta-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 620px;
+    margin: 0 auto;
+    padding-top: 30px;
+    border-top: 1px solid rgba(217, 142, 63, 0.3);
+  }
+  .g-cta-stat h4 {
+    font-size: 1.9rem; font-weight: 900;
+    color: var(--adv-accent);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .g-cta-stat p {
+    font-size: 0.7rem; color: var(--adv-sage);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  /* =========================================================
+     RESPONSIVE
+     ========================================================= */
+  @media (max-width: 1100px) {
+    .g-hero-inner { grid-template-columns: 1fr; gap: 40px; }
+    .g-hero-right { grid-template-columns: 1.5fr 1fr; height: 420px; }
+    .g-hero-badge-float { top: -14px; left: -14px; padding: 10px 14px; }
+    .g-why .g-wrap { grid-template-columns: 1fr; gap: 40px; }
+    .g-specialties { grid-template-columns: repeat(2, 1fr); }
+    .g-featured-card { grid-template-columns: 1fr; }
+    .g-featured-img-wrap { min-height: 340px; }
+    .g-featured-body { padding: 36px 32px; }
+    .g-testis { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 768px) {
+    .g-section { padding: 70px 0; }
+    .g-wrap { padding: 0 20px; }
+    .g-hero { padding: 110px 0 70px; }
+
+    .g-hero-right {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1.5fr 1fr;
+      height: auto;
+      min-height: 420px;
+      gap: 10px;
+    }
+    .g-hero-img-main { grid-row: 1 / 2; grid-column: 1 / 3; height: 260px; }
+    .g-hero-img-sm-1 { height: 130px; }
+    .g-hero-img-sm-2 { height: 130px; }
+    .g-hero-badge-float { top: -10px; left: -10px; padding: 8px 12px; }
+    .g-hero-badge-float i { width: 32px; height: 32px; font-size: 0.85rem; }
+    .g-hero-badge-float-text p:first-child { font-size: 0.6rem; }
+    .g-hero-badge-float-text p:last-child { font-size: 0.78rem; }
+
+    .g-hero-stats { grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .g-hero-stat h4 { font-size: 1.4rem; }
+
+    .g-why-img-1 { height: 220px; }
+    .g-why-img-2, .g-why-img-3 { height: 130px; }
+    .g-why-num { font-size: 2.2rem; min-width: 42px; }
+    .g-why-item { gap: 14px; padding-bottom: 16px; }
+
+    .g-testis { grid-template-columns: 1fr; }
+    .g-featured-stats { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .g-featured-stat h4 { font-size: 1.15rem; }
+    .g-marquee-track span { font-size: 1.35rem; }
+    .g-cta { padding: 80px 20px; }
+    .g-cta-stats { grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .g-cta-stat h4 { font-size: 1.5rem; }
+  }
+
+  @media (max-width: 480px) {
+    .g-section { padding: 56px 0; }
+    .g-wrap { padding: 0 16px; }
+    .g-hero { padding: 100px 0 60px; }
+    .g-hero-btns { flex-direction: column; width: 100%; }
+    .g-hero-btns .g-btn { width: 100%; justify-content: center; }
+
+    .g-hero-right {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1.5fr 1fr;
+      height: auto;
+      min-height: 340px;
+      gap: 8px;
+    }
+    .g-hero-img-main { height: 200px; border-radius: 18px; }
+    .g-hero-img-sm-1 { height: 100px; border-radius: 14px; }
+    .g-hero-img-sm-2 { height: 100px; border-radius: 14px; }
+
+    .g-hero-badge-float { top: -8px; left: -8px; padding: 6px 10px; border-radius: 12px; gap: 8px; }
+    .g-hero-badge-float i { width: 26px; height: 26px; font-size: 0.7rem; border-radius: 8px; }
+    .g-hero-badge-float-text p:first-child { display: none; }
+    .g-hero-badge-float-text p:last-child { font-size: 0.68rem; }
+
+    .g-why-imgs-row { grid-template-columns: 1fr 1fr; }
+    .g-why-img-1 { height: 180px; }
+    .g-why-img-2, .g-why-img-3 { height: 110px; }
+
+    .g-specialties { grid-template-columns: 1fr; }
+    .g-featured-body { padding: 28px 22px; }
+    .g-featured-body h3 { font-size: 1.35rem; }
+    .g-featured-quote { font-size: 1.25rem; }
+    .g-featured-thumb { height: 64px; }
+    .g-featured-btns { flex-direction: column; width: 100%; }
+    .g-featured-btns .g-btn { width: 100%; justify-content: center; }
+
+    .g-why-cta { flex-direction: column; width: 100%; }
+    .g-why-cta .g-btn { width: 100%; justify-content: center; }
+
+    .g-spec-cta { flex-direction: column; width: 100%; }
+    .g-spec-cta .g-btn { width: 100%; justify-content: center; }
+
+    .g-testi-cta { flex-direction: column; width: 100%; }
+    .g-testi-cta .g-btn { width: 100%; justify-content: center; }
+
+    .g-cta-btns { flex-direction: column; width: 100%; }
+    .g-cta-btns .g-btn { width: 100%; justify-content: center; }
+    .g-cta-stats { grid-template-columns: 1fr; }
+
+    .g-team-cta .g-btn { width: 100%; justify-content: center; }
+  }
+
+  ::-webkit-scrollbar { width: 8px; height: 6px; }
+  ::-webkit-scrollbar-track { background: #f5f2ea; }
+  ::-webkit-scrollbar-thumb { background: var(--adv-accent); border-radius: 10px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--adv-accent-d); }
+</style>
+</head>
+<body>
+
+<div id="header-placeholder"></div>
+
+<!-- =========================================================
+     SECTION 1 — HERO (with counters)
+     ========================================================= -->
+<section class="g-hero">
+  <div class="g-hero-shape"></div>
+  <div class="g-wrap">
+    <div class="g-hero-inner">
+      <div class="g-hero-left" data-aos="fade-right" data-aos-duration="900">
+        <div class="g-tag"><i class="fa-solid fa-person-hiking"></i> Meet Our Guides</div>
+        <h1 class="g-title">Real experts. <span>Real adventures.</span></h1>
+        <p class="g-sub">Every Stackly guide is a certified, local expert who's spent years — often a lifetime — mastering the mountains, rivers, and wild places you'll explore. No scripts. No shortcuts. Just genuine adventure.</p>
+
+        <div class="g-hero-btns">
+          <a href="404.html" class="g-btn primary"><i class="fa-solid fa-user-tie"></i> Book a Guide</a>
+          <a href="404.html" class="g-btn outline"><i class="fa-solid fa-circle-play"></i> Watch Their Stories</a>
+        </div>
+
+        <div class="g-hero-stats">
+          <div class="g-hero-stat">
+            <h4><span class="counter" data-target="47">0</span>+</h4>
+            <p>Expert Guides</p>
+          </div>
+          <div class="g-hero-stat">
+            <h4><span class="counter" data-target="12">0</span></h4>
+            <p>Countries</p>
+          </div>
+          <div class="g-hero-stat">
+            <h4><span class="counter" data-target="4.9" data-decimals="1">0</span>★</h4>
+            <p>Avg Rating</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="g-hero-right" data-aos="fade-left" data-aos-duration="900">
+        <img class="g-hero-img-main" src="climb2.webp" alt="Guide in mountains" loading="lazy">
+        <img class="g-hero-img-sm-1" src="cyclingg2.webp" alt="Trail" loading="lazy">
+        <img class="g-hero-img-sm-2" src="forest2.webp" alt="Camp" loading="lazy">
+        <div class="g-hero-badge-float">
+          <i class="fa-solid fa-shield-halved"></i>
+          <div class="g-hero-badge-float-text">
+            <p>Fully Certified</p>
+            <p>Wilderness First Aid</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 2 — MARQUEE -->
+<div class="g-marquee">
+  <div class="g-marquee-track">
+    <span><i class="fa-solid fa-mountain"></i> Everest Base Camp</span>
+    <span><i class="fa-solid fa-water"></i> Zanskar Rafting</span>
+    <span><i class="fa-solid fa-binoculars"></i> Serengeti Safari</span>
+    <span><i class="fa-solid fa-person-skiing"></i> Annapurna Circuit</span>
+    <span><i class="fa-solid fa-fish"></i> Andaman Diving</span>
+    <span><i class="fa-solid fa-mountain"></i> Everest Base Camp</span>
+    <span><i class="fa-solid fa-water"></i> Zanskar Rafting</span>
+    <span><i class="fa-solid fa-binoculars"></i> Serengeti Safari</span>
+    <span><i class="fa-solid fa-person-skiing"></i> Annapurna Circuit</span>
+    <span><i class="fa-solid fa-fish"></i> Andaman Diving</span>
+  </div>
+</div>
+
+<!-- SECTION 3 — TEAM GRID (+ CTA at bottom) -->
+<section class="g-section">
+  <div class="g-wrap">
+    <div class="g-center" data-aos="fade-up" style="margin-bottom: 40px;">
+      <div class="g-tag"><i class="fa-solid fa-users"></i> The Team</div>
+      <h2 class="g-title">Meet the <span>Adventure Makers</span></h2>
+      <p class="g-sub">Scroll sideways to meet some of the humans who'll be sharing your campfire stories.</p>
+    </div>
+
+    <div class="g-team-scroll">
+      <div class="g-guide-card" data-aos="fade-up" data-aos-delay="50">
+        <div class="g-guide-img-wrap">
+          <span class="g-guide-status available">Available</span>
+          <span class="g-guide-rating"><i class="fa-solid fa-star"></i> 4.9</span>
+          <img class="g-guide-img" src="trek5.webp" alt="Tenzing Sherpa" loading="lazy">
+          <div class="g-guide-info"><h3>Tenzing Sherpa</h3><p>Everest Region · 15 yrs</p></div>
+        </div>
+        <div class="g-guide-body">
+          <div class="g-guide-tags"><span>Everest</span><span>Rescue</span><span>High Alt.</span></div>
+          <p>Summited Everest 8 times. Specializes in EBC treks and high-altitude rescue.</p>
+          <a href="404.html" class="g-btn primary"><i class="fa-solid fa-arrow-right"></i> View Profile</a>
+        </div>
+      </div>
+
+      <div class="g-guide-card" data-aos="fade-up" data-aos-delay="100">
+        <div class="g-guide-img-wrap">
+          <span class="g-guide-status ontour">On Tour</span>
+          <span class="g-guide-rating"><i class="fa-solid fa-star"></i> 4.8</span>
+          <img class="g-guide-img" src="scuba3.webp" alt="Lobsang Dorje" loading="lazy">
+          <div class="g-guide-info"><h3>Lobsang Dorje</h3><p>Ladakh · 12 yrs</p></div>
+        </div>
+        <div class="g-guide-body">
+          <div class="g-guide-tags"><span>Rafting</span><span>Camping</span><span>Ladakh</span></div>
+          <p>Runs the wildest river routes in Zanskar. Class IV specialist and campfire chef.</p>
+          <a href="404.html" class="g-btn primary"><i class="fa-solid fa-arrow-right"></i> View Profile</a>
+        </div>
+      </div>
+
+      <div class="g-guide-card" data-aos="fade-up" data-aos-delay="150">
+        <div class="g-guide-img-wrap">
+          <span class="g-guide-status available">Available</span>
+          <span class="g-guide-rating"><i class="fa-solid fa-star"></i> 5.0</span>
+          <img class="g-guide-img" src="safari4.webp" alt="Amara Nyerere" loading="lazy">
+          <div class="g-guide-info"><h3>Amara Nyerere</h3><p>Serengeti · 10 yrs</p></div>
+        </div>
+        <div class="g-guide-body">
+          <div class="g-guide-tags"><span>Safari</span><span>Wildlife</span><span>Photography</span></div>
+          <p>Big Five tracker with deep knowledge of migration patterns and Maasai culture.</p>
+          <a href="404.html" class="g-btn primary"><i class="fa-solid fa-arrow-right"></i> View Profile</a>
+        </div>
+      </div>
+
+      <div class="g-guide-card" data-aos="fade-up" data-aos-delay="200">
+        <div class="g-guide-img-wrap">
+          <span class="g-guide-status available">Available</span>
+          <span class="g-guide-rating"><i class="fa-solid fa-star"></i> 4.9</span>
+          <img class="g-guide-img" src="river5.webp" alt="Marco Silva" loading="lazy">
+          <div class="g-guide-info"><h3>Marco Silva</h3><p>Andes · 14 yrs</p></div>
+        </div>
+        <div class="g-guide-body">
+          <div class="g-guide-tags"><span>Climbing</span><span>Andes</span><span>Ice</span></div>
+          <p>UIAGM certified. Led over 200 summit pushes in Patagonia and the Andes.</p>
+          <a href="404.html" class="g-btn primary"><i class="fa-solid fa-arrow-right"></i> View Profile</a>
+        </div>
+      </div>
+
+      <div class="g-guide-card" data-aos="fade-up" data-aos-delay="250">
+        <div class="g-guide-img-wrap">
+          <span class="g-guide-status ontour">On Tour</span>
+          <span class="g-guide-rating"><i class="fa-solid fa-star"></i> 4.7</span>
+          <img class="g-guide-img" src="forest3.webp" alt="Sofia Chen" loading="lazy">
+          <div class="g-guide-info"><h3>Sofia Chen</h3><p>Islands · 8 yrs</p></div>
+        </div>
+        <div class="g-guide-body">
+          <div class="g-guide-tags"><span>Diving</span><span>Marine</span><span>Reef</span></div>
+          <p>PADI Master Instructor with 3,000+ logged dives across Indo-Pacific reefs.</p>
+          <a href="404.html" class="g-btn primary"><i class="fa-solid fa-arrow-right"></i> View Profile</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="g-team-cta" data-aos="fade-up">
+      <a href="404.html" class="g-btn primary"><i class="fa-solid fa-users"></i> See All 47 Guides</a>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 4 — WHY (with CTA) -->
+<section class="g-section g-why">
+  <div class="g-wrap">
+    <div class="g-why-imgs" data-aos="fade-right" data-aos-duration="900">
+      <img class="g-why-img-1" src="trek2.webp" alt="Guides on trail" loading="lazy">
+      <div class="g-why-imgs-row">
+        <img class="g-why-img-2" src="safari4.webp" alt="Camp" loading="lazy">
+        <img class="g-why-img-3" src="safari2.webp" alt="Mountain" loading="lazy">
+      </div>
+    </div>
+
+    <div data-aos="fade-left" data-aos-duration="900">
+      <div class="g-tag"><i class="fa-solid fa-star"></i> Why Stackly Guides</div>
+      <h2 class="g-title">Not just anyone.<br>Only the <span>best.</span></h2>
+      <p class="g-sub">We turn away 9 out of 10 guide applicants. Here's what makes the ones who make it different.</p>
+
+      <div class="g-why-list">
+        <div class="g-why-item">
+          <div class="g-why-num">01</div>
+          <div class="g-why-text"><h4>Locally Born & Raised</h4><p>Our guides grew up in the regions they lead — they speak the language, know the culture, and respect the land.</p></div>
+        </div>
+        <div class="g-why-item">
+          <div class="g-why-num">02</div>
+          <div class="g-why-text"><h4>Certified & Tested</h4><p>Every guide holds Wilderness First Responder, avalanche safety, or the equivalent for their specialty.</p></div>
+        </div>
+        <div class="g-why-item">
+          <div class="g-why-num">03</div>
+          <div class="g-why-text"><h4>Maximum 8 Travellers</h4><p>Small groups mean real attention, safer decisions, and better stories at camp.</p></div>
+        </div>
+        <div class="g-why-item">
+          <div class="g-why-num">04</div>
+          <div class="g-why-text"><h4>Fair-Paid & Respected</h4><p>Our guides earn 40% above regional averages. Happy guides = better adventures.</p></div>
+        </div>
+      </div>
+
+      <div class="g-why-cta">
+        <a href="404.html" class="g-btn primary"><i class="fa-solid fa-circle-info"></i> Our Guide Standards</a>
+        <a href="404.html" class="g-btn ghost"><i class="fa-solid fa-file-contract"></i> Read Full Policy</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 5 — SPECIALTIES (+ CTA) -->
+<section class="g-section">
+  <div class="g-wrap">
+    <div class="g-center" data-aos="fade-up">
+      <div class="g-tag"><i class="fa-solid fa-compass"></i> Specialties</div>
+      <h2 class="g-title">Adventures We <span>Master</span></h2>
+      <p class="g-sub">Every guide specializes in at least one discipline. Most master three or more.</p>
+    </div>
+
+    <div class="g-spec-layout">
+      <img class="g-spec-hero-img" src="forest1.webp" alt="Adventure panorama" loading="lazy" data-aos="fade-up">
+
+      <div class="g-specialties">
+        <div class="g-spec-card" data-num="01" data-aos="fade-up" data-aos-delay="50">
+          <div class="g-spec-icon"><i class="fa-solid fa-mountain"></i></div>
+          <h4>Mountain Trekking</h4>
+          <p>High-altitude routes, glacier crossings, and summit pushes across four continents.</p>
+        </div>
+        <div class="g-spec-card" data-num="02" data-aos="fade-up" data-aos-delay="100">
+          <div class="g-spec-icon"><i class="fa-solid fa-water"></i></div>
+          <h4>River Rafting</h4>
+          <p>From gentle Class II floats to Class V white-knuckle rapids on wild rivers.</p>
+        </div>
+        <div class="g-spec-card" data-num="03" data-aos="fade-up" data-aos-delay="150">
+          <div class="g-spec-icon"><i class="fa-solid fa-binoculars"></i></div>
+          <h4>Wildlife Safari</h4>
+          <p>Big Five tracking, birding, and photography-led expeditions across East Africa.</p>
+        </div>
+        <div class="g-spec-card" data-num="04" data-aos="fade-up" data-aos-delay="200">
+          <div class="g-spec-icon"><i class="fa-solid fa-fish"></i></div>
+          <h4>Scuba Diving</h4>
+          <p>Coral reefs, wreck dives, night dives, and PADI certification for all levels.</p>
+        </div>
+        <div class="g-spec-card" data-num="05" data-aos="fade-up" data-aos-delay="250">
+          <div class="g-spec-icon"><i class="fa-solid fa-person-biking"></i></div>
+          <h4>Cycling Tours</h4>
+          <p>Multi-day cross-country routes, mountain biking, and road cycling pilgrimages.</p>
+        </div>
+        <div class="g-spec-card" data-num="06" data-aos="fade-up" data-aos-delay="300">
+          <div class="g-spec-icon"><i class="fa-solid fa-parachute-box"></i></div>
+          <h4>Paragliding</h4>
+          <p>Tandem flights, thermal hunting, and cross-country soaring over alpine valleys.</p>
+        </div>
+        <div class="g-spec-card" data-num="07" data-aos="fade-up" data-aos-delay="350">
+          <div class="g-spec-icon"><i class="fa-solid fa-snowflake"></i></div>
+          <h4>Ski & Snowboard</h4>
+          <p>Backcountry touring, off-piste descents, and avalanche safety instruction.</p>
+        </div>
+        <div class="g-spec-card" data-num="08" data-aos="fade-up" data-aos-delay="400">
+          <div class="g-spec-icon"><i class="fa-solid fa-camera-retro"></i></div>
+          <h4>Photo Expeditions</h4>
+          <p>Golden-hour chasing, wildlife photography, and storytelling-led journeys.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="g-spec-cta" data-aos="fade-up">
+      <a href="404.html" class="g-btn primary"><i class="fa-solid fa-list-check"></i> Browse All Specialties</a>
+      <a href="404.html" class="g-btn outline"><i class="fa-solid fa-graduation-cap"></i> Get Certified</a>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 6 — FEATURED -->
+<section class="g-section g-featured">
+  <div class="g-wrap">
+    <div class="g-center" data-aos="fade-up">
+      <div class="g-tag"><i class="fa-solid fa-medal"></i> Guide of the Month</div>
+      <h2 class="g-title">Featured <span>Adventure Maker</span></h2>
+      <p class="g-sub">Every month we spotlight one guide who's gone above and beyond.</p>
+    </div>
+
+    <div class="g-featured-card" data-aos="fade-up" data-aos-duration="900">
+      <div class="g-featured-left">
+        <div class="g-featured-img-wrap">
+          <span class="g-featured-badge">★ Featured</span>
+          <img class="g-featured-img" id="featuredMainImg" src="scuba1.webp" alt="Featured guide" loading="lazy">
+        </div>
+        <div class="g-featured-thumbs">
+          <img class="g-featured-thumb" src="trek3.webp" alt="thumb 1" loading="lazy" onclick="swapFeatured(this)">
+          <img class="g-featured-thumb" src="trek6.webp" alt="thumb 2" loading="lazy" onclick="swapFeatured(this)">
+          <img class="g-featured-thumb" src="trek9.webp" alt="thumb 3" loading="lazy" onclick="swapFeatured(this)">
+        </div>
+      </div>
+
+      <div class="g-featured-body">
+        <div class="g-featured-quote">"The mountain doesn't care who you are — it only cares that you respect it."</div>
+        <h3>Pemba Sherpa</h3>
+        <div class="role">Lead Himalayan Guide · 18 Years Experience</div>
+        <p>Pemba has summited Everest 11 times and led over 340 treks in the Khumbu region. He's fluent in English, Nepali, Sherpa, and Hindi — and he's famous for turning nervous first-timers into confident mountaineers by day three.</p>
+
+        <div class="g-featured-stats">
+          <div class="g-featured-stat">
+            <h4><span class="counter" data-target="340">0</span>+</h4>
+            <p>Treks Led</p>
+          </div>
+          <div class="g-featured-stat">
+            <h4><span class="counter" data-target="11">0</span></h4>
+            <p>Everest Summits</p>
+          </div>
+          <div class="g-featured-stat">
+            <h4><span class="counter" data-target="0">0</span></h4>
+            <p>Serious Incidents</p>
+          </div>
+        </div>
+
+        <div class="g-featured-btns">
+          <a href="404.html" class="g-btn primary"><i class="fa-solid fa-user-tie"></i> Book Pemba</a>
+          <a href="404.html" class="g-btn outline"><i class="fa-solid fa-book-open"></i> Read Full Story</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 7 — TESTIMONIALS (+ CTA) -->
+<section class="g-section">
+  <div class="g-wrap">
+    <div class="g-center" data-aos="fade-up">
+      <div class="g-tag"><i class="fa-solid fa-quote-left"></i> Traveller Stories</div>
+      <h2 class="g-title">What Our <span>Explorers Say</span></h2>
+      <p class="g-sub">Real words from real travellers who've walked the trail with our guides.</p>
+    </div>
+
+    <div class="g-testis">
+      <div class="g-testi" data-aos="fade-up" data-aos-delay="50">
+        <div class="g-testi-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+        <p class="g-testi-text">Tenzing got us up to Base Camp safely, kept us laughing the whole way, and even taught us a few words of Sherpa. Best guide I've ever had — no question.</p>
+        <div class="g-testi-author">
+          <img src="scuba1.webp" alt="Sarah" loading="lazy">
+          <div class="g-testi-author-text"><p>Sarah Mitchell</p><p>Everest Base Camp · 2025</p></div>
+        </div>
+      </div>
+
+      <div class="g-testi" data-aos="fade-up" data-aos-delay="100">
+        <div class="g-testi-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+        <p class="g-testi-text">Lobsang read the river like a book. Kept us safe on Class IV rapids and cooked the best dal bhat I've had in my life. Worth every rupee.</p>
+        <div class="g-testi-author">
+          <img src="river1.webp" alt="James" loading="lazy">
+          <div class="g-testi-author-text"><p>James Okafor</p><p>Zanskar Rafting · 2025</p></div>
+        </div>
+      </div>
+
+      <div class="g-testi" data-aos="fade-up" data-aos-delay="150">
+        <div class="g-testi-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+        <p class="g-testi-text">Amara spotted all Big Five in three days. Her knowledge of the ecosystem and Maasai culture turned a safari into a real education. Unforgettable.</p>
+        <div class="g-testi-author">
+          <img src="cyclingg1.webp" alt="Elena" loading="lazy">
+          <div class="g-testi-author-text"><p>Elena Rossi</p><p>Serengeti Safari · 2024</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="g-testi-cta" data-aos="fade-up">
+      <a href="404.html" class="g-btn primary"><i class="fa-solid fa-star"></i> Read All 1,200+ Reviews</a>
+      <a href="404.html" class="g-btn outline"><i class="fa-solid fa-pen"></i> Write A Review</a>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 8 — CTA -->
+<section class="g-cta">
+  <div class="g-cta-bg"></div>
+  <div class="g-cta-overlay"></div>
+
+  <div class="g-cta-inner" data-aos="zoom-in" data-aos-duration="900">
+    <div class="g-cta-script">Ready when you are</div>
+    <h2>Let's find your perfect guide.</h2>
+    <p>Tell us where you want to go and what you want to do — we'll match you with a certified guide who's spent years mastering exactly that adventure.</p>
+
+    <div class="g-cta-btns">
+      <a href="404.html" class="g-btn primary"><i class="fa-solid fa-user-tie"></i> Match Me With A Guide</a>
+      <a href="404.html" class="g-btn ghost"><i class="fa-solid fa-compass"></i> Browse All Trips</a>
+    </div>
+
+    <div class="g-cta-stats">
+      <div class="g-cta-stat">
+        <h4><span class="counter" data-target="47">0</span>+</h4>
+        <p>Expert Guides</p>
+      </div>
+      <div class="g-cta-stat">
+        <h4><span class="counter" data-target="12">0</span></h4>
+        <p>Countries</p>
+      </div>
+      <div class="g-cta-stat">
+        <h4><span class="counter" data-target="4.9" data-decimals="1">0</span>★</h4>
+        <p>Avg Rating</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+  AOS.init({
+    duration: 800,
+    easing: 'ease-out-cubic',
+    once: true,
+    offset: 60,
+    disable: function () { return window.innerWidth < 480; }
+  });
+
+  /* ============================================================
+     ANIMATED COUNTERS — count up when scrolled into view
+     ============================================================ */
+  function animateCounter(el) {
+    const target = parseFloat(el.getAttribute('data-target')) || 0;
+    const decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+    const duration = 1600;
+    const startTime = performance.now();
+
+    function update(now) {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      // Ease-out for smoother finish
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const value = target * eased;
+
+      el.textContent = decimals > 0
+        ? value.toFixed(decimals)
+        : Math.floor(value).toLocaleString();
+
+      if (progress < 1) {
+        requestAnimationFrame(update);
+      } else {
+        el.textContent = decimals > 0
+          ? target.toFixed(decimals)
+          : Math.floor(target).toLocaleString();
+      }
+    }
+    requestAnimationFrame(update);
+  }
+
+  // Observe all counters
+  const counters = document.querySelectorAll('.counter');
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        if (!el.dataset.animated) {
+          el.dataset.animated = 'true';
+          animateCounter(el);
+        }
+      }
+    });
+  }, { threshold: 0.3 });
+
+  counters.forEach(c => counterObserver.observe(c));
+
+  /* ============================================================
+     LOAD HEADER & FOOTER
+     ============================================================ */
+  fetch('header.html')
+    .then(r => r.ok ? r.text() : Promise.reject('Header not found'))
+    .then(d => {
+      document.getElementById('header-placeholder').innerHTML = d;
+      initHeader();
+    })
+    .catch(err => console.error('Header load failed:', err));
+
+  fetch('footer.html')
+    .then(r => r.ok ? r.text() : Promise.reject('Footer not found'))
+    .then(d => {
+      document.getElementById('footer-placeholder').innerHTML = d;
+      if (typeof initFooter === 'function') initFooter();
+    })
+    .catch(err => console.error('Footer load failed:', err));
+
+  function initHeader() {
+    const hamburger = document.getElementById('hamburgerBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    if (hamburger && mobileMenu) {
+      hamburger.addEventListener('click', function () {
+        hamburger.classList.toggle('active');
+        mobileMenu.classList.toggle('active');
+        document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+      });
+      document.addEventListener('click', function (e) {
+        if (mobileMenu.classList.contains('active')) {
+          if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) {
+            hamburger.classList.remove('active');
+            mobileMenu.classList.remove('active');
+            document.body.style.overflow = '';
+          }
+        }
+      });
+    }
+  }
+
+  /* ============================================================
+     FEATURED IMAGE SWAPPER
+     ============================================================ */
+  window.swapFeatured = function (thumb) {
+    const main = document.getElementById('featuredMainImg');
+    if (main) {
+      main.style.opacity = '0';
+      setTimeout(() => {
+        main.src = thumb.src;
+        main.style.opacity = '1';
+      }, 180);
+    }
+  };
+
+  window.handleLogout = function (e) {
+    if (e) e.preventDefault();
+    try {
+      sessionStorage.removeItem('stackly_session');
+      localStorage.removeItem('stackly_session');
+    } catch (err) {}
+    window.location.replace('login.html');
+  };
+
+  console.log('🏔️ Guides page ready — counters active, all CTAs in place');
+});
+</script>
+
+</body>
+</html>

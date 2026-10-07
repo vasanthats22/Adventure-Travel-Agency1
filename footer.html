@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
+    <title>Adventure Travel Agency - Footer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', system-ui, sans-serif;
+        }
+
+        body {
+            background: #f5f2ea;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===== DUMMY CONTENT ===== */
+        .main-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+        }
+
+        .main-content h1 {
+            color: #1f3d2b;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        /* ===== FOOTER — WILDERNESS TRAIL ===== */
+        .footer {
+            background: #1f3d2b;                       /* deep forest green */
+            border-top: 3px solid #d98e3f;             /* campfire amber */
+            padding: 60px 32px 30px;
+            margin-top: auto;
+            width: 100%;
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: 40px;
+        }
+
+        /* ===== FOOTER COLUMN 1: Logo + Description ===== */
+        .footer-brand .logo-section {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .footer-brand .logo-img {
+            height: 65px;
+            width: auto;
+            object-fit: contain;
+            display: block;
+        }
+
+        .footer-brand p {
+            color: #d4cfc0;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            max-width: 320px;
+            opacity: 0.85;
+        }
+
+        .footer-brand p .highlight {
+            color: #ffffff;
+            font-weight: 700;
+            opacity: 1;
+        }
+
+        /* ===== SOCIAL ICONS (4 only) ===== */
+        .social-icons {
+            display: flex;
+            gap: 14px;
+            margin-top: 20px;
+        }
+
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(212, 207, 192, 0.08);
+            color: #d4cfc0;
+            border: 1.5px solid #4a6b52;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+
+        .social-icons a:hover {
+            background: #d98e3f;
+            border-color: #d98e3f;
+            color: #1f3d2b;
+            transform: translateY(-4px);
+            box-shadow: 0 6px 20px rgba(217, 142, 63, 0.35);
+        }
+
+        /* ===== FOOTER HEADINGS — FULL UNDERLINE ===== */
+        .footer-heading {
+            color: #ffffff;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+            position: relative;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #d98e3f;
+            width: 100%;
+        }
+
+        /* ===== QUICK LINKS (Header links only) ===== */
+        .footer-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .footer-links li a {
+            color: #d4cfc0;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: all 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            opacity: 0.85;
+            border-bottom: 1px solid transparent;
+            padding-bottom: 2px;
+        }
+
+        .footer-links li a i {
+            font-size: 0.7rem;
+            color: #d98e3f;
+            transition: 0.2s;
+        }
+
+        .footer-links li a:hover {
+            color: #ffffff;
+            transform: translateX(6px);
+            opacity: 1;
+            border-bottom-color: #d98e3f;
+        }
+
+        .footer-links li a:hover i {
+            transform: translateX(4px);
+            color: #e8a558;
+        }
+
+        /* ===== CONTACT INFO ===== */
+        .footer-contact {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .footer-contact li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #d4cfc0;
+            font-size: 0.95rem;
+            opacity: 0.85;
+        }
+
+        .footer-contact li i {
+            width: 20px;
+            color: #d98e3f;
+            font-size: 1rem;
+        }
+
+        .footer-contact li a {
+            color: #d4cfc0;
+            text-decoration: none;
+            transition: 0.2s;
+            border-bottom: 1px solid transparent;
+            padding-bottom: 2px;
+        }
+
+        .footer-contact li a:hover {
+            color: #ffffff;
+            border-bottom-color: #d98e3f;
+        }
+
+        /* ===== FOOTER BOTTOM ===== */
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 40px auto 0;
+            padding-top: 20px;
+            border-top: 1px solid rgba(212, 207, 192, 0.12);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .footer-bottom p {
+            color: #d4cfc0;
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+
+        .footer-bottom-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .footer-bottom-links a {
+            color: #d4cfc0;
+            text-decoration: none;
+            font-size: 0.85rem;
+            opacity: 0.7;
+            transition: 0.2s;
+            border-bottom: 1px solid transparent;
+            padding-bottom: 2px;
+        }
+
+        .footer-bottom-links a:hover {
+            opacity: 1;
+            color: #e8a558;
+            border-bottom-color: #d98e3f;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .footer-container {
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+            }
+
+            .footer-brand p {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .footer {
+                padding: 40px 20px 20px;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .footer-brand .logo-img {
+                height: 55px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+
+            .footer-bottom-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 14px;
+            }
+
+            .social-icons {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .footer-brand .logo-img {
+                height: 45px;
+            }
+
+            .footer-heading {
+                font-size: 1rem;
+            }
+
+            .footer-links li a,
+            .footer-contact li {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ====== FOOTER ====== -->
+    <footer class="footer">
+        <div class="footer-container">
+
+            <!-- COLUMN 1: Logo + Description + Social Icons -->
+            <div class="footer-brand">
+                <a href="index.html" class="logo-section">
+                    <img src="Stacklylogo3.webp" alt="Stackly Adventure Travel" class="logo-img">
+                </a>
+                <p>
+                    <span class="highlight">Explore the wild with confidence.</span>
+                    From mountain treks to ocean dives, we craft unforgettable adventures across the globe.
+                </p>
+                <div class="social-icons">
+                    <a href="404.html" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="404.html" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="404.html" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="404.html" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+
+            <!-- COLUMN 2: Quick Links (matches navbar) -->
+            <div>
+                <h3 class="footer-heading">Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+                    <li><a href="destinations.html"><i class="fas fa-chevron-right"></i> Destinations</a></li>
+                    <li><a href="adventures.html"><i class="fas fa-chevron-right"></i> Adventures</a></li>
+                    <li><a href="tours.html"><i class="fas fa-chevron-right"></i> Tours</a></li>
+                    <li><a href="guides.html"><i class="fas fa-chevron-right"></i> Guides</a></li>
+                    <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                </ul>
+            </div>
+
+            <!-- COLUMN 3: Our Adventures (All redirect to 404.html) -->
+            <div>
+                <h3 class="footer-heading">Our Adventures</h3>
+                <ul class="footer-links">
+                    <li><a href="404.html"><i class="fas fa-chevron-right"></i> Mountain Trekking</a></li>
+                    <li><a href="404.html"><i class="fas fa-chevron-right"></i> Wildlife Safari</a></li>
+                    <li><a href="404.html"><i class="fas fa-chevron-right"></i> River Rafting</a></li>
+                    <li><a href="404.html"><i class="fas fa-chevron-right"></i> Scuba Diving</a></li>
+                    <li><a href="404.html"><i class="fas fa-chevron-right"></i> Desert Expeditions</a></li>
+                </ul>
+            </div>
+
+            <!-- COLUMN 4: Contact Info (All redirect to 404.html) -->
+            <div>
+                <h3 class="footer-heading">Get In Touch</h3>
+                <ul class="footer-contact">
+                    <li><i class="fas fa-map-marker-alt"></i> <a href="404.html">45 Summit Road, Basecamp City</a></li>
+                    <li><i class="fas fa-phone-alt"></i> <a href="404.html">+1 987 654 321</a></li>
+                    <li><i class="fas fa-envelope"></i> <a href="404.html">hello@stacklyadventures.com</a></li>
+                    <li><i class="fas fa-clock"></i> <a href="404.html">Mon - Sat: 8:00 AM - 9:00 PM</a></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- ====== FOOTER BOTTOM ====== -->
+        <div class="footer-bottom">
+            <p>&copy; 2026 <strong style="color:#ffffff;">Stackly Adventures</strong>. All rights reserved.</p>
+            <div class="footer-bottom-links">
+                <a href="404.html">Privacy Policy</a>
+                <a href="404.html">Terms of Service</a>
+                <a href="404.html">Cookie Policy</a>
+                <a href="404.html">Support</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

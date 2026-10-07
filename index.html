@@ -1,0 +1,3100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Adventure Travel Agency - Index</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Caveat:wght@600;700&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+
+<style>
+  :root {
+    --adv-primary:    #1f3d2b;
+    --adv-primary-d:  #152a1e;
+    --adv-accent:     #d98e3f;
+    --adv-accent-d:   #b8742c;
+    --adv-sage:       #a8b89a;
+    --adv-cream:      #d4cfc0;
+    --adv-bg:         #f5f2ea;
+    --adv-card:       #ffffff;
+    --adv-text:       #1f3d2b;
+    --adv-text-soft:  #5a6b5c;
+    --adv-border:     rgba(31, 61, 43, 0.12);
+    --adv-shadow:     rgba(15, 30, 22, 0.08);
+    --adv-shadow-hi:  rgba(15, 30, 22, 0.16);
+    --nav-height:     110px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', 'Segoe UI', Roboto, sans-serif; }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
+  body {
+    background: var(--adv-bg);
+    color: var(--adv-text);
+    overflow-x: hidden;
+    line-height: 1.6;
+    width: 100%;
+    padding-top: var(--nav-height);
+  }
+  #header-placeholder { width: 100%; }
+  #footer-placeholder { width: 100%; }
+
+  @media (max-width: 1100px) { :root { --nav-height: 160px; } }
+  @media (max-width: 768px)  { :root { --nav-height: 95px; } }
+  @media (max-width: 480px)  { :root { --nav-height: 85px; } }
+
+  .h-wrap { max-width: 1300px; margin: 0 auto; padding: 0 24px; }
+  .h-section { padding: 90px 0; position: relative; }
+  .h-section.section-alt { background: #ffffff; }
+
+  .h-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(217, 142, 63, 0.14);
+    color: var(--adv-accent-d);
+    padding: 6px 16px; border-radius: 50px;
+    font-size: 0.7rem; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .h-tag i { font-size: 0.72rem; }
+
+  .h-title {
+    font-size: clamp(1.6rem, 4vw, 2.6rem);
+    font-weight: 900; color: var(--adv-text);
+    letter-spacing: -0.03em; line-height: 1.15;
+    margin-bottom: 14px;
+    word-wrap: break-word;
+  }
+  .h-title span { color: var(--adv-accent); }
+
+  .h-sub {
+    font-size: 0.98rem; color: var(--adv-text-soft);
+    max-width: 620px; line-height: 1.7;
+  }
+  .h-center { text-align: center; }
+  .h-center .h-sub { margin-left: auto; margin-right: auto; }
+
+  .h-section-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-bottom: 50px;
+  }
+  .h-section-head.center-head {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .h-section-cta {
+    text-align: center;
+    margin-top: 50px;
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* Buttons */
+  .h-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 13px 28px; border-radius: 50px;
+    font-weight: 700; font-size: 0.85rem;
+    text-decoration: none; transition: all 0.3s ease;
+    border: 2px solid transparent; cursor: pointer;
+    letter-spacing: 0.3px;
+    font-family: inherit;
+    white-space: nowrap;
+  }
+  .h-btn.primary {
+    background: var(--adv-accent); color: var(--adv-primary-d);
+    box-shadow: 0 8px 22px rgba(217, 142, 63, 0.35);
+  }
+  .h-btn.primary:hover {
+    background: #e8a558; transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(217, 142, 63, 0.5);
+  }
+  .h-btn.outline {
+    background: transparent; color: var(--adv-text);
+    border-color: rgba(31, 61, 43, 0.25);
+  }
+  .h-btn.outline:hover {
+    background: var(--adv-primary); color: #fff;
+    border-color: var(--adv-primary); transform: translateY(-3px);
+  }
+  .h-btn.ghost {
+    background: rgba(255, 255, 255, 0.15); color: #fff;
+    border-color: rgba(217, 142, 63, 0.6);
+    backdrop-filter: blur(8px);
+  }
+  .h-btn.ghost:hover {
+    background: rgba(217, 142, 63, 0.35);
+    border-color: var(--adv-accent);
+    transform: translateY(-3px);
+  }
+
+  /* =========================================================
+     01 — DIAGONAL SPLIT HERO (lighter left panel)
+     ========================================================= */
+  .h-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: calc(100vh - var(--nav-height));
+    position: relative;
+    overflow: hidden;
+  }
+  .h-hero-left {
+    /* LIGHTER gradient — still forest-themed but not as dark */
+    /* background: linear-gradient(135deg, #659883 0%, #1f3d2b 100%); */
+    background:  url('forest1.webp') center/cover no-repeat;
+    color: #ffffff;
+    padding: 80px 60px 80px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .h-hero-left::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(217, 142, 63, 0.4) 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.15;
+    pointer-events: none;
+  }
+  .h-hero-left-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 620px;
+    margin-left: auto;
+    padding-left: 20px;
+  }
+  .h-hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(217, 142, 63, 0.3);
+    border: 1px solid rgba(217, 142, 63, 0.6);
+    color: #f5cf9a;
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    margin-bottom: 26px;
+  }
+  .h-hero-tag i { font-size: 0.7rem; }
+  .h-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 5.5vw, 4.4rem);
+    font-weight: 900;
+    line-height: 1.04;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  }
+  .h-hero h1 em { color: #e8a558; font-style: italic; }
+  .h-hero p {
+    font-size: clamp(0.98rem, 1.6vw, 1.1rem);
+    color: #e8e2d5;
+    max-width: 480px;
+    margin-bottom: 34px;
+    line-height: 1.7;
+  }
+  .h-hero-btns {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 44px;
+  }
+  .h-hero-left-trust {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    padding-top: 28px;
+    border-top: 1px solid rgba(217, 142, 63, 0.3);
+  }
+  .h-trust-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    color: var(--adv-cream);
+    font-weight: 600;
+  }
+  .h-trust-pill i {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: rgba(217, 142, 63, 0.25);
+    color: #e8a558;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    flex-shrink: 0;
+  }
+
+  .h-hero-right {
+    position: relative;
+    overflow: hidden;
+  }
+  .h-hero-right video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .h-hero-right::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(21, 42, 30, 0.35) 0%, transparent 40%);
+    pointer-events: none;
+    z-index: 2;
+  }
+  .h-hero-mute {
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+    z-index: 5;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: rgba(217, 142, 63, 0.9);
+    color: var(--adv-primary-d);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    transition: all 0.3s ease;
+  }
+  .h-hero-mute:hover { background: #ffffff; transform: scale(1.08); }
+  .h-hero-play-toggle {
+    position: absolute;
+    bottom: 24px;
+    left: 24px;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(21, 42, 30, 0.75);
+    border: 1px solid rgba(217, 142, 63, 0.4);
+    backdrop-filter: blur(10px);
+    padding: 8px 18px 8px 8px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #ffffff;
+  }
+  .h-hero-play-toggle:hover { background: rgba(21, 42, 30, 0.95); }
+  .h-hero-play-toggle-icon {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: var(--adv-accent);
+    color: var(--adv-primary-d);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+  }
+  .h-hero-play-toggle span {
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  /* =========================================================
+     02 — NUMBERS ROW
+     ========================================================= */
+  .h-numbers {
+    background: #f5f2ea;
+    padding: 70px 0;
+  }
+  .h-numbers-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--adv-border);
+    border-bottom: 1px solid var(--adv-border);
+  }
+  .h-number-cell {
+    padding: 40px 26px;
+    border-right: 1px solid var(--adv-border);
+    position: relative;
+    transition: all 0.3s ease;
+    display: block;
+  }
+  .h-number-cell:last-child { border-right: none; }
+  .h-number-cell:hover {
+    background: var(--adv-primary);
+    color: #ffffff;
+  }
+  .h-number-cell:hover .h-number-icon { color: var(--adv-accent); }
+  .h-number-cell:hover .h-number-label { color: var(--adv-sage); }
+  .h-number-cell:hover .h-number-detail { color: var(--adv-cream); }
+
+  .h-number-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+  }
+  .h-number-icon {
+    color: var(--adv-accent);
+    font-size: 1.6rem;
+    transition: color 0.3s ease;
+  }
+  .h-number-badge {
+    font-size: 0.68rem;
+    background: rgba(217, 142, 63, 0.14);
+    color: var(--adv-accent-d);
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 800;
+    letter-spacing: 0.4px;
+    transition: all 0.3s ease;
+  }
+  .h-number-cell:hover .h-number-badge {
+    background: rgba(217, 142, 63, 0.25);
+    color: var(--adv-accent);
+  }
+  .h-number-value {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 3.8vw, 3.2rem);
+    font-weight: 900;
+    line-height: 1;
+    color: var(--adv-primary);
+    letter-spacing: -0.03em;
+    margin-bottom: 8px;
+    transition: color 0.3s ease;
+  }
+  .h-number-cell:hover .h-number-value { color: var(--adv-accent); }
+  .h-number-label {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: var(--adv-text);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    transition: color 0.3s ease;
+  }
+  .h-number-detail {
+    font-size: 0.78rem;
+    color: var(--adv-text-soft);
+    line-height: 1.55;
+    transition: color 0.3s ease;
+  }
+
+  /* =========================================================
+     03 — VERTICALS (MINIMIZED cards — smaller aspect)
+     ========================================================= */
+  .h-verticals {
+    background: #ffffff;
+    padding: 90px 0;
+  }
+  .h-verticals-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .h-vertical-card {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    aspect-ratio: 5/4;              /* ⬅ MINIMIZED — was 4/5 tall */
+    text-decoration: none;
+    color: #ffffff;
+    display: block;
+    box-shadow: 0 15px 40px rgba(15, 30, 22, 0.15);
+    transition: box-shadow 0.4s ease, transform 0.4s ease;
+  }
+  .h-vertical-card:hover {
+    box-shadow: 0 22px 55px rgba(217, 142, 63, 0.28);
+    transform: translateY(-4px);
+  }
+  .h-vertical-card img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    position: absolute;
+    inset: 0;
+    transition: transform 0.7s ease;
+    display: block;
+  }
+  .h-vertical-card:hover img { transform: scale(1.05); }
+  .h-vertical-card::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(21, 42, 30, 0.05) 0%, rgba(21, 42, 30, 0.85) 100%);
+    z-index: 1;
+  }
+  .h-vertical-content {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 26px 26px 24px;
+    z-index: 2;
+  }
+  .h-vertical-content .h-tag {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+    backdrop-filter: blur(8px);
+    margin-bottom: 10px;
+    padding: 4px 12px;
+    font-size: 0.65rem;
+  }
+  .h-vertical-content h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.25rem, 2.2vw, 1.6rem);    /* ⬅ smaller */
+    font-weight: 900;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  }
+  .h-vertical-content h2 em { color: #e8a558; font-style: italic; }
+  .h-vertical-content p {
+    color: var(--adv-cream);
+    font-size: 0.8rem;                            /* ⬅ smaller */
+    line-height: 1.55;
+    margin-bottom: 14px;
+    max-width: 320px;
+    opacity: 0.95;
+  }
+  /* ⬇ ONLY the button is clickable now */
+  .h-vertical-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    border-radius: 50px;
+    background: var(--adv-accent);
+    color: var(--adv-primary-d);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(217, 142, 63, 0.4);
+  }
+  .h-vertical-cta:hover {
+    background: #ffffff;
+    transform: translateX(4px);
+    box-shadow: 0 12px 28px rgba(217, 142, 63, 0.6);
+  }
+
+  /* =========================================================
+     04 — MAGNETIC CARD RAIL
+     ========================================================= */
+  .h-rail {
+    background: linear-gradient(180deg, #f5f2ea 0%, #ebe5d5 100%);
+    padding: 90px 0;
+    overflow: hidden;
+  }
+  .h-rail-scroll {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding: 10px 24px 30px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    scrollbar-color: var(--adv-accent) transparent;
+    scroll-padding-left: 24px;
+  }
+  .h-rail-scroll::-webkit-scrollbar { height: 8px; }
+  .h-rail-scroll::-webkit-scrollbar-track { background: rgba(31, 61, 43, 0.06); border-radius: 10px; }
+  .h-rail-scroll::-webkit-scrollbar-thumb { background: var(--adv-accent); border-radius: 10px; }
+  .h-rail-card {
+    flex: 0 0 auto;
+    width: 300px;
+    height: 420px;
+    border-radius: 24px;
+    overflow: hidden;
+    scroll-snap-align: start;
+    position: relative;
+    box-shadow: 0 20px 50px rgba(15, 30, 22, 0.15);
+    transition: transform 0.4s ease;
+    text-decoration: none;
+    color: #ffffff;
+    display: block;
+  }
+  .h-rail-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 30px 70px rgba(15, 30, 22, 0.25);
+  }
+  .h-rail-card img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    position: absolute;
+    inset: 0;
+    transition: transform 0.7s ease;
+    display: block;
+  }
+  .h-rail-card:hover img { transform: scale(1.08); }
+  .h-rail-card::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(21, 42, 30, 0.05) 0%, rgba(21, 42, 30, 0.88) 100%);
+    z-index: 1;
+  }
+  .h-rail-content {
+    position: absolute;
+    bottom: 24px; left: 24px; right: 24px;
+    z-index: 2;
+  }
+  .h-rail-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(217, 142, 63, 0.95);
+    color: var(--adv-primary-d);
+    padding: 5px 12px;
+    border-radius: 30px;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .h-rail-content h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem;
+    font-weight: 800;
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+  }
+  .h-rail-content p {
+    font-size: 0.76rem;
+    color: var(--adv-sage);
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+  .h-rail-hint {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.72rem;
+    color: var(--adv-text-soft);
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+  }
+  .h-rail-hint i {
+    color: var(--adv-accent);
+    animation: railSlide 1.5s ease-in-out infinite;
+  }
+  @keyframes railSlide {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(6px); }
+  }
+
+  /* =========================================================
+     05 — RADIAL / ORBIT LAYOUT
+     ========================================================= */
+  .h-radial {
+    background: var(--adv-primary);
+    color: #ffffff;
+    padding: 90px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .h-radial::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -150px;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(217, 142, 63, 0.16), transparent 70%);
+  }
+  .h-radial-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 60px;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+  }
+  .h-radial-ring {
+    position: relative;
+    aspect-ratio: 1/1;
+    max-width: 460px;
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .h-radial-circle {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 2px dashed rgba(217, 142, 63, 0.4);
+    animation: radialSpin 60s linear infinite;
+  }
+  .h-radial-circle.inner {
+    inset: 15%;
+    border-style: solid;
+    border-color: rgba(217, 142, 63, 0.2);
+    animation-direction: reverse;
+    animation-duration: 40s;
+  }
+  @keyframes radialSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  .h-radial-center {
+    width: 60%;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--adv-accent), var(--adv-accent-d));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    box-shadow: 0 25px 60px rgba(217, 142, 63, 0.5), inset 0 -8px 0 0 rgba(0, 0, 0, 0.1);
+    border: 6px solid rgba(255, 255, 255, 0.15);
+  }
+  .h-radial-center-icon {
+    font-size: 2rem;
+    color: #ffffff;
+    margin-bottom: 10px;
+  }
+  .h-radial-center h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 900;
+    color: #ffffff;
+    line-height: 1.05;
+    margin-bottom: 6px;
+  }
+  .h-radial-center p {
+    font-size: 0.72rem;
+    color: var(--adv-primary-d);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    font-weight: 800;
+  }
+  .h-radial-node {
+    position: absolute;
+    width: 66px; height: 66px;
+    border-radius: 50%;
+    background: #ffffff;
+    color: var(--adv-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    border: 3px solid var(--adv-accent);
+    font-size: 1.1rem;
+    z-index: 3;
+  }
+  .h-radial-node.n1 { top: 5%; left: 50%; transform: translateX(-50%); }
+  .h-radial-node.n2 { top: 50%; right: -2%; transform: translateY(-50%); }
+  .h-radial-node.n3 { bottom: 5%; left: 50%; transform: translateX(-50%); }
+  .h-radial-node.n4 { top: 50%; left: -2%; transform: translateY(-50%); }
+
+  .h-radial-text .h-tag {
+    background: rgba(217, 142, 63, 0.2);
+    border: 1px solid rgba(217, 142, 63, 0.4);
+    color: var(--adv-accent);
+  }
+  .h-radial-text .h-title { color: #ffffff; }
+  .h-radial-text .h-sub { color: var(--adv-sage); }
+  .h-radial-fact-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 30px 0;
+  }
+  .h-radial-fact {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(217, 142, 63, 0.2);
+    border-radius: 16px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+  }
+  .h-radial-fact:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--adv-accent);
+    transform: translateX(6px);
+  }
+  .h-radial-fact i:first-child {
+    width: 40px; height: 40px;
+    border-radius: 12px;
+    background: rgba(217, 142, 63, 0.18);
+    color: var(--adv-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    flex-shrink: 0;
+  }
+  .h-radial-fact-info h4 {
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 2px;
+  }
+  .h-radial-fact-info p {
+    font-size: 0.75rem;
+    color: var(--adv-sage);
+    font-weight: 600;
+  }
+  .h-radial-fact-arrow {
+    color: var(--adv-accent);
+    font-size: 0.9rem;
+    margin-left: auto;
+    transition: transform 0.3s ease;
+  }
+  .h-radial-fact:hover .h-radial-fact-arrow { transform: translateX(4px); }
+
+  /* =========================================================
+     06 — QUOTE STACK
+     ========================================================= */
+  .h-quotes {
+    background: #ffffff;
+    padding: 90px 0;
+  }
+  .h-quotes-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 40px;
+    align-items: stretch;
+  }
+  .h-quotes-main {
+    background: linear-gradient(135deg, var(--adv-primary) 0%, var(--adv-primary-d) 100%);
+    border-radius: 28px;
+    padding: 60px 50px;
+    color: #ffffff;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .h-quotes-main::before {
+    content: '\201C';
+    position: absolute;
+    top: -40px;
+    right: 30px;
+    font-family: 'Playfair Display', serif;
+    font-size: 14rem;
+    color: rgba(217, 142, 63, 0.08);
+    line-height: 1;
+  }
+  .h-quotes-main-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(217, 142, 63, 0.2);
+    border: 1px solid rgba(217, 142, 63, 0.4);
+    color: var(--adv-accent);
+    padding: 6px 16px;
+    border-radius: 50px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 26px;
+    width: fit-content;
+    position: relative;
+    z-index: 2;
+  }
+  .h-quotes-main-text {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.4rem, 2.6vw, 2rem);
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+    margin-bottom: 30px;
+    position: relative;
+    z-index: 2;
+  }
+  .h-quotes-main-text em { color: var(--adv-accent); font-style: italic; }
+  .h-quotes-main-author {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding-top: 26px;
+    border-top: 1px solid rgba(217, 142, 63, 0.25);
+    position: relative;
+    z-index: 2;
+  }
+  .h-quotes-main-author img {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--adv-accent);
+  }
+  .h-quotes-main-author-info h4 {
+    font-size: 1rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 3px;
+  }
+  .h-quotes-main-author-info p {
+    font-size: 0.75rem;
+    color: var(--adv-sage);
+    font-weight: 600;
+    letter-spacing: 0.4px;
+  }
+  .h-quotes-side {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .h-quote-mini {
+    background: #f5f2ea;
+    border-radius: 20px;
+    padding: 26px 24px;
+    border-left: 4px solid var(--adv-accent);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    flex: 1;
+    justify-content: center;
+  }
+  .h-quote-mini:hover {
+    background: #ffffff;
+    box-shadow: 0 15px 35px var(--adv-shadow-hi);
+    transform: translateX(6px);
+  }
+  .h-quote-mini-text {
+    font-size: 0.92rem;
+    font-style: italic;
+    color: var(--adv-text);
+    line-height: 1.65;
+  }
+  .h-quote-mini-author {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.78rem;
+    font-weight: 800;
+    color: var(--adv-text-soft);
+  }
+  .h-quote-mini-author img {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .h-quote-mini-author i {
+    color: var(--adv-accent);
+    font-size: 0.7rem;
+    margin-right: 4px;
+  }
+
+  /* =========================================================
+     07 — EDITORIAL
+     ========================================================= */
+  .h-editorial {
+    background: #f5f2ea;
+    padding: 0;
+  }
+  .h-editorial-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 620px;
+  }
+  .h-editorial-img {
+    position: relative;
+    overflow: hidden;
+    background: #152a1e;
+  }
+  .h-editorial-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    position: absolute;
+    inset: 0;
+  }
+  .h-editorial-badge {
+    position: absolute;
+    top: 30px; left: 30px;
+    background: var(--adv-accent);
+    color: var(--adv-primary-d);
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    z-index: 3;
+    box-shadow: 0 10px 25px rgba(217, 142, 63, 0.5);
+  }
+  .h-editorial-text {
+    padding: 80px 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: #ffffff;
+  }
+  .h-editorial-text h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4.2vw, 3rem);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--adv-text);
+    margin-bottom: 24px;
+  }
+  .h-editorial-text h2 em {
+    color: var(--adv-accent);
+    font-style: italic;
+  }
+  .h-editorial-text .h-sub { margin-bottom: 30px; font-size: 1rem; }
+  .h-editorial-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 34px;
+    padding: 26px 0;
+    border-top: 1px solid var(--adv-border);
+    border-bottom: 1px solid var(--adv-border);
+  }
+  .h-editorial-list-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--adv-text);
+  }
+  .h-editorial-list-item i {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: rgba(217, 142, 63, 0.14);
+    color: var(--adv-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+  }
+
+  /* =========================================================
+     08 — FEATURE MATRIX
+     ========================================================= */
+  .h-matrix {
+    background: #ffffff;
+    padding: 90px 0;
+  }
+  .h-matrix-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .h-matrix-tile {
+    padding: 36px 30px;
+    background: #f5f2ea;
+    border-radius: 20px;
+    transition: all 0.4s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid transparent;
+  }
+  .h-matrix-tile::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(217, 142, 63, 0.08);
+    transform: translate(30%, 30%);
+    transition: transform 0.5s ease;
+  }
+  .h-matrix-tile:hover {
+    background: #ffffff;
+    border-color: var(--adv-accent);
+    box-shadow: 0 20px 50px var(--adv-shadow-hi);
+    transform: translateY(-6px);
+  }
+  .h-matrix-tile:hover::after {
+    transform: translate(20%, 20%) scale(1.4);
+  }
+  .h-matrix-icon {
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(217, 142, 63, 0.18), rgba(217, 142, 63, 0.05));
+    color: var(--adv-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+  }
+  .h-matrix-tile:hover .h-matrix-icon {
+    background: var(--adv-accent);
+    color: #ffffff;
+    transform: rotate(-6deg) scale(1.08);
+  }
+  .h-matrix-tile h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--adv-text);
+    letter-spacing: -0.01em;
+    position: relative;
+    z-index: 2;
+  }
+  .h-matrix-tile p {
+    font-size: 0.83rem;
+    color: var(--adv-text-soft);
+    line-height: 1.65;
+    position: relative;
+    z-index: 2;
+    flex: 1;
+  }
+  /* ⬇ ONLY this link is clickable */
+  .h-matrix-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--adv-accent-d);
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-decoration: none;
+    transition: gap 0.3s ease, color 0.3s ease;
+    position: relative;
+    z-index: 3;
+    align-self: flex-start;
+  }
+  .h-matrix-cta:hover {
+    gap: 12px;
+    color: var(--adv-primary);
+  }
+
+  /* =========================================================
+     09 — VIDEO FEATURE
+     ========================================================= */
+  .h-vid-feature {
+    background: linear-gradient(180deg, #f5f2ea 0%, #ebe5d5 100%);
+    padding: 90px 0;
+  }
+  .h-vid-layout {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+  .h-vid-player {
+    position: relative;
+    border-radius: 28px;
+    overflow: hidden;
+    aspect-ratio: 16/10;
+    box-shadow: 0 40px 80px rgba(15, 30, 22, 0.28);
+    background: #000;
+    cursor: pointer;
+  }
+  .h-vid-player video {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .h-vid-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(21, 42, 30, 0.15) 0%, rgba(21, 42, 30, 0.65) 100%);
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .h-vid-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 96px; height: 96px;
+    border-radius: 50%;
+    background: rgba(217, 142, 63, 0.95);
+    color: var(--adv-primary-d);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    box-shadow: 0 20px 50px rgba(217, 142, 63, 0.6);
+    z-index: 5;
+    animation: pulsePlay 2.5s ease-in-out infinite;
+  }
+  @keyframes pulsePlay {
+    0%, 100% { box-shadow: 0 20px 50px rgba(217, 142, 63, 0.6), 0 0 0 0 rgba(217, 142, 63, 0.4); }
+    50% { box-shadow: 0 20px 50px rgba(217, 142, 63, 0.6), 0 0 0 20px rgba(217, 142, 63, 0); }
+  }
+  .h-vid-play:hover {
+    background: #ffffff;
+    transform: translate(-50%, -50%) scale(1.08);
+    animation: none;
+  }
+  .h-vid-play.hidden { opacity: 0; pointer-events: none; }
+  .h-vid-controls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 40px 20px 16px;
+    background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.85));
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 6;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .h-vid-player:hover .h-vid-controls,
+  .h-vid-player.playing .h-vid-controls {
+    opacity: 1;
+  }
+  .h-vid-progress {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 3px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .h-vid-progress:hover { height: 8px; }
+  .h-vid-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--adv-accent), var(--adv-accent-d));
+    border-radius: 3px;
+    width: 0%;
+    transition: width 0.1s linear;
+  }
+  .h-vid-btns {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #ffffff;
+  }
+  .h-vid-btn {
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+  }
+  .h-vid-btn:hover {
+    background: rgba(217, 142, 63, 0.3);
+    color: var(--adv-accent);
+  }
+  .h-vid-time {
+    font-size: 0.72rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.3px;
+    margin-left: 4px;
+  }
+  .h-vid-time .sep { color: var(--adv-sage); margin: 0 3px; }
+  .h-vid-spacer { flex: 1; }
+
+  .h-vid-text .h-title { margin-bottom: 20px; }
+  .h-vid-features {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: 28px 0;
+  }
+  .h-vid-feature {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--adv-text);
+    padding: 12px 16px;
+    background: #ffffff;
+    border-radius: 14px;
+    border: 1px solid var(--adv-border);
+    transition: all 0.3s ease;
+  }
+  .h-vid-feature:hover {
+    border-color: var(--adv-accent);
+    transform: translateX(6px);
+  }
+  .h-vid-feature i {
+    width: 34px; height: 34px;
+    border-radius: 10px;
+    background: rgba(217, 142, 63, 0.14);
+    color: var(--adv-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+  }
+
+  /* =========================================================
+     10 — COMPARE
+     ========================================================= */
+  .h-compare {
+    background: #ffffff;
+    padding: 90px 0;
+  }
+  .h-compare-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    align-items: stretch;
+  }
+  .h-compare-card {
+    background: #f5f2ea;
+    border-radius: 24px;
+    padding: 40px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border: 2px solid transparent;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .h-compare-card.featured {
+    background: linear-gradient(135deg, var(--adv-primary) 0%, var(--adv-primary-d) 100%);
+    color: #ffffff;
+    border-color: var(--adv-accent);
+    transform: scale(1.03);
+    box-shadow: 0 30px 70px rgba(15, 30, 22, 0.3);
+  }
+  .h-compare-card:hover:not(.featured) {
+    border-color: var(--adv-accent);
+    transform: translateY(-6px);
+    box-shadow: 0 25px 55px var(--adv-shadow-hi);
+  }
+  .h-compare-badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: var(--adv-accent);
+    color: var(--adv-primary-d);
+    padding: 5px 14px;
+    border-radius: 30px;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+  }
+  .h-compare-card-icon {
+    width: 64px; height: 64px;
+    border-radius: 18px;
+    background: rgba(217, 142, 63, 0.14);
+    color: var(--adv-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    border: 2px solid rgba(217, 142, 63, 0.2);
+  }
+  .h-compare-card.featured .h-compare-card-icon {
+    background: rgba(217, 142, 63, 0.2);
+    border-color: rgba(217, 142, 63, 0.4);
+  }
+  .h-compare-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--adv-text);
+    letter-spacing: -0.01em;
+  }
+  .h-compare-card.featured h3 { color: #ffffff; }
+  .h-compare-card p {
+    font-size: 0.85rem;
+    color: var(--adv-text-soft);
+    line-height: 1.65;
+    margin-bottom: 4px;
+  }
+  .h-compare-card.featured p { color: var(--adv-sage); }
+  .h-compare-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px 0;
+    border-top: 1px solid var(--adv-border);
+    border-bottom: 1px solid var(--adv-border);
+    flex: 1;
+  }
+  .h-compare-card.featured .h-compare-list {
+    border-color: rgba(217, 142, 63, 0.3);
+  }
+  .h-compare-list li {
+    font-size: 0.82rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--adv-text-soft);
+  }
+  .h-compare-card.featured .h-compare-list li { color: var(--adv-cream); }
+  .h-compare-list li i {
+    color: var(--adv-accent);
+    font-size: 0.85rem;
+    flex-shrink: 0;
+  }
+  .h-compare-cta {
+    display: block;
+    text-align: center;
+    padding: 13px 24px;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    letter-spacing: 0.3px;
+  }
+  .h-compare-cta.primary {
+    background: var(--adv-accent);
+    color: var(--adv-primary-d);
+    box-shadow: 0 8px 22px rgba(217, 142, 63, 0.4);
+  }
+  .h-compare-cta.primary:hover {
+    background: #e8a558;
+    transform: translateY(-2px);
+  }
+  .h-compare-cta.outline {
+    background: transparent;
+    color: var(--adv-text);
+    border: 2px solid rgba(31, 61, 43, 0.2);
+  }
+  .h-compare-cta.outline:hover {
+    background: var(--adv-primary);
+    color: #ffffff;
+    border-color: var(--adv-primary);
+  }
+
+  /* =========================================================
+     11 — POSTCARD GRID
+     ========================================================= */
+  .h-postcard-grid {
+    background: linear-gradient(180deg, #f5f2ea 0%, #ebe5d5 100%);
+    padding: 90px 0;
+  }
+  .h-postcards-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    padding: 20px 0;
+  }
+  .h-postcard {
+    background: #ffffff;
+    padding: 14px 14px 44px;
+    border-radius: 6px;
+    box-shadow: 0 20px 45px rgba(15, 30, 22, 0.18);
+    display: block;
+    position: relative;
+    transition: all 0.4s ease;
+  }
+  .h-postcard:nth-child(odd) { transform: rotate(-2deg); }
+  .h-postcard:nth-child(even) { transform: rotate(2deg); }
+  .h-postcard:nth-child(3) { transform: rotate(-1deg) translateY(10px); }
+  .h-postcard:nth-child(2) { transform: rotate(1.5deg) translateY(-6px); }
+
+  .h-postcard:hover {
+    transform: rotate(0deg) translateY(-10px) scale(1.02) !important;
+    box-shadow: 0 30px 65px rgba(15, 30, 22, 0.28);
+    z-index: 5;
+  }
+  .h-postcard-img {
+    width: 100%;
+    aspect-ratio: 4/5;
+    border-radius: 3px;
+    overflow: hidden;
+    background: #152a1e;
+  }
+  .h-postcard-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .h-postcard-caption {
+    position: absolute;
+    bottom: 12px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-family: 'Caveat', cursive;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--adv-primary);
+    line-height: 1;
+  }
+  .h-postcard-caption i {
+    color: var(--adv-accent);
+    font-size: 0.8rem;
+    margin-right: 4px;
+  }
+  .h-postcard::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    right: 18px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--adv-accent);
+    box-shadow: 0 3px 8px rgba(217, 142, 63, 0.6);
+  }
+
+  /* =========================================================
+     12 — MILESTONES
+     ========================================================= */
+  .h-milestones {
+    background: #ffffff;
+    padding: 90px 0;
+  }
+  .h-milestones-list {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+  }
+  .h-milestone {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 30px;
+    padding: 30px 0;
+    border-bottom: 1px solid var(--adv-border);
+    align-items: center;
+    transition: all 0.3s ease;
+  }
+  .h-milestone:last-child { border-bottom: none; }
+  .h-milestone:hover { padding-left: 12px; }
+  .h-milestone-year {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 3.2vw, 2.2rem);
+    font-weight: 900;
+    color: var(--adv-accent);
+    letter-spacing: -0.03em;
+    line-height: 1;
+    transition: all 0.3s ease;
+  }
+  .h-milestone:hover .h-milestone-year {
+    transform: scale(1.06);
+    color: var(--adv-primary);
+  }
+  .h-milestone-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  .h-milestone-text h4 {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--adv-text);
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+  }
+  .h-milestone-text p {
+    font-size: 0.83rem;
+    color: var(--adv-text-soft);
+    line-height: 1.6;
+  }
+  .h-milestone-icon {
+    width: 46px; height: 46px;
+    border-radius: 14px;
+    background: rgba(217, 142, 63, 0.14);
+    color: var(--adv-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+  }
+  .h-milestone:hover .h-milestone-icon {
+    background: var(--adv-accent);
+    color: #ffffff;
+    transform: rotate(-8deg);
+  }
+
+  /* =========================================================
+     13 — NEWSLETTER
+     ========================================================= */
+  .h-news {
+    position: relative;
+    padding: 90px 24px;
+    overflow: hidden;
+  }
+  .h-news-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('forest2.webp');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    z-index: 1;
+  }
+  .h-news-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(21, 42, 30, 0.9) 0%, rgba(15, 31, 22, 0.95) 100%);
+    z-index: 2;
+  }
+  .h-news::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(217, 142, 63, 0.35) 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.15;
+    z-index: 3;
+    pointer-events: none;
+  }
+  .h-news-inner {
+    position: relative;
+    z-index: 4;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+  .h-news-text h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 900;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+    margin-bottom: 20px;
+  }
+  .h-news-text h2 em { color: var(--adv-accent); font-style: italic; }
+  .h-news-text p {
+    color: var(--adv-cream);
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 30px;
+    max-width: 520px;
+  }
+  .h-news-text .h-tag {
+    background: rgba(217, 142, 63, 0.2);
+    border: 1px solid rgba(217, 142, 63, 0.4);
+    color: var(--adv-accent);
+  }
+
+  .h-news-form {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(217, 142, 63, 0.3);
+    border-radius: 24px;
+    padding: 40px 36px;
+    backdrop-filter: blur(12px);
+  }
+  .h-news-form h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 10px;
+  }
+  .h-news-form > p {
+    color: var(--adv-sage);
+    font-size: 0.85rem;
+    line-height: 1.65;
+    margin-bottom: 22px;
+  }
+  .h-news-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  .h-news-inputs input {
+    padding: 14px 20px;
+    border: 1.5px solid rgba(217, 142, 63, 0.35);
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 50px;
+    font-size: 0.9rem;
+    color: #ffffff;
+    font-family: inherit;
+    outline: none;
+    transition: all 0.3s ease;
+  }
+  .h-news-inputs input::placeholder { color: rgba(168, 184, 154, 0.7); }
+  .h-news-inputs input:focus {
+    border-color: var(--adv-accent);
+    background: rgba(255, 255, 255, 0.1);
+  }
+  .h-news-inputs input.error {
+    border-color: #dc2626;
+    background: rgba(220, 38, 38, 0.1);
+  }
+  .h-news-error-msg {
+    color: #fca5a5;
+    font-size: 0.72rem;
+    font-weight: 600;
+    margin-top: -6px;
+    margin-bottom: 4px;
+    padding-left: 20px;
+    display: none;
+  }
+  .h-news-error-msg.show { display: block; }
+  .h-news-inputs button {
+    padding: 14px 28px;
+    background: var(--adv-accent);
+    color: var(--adv-primary-d);
+    border: none;
+    border-radius: 50px;
+    font-weight: 800;
+    font-size: 0.9rem;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 22px rgba(217, 142, 63, 0.4);
+  }
+  .h-news-inputs button:hover {
+    background: #e8a558;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(217, 142, 63, 0.55);
+  }
+  .h-news-note {
+    font-size: 0.7rem;
+    color: var(--adv-sage);
+    opacity: 0.85;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .h-news-note i { color: var(--adv-accent); }
+
+  /* =========================================================
+     14 — PRESS GRID
+     ========================================================= */
+  .h-press {
+    background: #ffffff;
+    padding: 70px 0;
+  }
+  .h-press-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 24px;
+    align-items: center;
+  }
+  .h-press-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px 12px;
+    color: var(--adv-text-soft);
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    border-radius: 12px;
+    opacity: 0.5;
+  }
+  .h-press-item i {
+    color: var(--adv-accent);
+    font-size: 1.2rem;
+  }
+  .h-press-item:hover {
+    opacity: 1;
+    background: #f5f2ea;
+    color: var(--adv-primary);
+    transform: translateY(-3px);
+  }
+
+  /* =========================================================
+     15 — FINAL CTA
+     ========================================================= */
+  .h-final-cta {
+    padding: 0;
+    background: #f5f2ea;
+  }
+  .h-final-top {
+    padding: 100px 24px 70px;
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .h-final-top .h-tag { margin-bottom: 18px; }
+  .h-final-top h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    font-weight: 900;
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    color: var(--adv-text);
+    margin-bottom: 22px;
+  }
+  .h-final-top h2 em { color: var(--adv-accent); font-style: italic; }
+  .h-final-top p {
+    font-size: 1.05rem;
+    color: var(--adv-text-soft);
+    line-height: 1.7;
+    margin-bottom: 36px;
+    max-width: 620px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .h-final-btns {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 50px;
+  }
+  .h-final-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 620px;
+    margin: 0 auto;
+    padding-top: 30px;
+    border-top: 1px solid var(--adv-border);
+  }
+  .h-final-stat h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--adv-accent);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .h-final-stat p {
+    font-size: 0.72rem;
+    color: var(--adv-text-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    font-weight: 700;
+    margin: 0;
+  }
+  .h-final-band {
+    position: relative;
+    height: 340px;
+    overflow: hidden;
+  }
+  .h-final-band img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    position: absolute;
+    inset: 0;
+  }
+  .h-final-band::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(21, 42, 30, 0.4) 0%, rgba(21, 42, 30, 0.8) 100%);
+  }
+  .h-final-band-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+    z-index: 2;
+    color: #ffffff;
+    text-align: center;
+    padding: 20px;
+  }
+  .h-final-band-content h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  }
+  .h-final-band-content h3 em { color: var(--adv-accent); font-style: italic; }
+  .h-final-band-content p {
+    color: var(--adv-cream);
+    font-size: 0.95rem;
+    max-width: 520px;
+    line-height: 1.7;
+  }
+
+  /* =========================================================
+     RESPONSIVE
+     ========================================================= */
+  @media (max-width: 1100px) {
+    .h-hero { grid-template-columns: 1fr; min-height: auto; }
+    .h-hero-left { padding: 60px 40px; }
+    .h-hero-left-inner { margin: 0; padding: 0; max-width: 100%; }
+    .h-hero-right { min-height: 400px; }
+
+    .h-numbers-grid { grid-template-columns: repeat(2, 1fr); }
+    .h-number-cell { border-bottom: 1px solid var(--adv-border); }
+    .h-number-cell:nth-child(2n) { border-right: none; }
+    .h-number-cell:nth-child(1),
+    .h-number-cell:nth-child(2) { border-bottom: 1px solid var(--adv-border); }
+    .h-number-cell:nth-child(3),
+    .h-number-cell:nth-child(4) { border-bottom: none; }
+
+    .h-verticals-grid { grid-template-columns: 1fr; max-width: 520px; }
+
+    .h-radial-layout { grid-template-columns: 1fr; gap: 50px; }
+    .h-radial-ring { max-width: 400px; }
+
+    .h-quotes-grid { grid-template-columns: 1fr; }
+
+    .h-editorial-layout { grid-template-columns: 1fr; }
+    .h-editorial-img { min-height: 340px; position: relative; }
+    .h-editorial-text { padding: 50px 40px; }
+
+    .h-matrix-grid { grid-template-columns: repeat(2, 1fr); }
+
+    .h-vid-layout { grid-template-columns: 1fr; gap: 40px; }
+
+    .h-compare-grid { grid-template-columns: 1fr; }
+    .h-compare-card.featured { transform: scale(1); }
+
+    .h-postcards-row { grid-template-columns: repeat(2, 1fr); }
+
+    .h-press-grid { grid-template-columns: repeat(3, 1fr); }
+
+    .h-news-inner { grid-template-columns: 1fr; gap: 40px; }
+  }
+
+  @media (max-width: 768px) {
+    .h-section { padding: 70px 0; }
+    .h-wrap { padding: 0 20px; }
+
+    .h-hero-left { padding: 50px 24px; }
+    .h-hero h1 { font-size: 2.2rem; }
+    .h-hero-left-trust { gap: 16px; }
+    .h-trust-pill { font-size: 0.72rem; }
+    .h-hero-right { min-height: 320px; }
+    .h-hero-mute { bottom: 16px; right: 16px; width: 38px; height: 38px; font-size: 0.9rem; }
+    .h-hero-play-toggle { bottom: 16px; left: 16px; padding: 6px 14px 6px 6px; }
+    .h-hero-play-toggle-icon { width: 30px; height: 30px; font-size: 0.75rem; }
+    .h-hero-play-toggle span { font-size: 0.65rem; }
+
+    .h-numbers-grid { grid-template-columns: 1fr; }
+    .h-number-cell { border-right: none; border-bottom: 1px solid var(--adv-border); }
+    .h-number-cell:last-child { border-bottom: none; }
+
+    .h-matrix-grid { grid-template-columns: 1fr; }
+
+    .h-postcards-row { grid-template-columns: 1fr; gap: 32px; }
+    .h-postcard { transform: rotate(0deg) !important; }
+
+    .h-milestone { grid-template-columns: 90px 1fr; gap: 20px; padding: 24px 0; }
+    .h-milestone-content { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .h-milestone-icon { order: -1; }
+
+    .h-press-grid { grid-template-columns: repeat(2, 1fr); }
+
+    .h-news-bg { background-attachment: scroll; }
+    .h-news-text h2 { font-size: 1.6rem; }
+    .h-news-form { padding: 30px 24px; }
+
+    .h-final-top { padding: 70px 20px 50px; }
+    .h-final-band { height: 260px; }
+  }
+
+  @media (max-width: 480px) {
+    .h-section { padding: 55px 0; }
+    .h-wrap { padding: 0 16px; }
+
+    .h-hero-left { padding: 40px 20px; }
+    .h-hero h1 { font-size: 1.9rem; }
+    .h-hero-btns { flex-direction: column; width: 100%; }
+    .h-hero-btns .h-btn { width: 100%; justify-content: center; }
+    .h-hero-left-trust { flex-direction: column; gap: 12px; padding-top: 20px; }
+
+    .h-rail-card { width: 250px; height: 380px; }
+
+    .h-radial-ring { max-width: 280px; }
+    .h-radial-node { width: 48px; height: 48px; font-size: 0.85rem; }
+    .h-radial-center h3 { font-size: 1.15rem; }
+    .h-radial-center-icon { font-size: 1.5rem; }
+
+    .h-quotes-main { padding: 40px 26px; }
+    .h-quotes-main-text { font-size: 1.15rem; }
+
+    .h-editorial-text { padding: 40px 24px; }
+    .h-editorial-list { padding: 20px 0; }
+
+    .h-vid-player { aspect-ratio: 4/3; }
+    .h-vid-play { width: 70px; height: 70px; font-size: 1.4rem; }
+    .h-vid-controls { padding: 30px 12px 12px; }
+    .h-vid-btn { width: 30px; height: 30px; font-size: 0.8rem; }
+    .h-vid-time { font-size: 0.68rem; }
+
+    .h-compare-card { padding: 30px 22px; }
+
+    .h-milestone { grid-template-columns: 1fr; gap: 12px; }
+    .h-milestone-year { font-size: 1.6rem; }
+
+    .h-press-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+    .h-press-item { font-size: 0.72rem; padding: 14px 8px; }
+
+    .h-news-inner { gap: 30px; }
+    .h-news-form { padding: 26px 20px; }
+
+    .h-final-top { padding: 50px 16px 40px; }
+    .h-final-top h2 { font-size: 1.7rem; }
+    .h-final-btns { flex-direction: column; width: 100%; }
+    .h-final-btns .h-btn { width: 100%; justify-content: center; }
+    .h-final-stats { grid-template-columns: 1fr; gap: 14px; }
+    .h-final-band { height: 220px; }
+
+    .h-section-cta { flex-direction: column; width: 100%; }
+    .h-section-cta .h-btn { width: 100%; justify-content: center; }
+  }
+
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: #f5f2ea; }
+  ::-webkit-scrollbar-thumb { background: var(--adv-accent); border-radius: 10px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--adv-accent-d); }
+</style>
+</head>
+<body>
+
+<div id="header-placeholder"></div>
+
+<!-- =========================================================
+     01 — DIAGONAL SPLIT HERO
+     ========================================================= -->
+<section class="h-hero">
+  <div class="h-hero-left">
+    <div class="h-hero-left-inner" data-aos="fade-right" data-aos-duration="900">
+      <div class="h-hero-tag">
+        <i class="fa-solid fa-compass"></i>
+        Trusted Since 2018 · 8,400+ Explorers
+      </div>
+      <h1>Chase the <em>wild.</em><br>Find yourself.</h1>
+      <p>Hand-crafted expeditions across 12 countries. Certified local guides. Zero compromise on safety. This is adventure, done right.</p>
+
+      <div class="h-hero-btns">
+        <a href="404.html" class="h-btn primary"><i class="fa-solid fa-mountain-sun"></i> Explore Adventures</a>
+        <a href="404.html" class="h-btn ghost"><i class="fa-solid fa-circle-play"></i> Watch the Film</a>
+      </div>
+
+      <div class="h-hero-left-trust">
+        <div class="h-trust-pill">
+          <i class="fa-solid fa-shield-halved"></i>
+          <span>100% Safety Record</span>
+        </div>
+        <div class="h-trust-pill">
+          <i class="fa-solid fa-medal"></i>
+          <span>Certified Local Guides</span>
+        </div>
+        <div class="h-trust-pill">
+          <i class="fa-solid fa-leaf"></i>
+          <span>Carbon-Neutral Trips</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="h-hero-right">
+    <video id="heroVideo" autoplay muted loop playsinline preload="auto"
+      poster="trek1.webp">
+      <source src="trekkingv1.mp4" type="video/mp4">
+      <!-- <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4"> -->
+    </video>
+
+    <button class="h-hero-play-toggle" id="heroPlayToggle" aria-label="Toggle play">
+      <span class="h-hero-play-toggle-icon" id="heroPlayIcon"><i class="fa-solid fa-pause"></i></span>
+      <span id="heroPlayLabel">Pause Film</span>
+    </button>
+
+    <button class="h-hero-mute" id="heroMuteBtn" aria-label="Toggle mute">
+      <i class="fa-solid fa-volume-xmark"></i>
+    </button>
+  </div>
+</section>
+
+<!-- =========================================================
+     02 — NUMBERS ROW
+     ========================================================= -->
+<section class="h-numbers">
+  <div class="h-wrap">
+    <div class="h-section-head center-head" data-aos="fade-up" style="margin-bottom: 30px;">
+      <div>
+        <div class="h-tag"><i class="fa-solid fa-chart-simple"></i> By The Numbers</div>
+        <h2 class="h-title">Adventure, Measured in <span>Milestones</span></h2>
+      </div>
+    </div>
+
+    <div class="h-numbers-grid">
+      <div class="h-number-cell" data-aos="fade-up">
+        <div class="h-number-top">
+          <i class="fa-solid fa-route h-number-icon"></i>
+          <span class="h-number-badge">Live</span>
+        </div>
+        <div class="h-number-value">47</div>
+        <div class="h-number-label">Curated Tours</div>
+        <p class="h-number-detail">Hand-crafted expeditions across four continents</p>
+      </div>
+      <div class="h-number-cell" data-aos="fade-up" data-aos-delay="100">
+        <div class="h-number-top">
+          <i class="fa-solid fa-globe h-number-icon"></i>
+          <span class="h-number-badge">Global</span>
+        </div>
+        <div class="h-number-value">12</div>
+        <div class="h-number-label">Countries</div>
+        <p class="h-number-detail">From Himalaya to East Africa, Iceland to Andaman</p>
+      </div>
+      <div class="h-number-cell" data-aos="fade-up" data-aos-delay="200">
+        <div class="h-number-top">
+          <i class="fa-solid fa-users h-number-icon"></i>
+          <span class="h-number-badge">Since 2018</span>
+        </div>
+        <div class="h-number-value">8.4K</div>
+        <div class="h-number-label">Explorers Guided</div>
+        <p class="h-number-detail">Every trip led by certified local experts</p>
+      </div>
+      <div class="h-number-cell" data-aos="fade-up" data-aos-delay="300">
+        <div class="h-number-top">
+          <i class="fa-solid fa-star h-number-icon"></i>
+          <span class="h-number-badge">Verified</span>
+        </div>
+        <div class="h-number-value">4.9★</div>
+        <div class="h-number-label">Guest Rating</div>
+        <p class="h-number-detail">1,200+ reviews from real travellers</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     03 — VERTICALS (MINIMIZED cards, only button clickable)
+     ========================================================= -->
+<section class="h-verticals">
+  <div class="h-wrap">
+    <div class="h-section-head center-head" data-aos="fade-up">
+      <div>
+        <div class="h-tag"><i class="fa-solid fa-fire"></i> Featured Collections</div>
+        <h2 class="h-title">Choose Your <span>Adventure Style</span></h2>
+        <p class="h-sub">Two signature collections our travellers love most.</p>
+      </div>
+    </div>
+
+    <div class="h-verticals-grid">
+      <!-- Card is a DIV — only the button is clickable -->
+      <div class="h-vertical-card" data-aos="fade-up">
+        <img src="climb1.webp" alt="Mountain" loading="lazy">
+        <div class="h-vertical-content">
+          <div class="h-tag"><i class="fa-solid fa-mountain"></i> Featured</div>
+          <h2>Conquer the <em>Himalaya.</em></h2>
+          <p>14 epic treks from Everest Base Camp to Annapurna Circuit.</p>
+          <a href="404.html" class="h-vertical-cta">Explore Trekking <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </div>
+
+      <div class="h-vertical-card" data-aos="fade-up" data-aos-delay="100">
+        <img src="safari1.webp" alt="Safari" loading="lazy">
+        <div class="h-vertical-content">
+          <div class="h-tag"><i class="fa-solid fa-binoculars"></i> Trending</div>
+          <h2>Wild <em>Africa.</em></h2>
+          <p>Witness the Great Migration and track the Big Five.</p>
+          <a href="404.html" class="h-vertical-cta">Explore Safari <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     04 — MAGNETIC CARD RAIL
+     ========================================================= -->
+<section class="h-rail">
+  <div class="h-wrap">
+    <div class="h-section-head" data-aos="fade-up">
+      <div>
+        <div class="h-tag"><i class="fa-solid fa-arrow-right-arrow-left"></i> Scroll To Explore</div>
+        <h2 class="h-title">Destinations Worth <span>Every Mile</span></h2>
+        <p class="h-sub">Swipe through our most-booked destinations.</p>
+      </div>
+      <a href="404.html" class="h-btn outline"><i class="fa-solid fa-list"></i> See All 47</a>
+    </div>
+  </div>
+
+  <div class="h-rail-scroll" data-aos="fade-up" data-aos-delay="100">
+    <a href="404.html" class="h-rail-card">
+      <img src="forest1.webp" alt="Everest" loading="lazy">
+      <div class="h-rail-content">
+        <span class="h-rail-badge"><i class="fa-solid fa-mountain"></i> Nepal</span>
+        <h3>Everest Base Camp</h3>
+        <p>14 days · 5,364 m</p>
+      </div>
+    </a>
+    <a href="404.html" class="h-rail-card">
+      <img src="safari2.webp" alt="Serengeti" loading="lazy">
+      <div class="h-rail-content">
+        <span class="h-rail-badge"><i class="fa-solid fa-binoculars"></i> Tanzania</span>
+        <h3>Serengeti Safari</h3>
+        <p>7 days · Big Five</p>
+      </div>
+    </a>
+    <a href="404.html" class="h-rail-card">
+      <img src="cyclingg1.webp" alt="Iceland" loading="lazy">
+      <div class="h-rail-content">
+        <span class="h-rail-badge"><i class="fa-solid fa-snowflake"></i> Iceland</span>
+        <h3>Ring Road</h3>
+        <p>9 days · Aurora</p>
+      </div>
+    </a>
+    <a href="404.html" class="h-rail-card">
+      <img src="climb2.webp" alt="Ladakh" loading="lazy">
+      <div class="h-rail-content">
+        <span class="h-rail-badge"><i class="fa-solid fa-water"></i> India</span>
+        <h3>Zanskar Valley</h3>
+        <p>5 days · Class IV</p>
+      </div>
+    </a>
+    <a href="404.html" class="h-rail-card">
+      <img src="forest2.webp" alt="Andaman" loading="lazy">
+      <div class="h-rail-content">
+        <span class="h-rail-badge"><i class="fa-solid fa-fish"></i> India</span>
+        <h3>Andaman Islands</h3>
+        <p>6 days · Coral reefs</p>
+      </div>
+    </a>
+    <a href="404.html" class="h-rail-card">
+      <img src="trek2.webp" alt="Annapurna" loading="lazy">
+      <div class="h-rail-content">
+        <span class="h-rail-badge"><i class="fa-solid fa-person-hiking"></i> Nepal</span>
+        <h3>Annapurna Circuit</h3>
+        <p>12 days · 5,416 m</p>
+      </div>
+    </a>
+  </div>
+
+  <div class="h-rail-hint">
+    <i class="fa-solid fa-arrow-right"></i> Swipe to see more
+  </div>
+</section>
+
+<!-- =========================================================
+     05 — RADIAL / ORBIT
+     ========================================================= -->
+<section class="h-radial">
+  <div class="h-wrap">
+    <div class="h-radial-layout">
+      <div class="h-radial-ring" data-aos="zoom-in" data-aos-duration="900">
+        <div class="h-radial-circle"></div>
+        <div class="h-radial-circle inner"></div>
+
+        <div class="h-radial-center">
+          <i class="fa-solid fa-compass h-radial-center-icon"></i>
+          <h3>The World</h3>
+          <p>4 Continents</p>
+        </div>
+
+        <div class="h-radial-node n1"><i class="fa-solid fa-mountain"></i></div>
+        <div class="h-radial-node n2"><i class="fa-solid fa-binoculars"></i></div>
+        <div class="h-radial-node n3"><i class="fa-solid fa-water"></i></div>
+        <div class="h-radial-node n4"><i class="fa-solid fa-snowflake"></i></div>
+      </div>
+
+      <div class="h-radial-text" data-aos="fade-left" data-aos-duration="900">
+        <div class="h-tag"><i class="fa-solid fa-globe"></i> Global Footprint</div>
+        <h2 class="h-title">Twelve Countries. <span>Four Continents.</span></h2>
+        <p class="h-sub">Every Stackly expedition is anchored in a place our guides call home — and we keep expanding.</p>
+
+        <div class="h-radial-fact-rows">
+          <a href="404.html" class="h-radial-fact">
+            <i class="fa-solid fa-mountain"></i>
+            <div class="h-radial-fact-info">
+              <h4>Asia</h4>
+              <p>Nepal · India · Bhutan</p>
+            </div>
+            <i class="fa-solid fa-arrow-right h-radial-fact-arrow"></i>
+          </a>
+          <a href="404.html" class="h-radial-fact">
+            <i class="fa-solid fa-binoculars"></i>
+            <div class="h-radial-fact-info">
+              <h4>Africa</h4>
+              <p>Tanzania · Kenya · Morocco</p>
+            </div>
+            <i class="fa-solid fa-arrow-right h-radial-fact-arrow"></i>
+          </a>
+          <a href="404.html" class="h-radial-fact">
+            <i class="fa-solid fa-snowflake"></i>
+            <div class="h-radial-fact-info">
+              <h4>Europe</h4>
+              <p>Iceland · Norway · Switzerland</p>
+            </div>
+            <i class="fa-solid fa-arrow-right h-radial-fact-arrow"></i>
+          </a>
+          <a href="404.html" class="h-radial-fact">
+            <i class="fa-solid fa-tree"></i>
+            <div class="h-radial-fact-info">
+              <h4>Americas</h4>
+              <p>Peru · Patagonia · Costa Rica</p>
+            </div>
+            <i class="fa-solid fa-arrow-right h-radial-fact-arrow"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     06 — QUOTE STACK
+     ========================================================= -->
+<section class="h-quotes">
+  <div class="h-wrap">
+    <div class="h-section-head center-head" data-aos="fade-up">
+      <div>
+        <div class="h-tag"><i class="fa-solid fa-quote-left"></i> Guest Stories</div>
+        <h2 class="h-title">Words From Our <span>Explorers</span></h2>
+        <p class="h-sub">Real travellers. Real trips. Real reactions.</p>
+      </div>
+    </div>
+
+    <div class="h-quotes-grid">
+      <div class="h-quotes-main" data-aos="fade-right" data-aos-duration="900">
+        <span class="h-quotes-main-tag"><i class="fa-solid fa-star"></i> Featured Review</span>
+        <p class="h-quotes-main-text">"Standing at Everest Base Camp, I finally understood why people spend their whole lives chasing mountains. This isn't just a trek — it's a <em>complete reset.</em>"</p>
+        <div class="h-quotes-main-author">
+          <img src="trek1.webp" alt="Priya" loading="lazy">
+          <div class="h-quotes-main-author-info">
+            <h4>Priya Sharma</h4>
+            <p>Everest Base Camp · 2025</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="h-quotes-side" data-aos="fade-left" data-aos-duration="900">
+        <div class="h-quote-mini">
+          <p class="h-quote-mini-text">"Saw the aurora three nights in a row. Iceland broke me — in the best way possible."</p>
+          <div class="h-quote-mini-author">
+            <img src="trek2.webp" alt="David" loading="lazy">
+            <span><i class="fa-solid fa-snowflake"></i> David · Iceland</span>
+          </div>
+        </div>
+        <div class="h-quote-mini">
+          <p class="h-quote-mini-text">"Amara spotted all Big Five in three days. Unforgettable."</p>
+          <div class="h-quote-mini-author">
+            <img src="trek3.webp" alt="Maria" loading="lazy">
+            <span><i class="fa-solid fa-binoculars"></i> Maria · Tanzania</span>
+          </div>
+        </div>
+        <div class="h-quote-mini">
+          <p class="h-quote-mini-text">"Class IV rapids, campfire dinners, Himalayan stars. Perfect trip."</p>
+          <div class="h-quote-mini-author">
+            <img src="trek4.webp" alt="James" loading="lazy">
+            <span><i class="fa-solid fa-water"></i> James · Ladakh</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     07 — EDITORIAL
+     ========================================================= -->
+<section class="h-section h-editorial">
+  <div class="h-editorial-layout">
+    <div class="h-editorial-img" data-aos="fade-right" data-aos-duration="900">
+      <span class="h-editorial-badge">★ Editor's Pick</span>
+      <img src="trek5.webp" alt="Iceland" loading="lazy">
+    </div>
+    <div class="h-editorial-text" data-aos="fade-left" data-aos-duration="900">
+      <div class="h-tag"><i class="fa-solid fa-snowflake"></i> Featured Destination</div>
+      <h2>Where Fire Meets <em>Ice.</em></h2>
+      <p class="h-sub">Iceland is where geology writes poetry. Chase waterfalls, walk on black sand beaches, dive between tectonic plates, and hunt the aurora under a midnight sky.</p>
+
+      <div class="h-editorial-list">
+        <div class="h-editorial-list-item"><i class="fa-solid fa-check"></i> Ring Road · 1,332 km self-drive route</div>
+        <div class="h-editorial-list-item"><i class="fa-solid fa-check"></i> Best season: June–August (midnight sun)</div>
+        <div class="h-editorial-list-item"><i class="fa-solid fa-check"></i> Aurora window: September–March</div>
+        <div class="h-editorial-list-item"><i class="fa-solid fa-check"></i> 9-day guided expedition from $2,890</div>
+      </div>
+
+      <div class="h-final-btns" style="justify-content: flex-start;">
+        <a href="404.html" class="h-btn primary"><i class="fa-solid fa-calendar-check"></i> Book Iceland Trip</a>
+        <a href="404.html" class="h-btn outline"><i class="fa-solid fa-circle-info"></i> More Info</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     08 — FEATURE MATRIX (only CTA link clickable)
+     ========================================================= -->
+<section class="h-matrix">
+  <div class="h-wrap">
+    <div class="h-section-head center-head" data-aos="fade-up">
+      <div>
+        <div class="h-tag"><i class="fa-solid fa-shapes"></i> Why Stackly</div>
+        <h2 class="h-title">Built for Real <span>Adventurers</span></h2>
+        <p class="h-sub">Six reasons 8,400+ explorers trust us with their biggest journeys.</p>
+      </div>
+    </div>
+
+    <div class="h-matrix-grid">
+      <div class="h-matrix-tile" data-aos="fade-up">
+        <div class="h-matrix-icon"><i class="fa-solid fa-shield-halved"></i></div>
+        <h4>100% Safety Record</h4>
+        <p>Every route risk-assessed. Every guide Wilderness First Aid certified. Zero serious incidents since 2018.</p>
+        <a href="404.html" class="h-matrix-cta">Read More <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+      <div class="h-matrix-tile" data-aos="fade-up" data-aos-delay="100">
+        <div class="h-matrix-icon"><i class="fa-solid fa-user-tie"></i></div>
+        <h4>Locally Born Guides</h4>
+        <p>Our guides grew up where they lead — speaking the language, knowing the culture, respecting the land.</p>
+        <a href="404.html" class="h-matrix-cta">Read More <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+      <div class="h-matrix-tile" data-aos="fade-up" data-aos-delay="200">
+        <div class="h-matrix-icon"><i class="fa-solid fa-users"></i></div>
+        <h4>Small Groups Only</h4>
+        <p>Maximum 8 travellers per expedition. Real attention, safer decisions, better stories at camp.</p>
+        <a href="404.html" class="h-matrix-cta">Read More <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+      <div class="h-matrix-tile" data-aos="fade-up" data-aos-delay="300">
+        <div class="h-matrix-icon"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+        <h4>Fair-Paid Guides</h4>
+        <p>Our guides earn 40% above regional averages. Happy guides = better adventures for everyone.</p>
+        <a href="404.html" class="h-matrix-cta">Read More <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+      <div class="h-matrix-tile" data-aos="fade-up" data-aos-delay="400">
+        <div class="h-matrix-icon"><i class="fa-solid fa-phone"></i></div>
+        <h4>24/7 Human Support</h4>
+        <p>Real humans on call throughout your trip — not a chatbot, not an automated response.</p>
+        <a href="404.html" class="h-matrix-cta">Read More <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+      <div class="h-matrix-tile" data-aos="fade-up" data-aos-delay="500">
+        <div class="h-matrix-icon"><i class="fa-solid fa-leaf"></i></div>
+        <h4>Carbon-Neutral Trips</h4>
+        <p>100% of trip emissions offset. 5% of profits donated to local conservation projects.</p>
+        <a href="404.html" class="h-matrix-cta">Read More <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     09 — VIDEO FEATURE
+     ========================================================= -->
+<section class="h-vid-feature">
+  <div class="h-wrap">
+    <div class="h-vid-layout">
+      <div class="h-vid-player" id="vidPlayer">
+        <video id="featureVideo" muted loop playsinline preload="metadata"
+          poster="trek6.webp">
+          <!-- <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4" type="video/mp4"> -->
+          <source src="trekkingv2.mp4" type="video/mp4">
+        </video>
+
+        <div class="h-vid-overlay"></div>
+
+        <button class="h-vid-play" id="vidPlayBtn" aria-label="Play video">
+          <i class="fa-solid fa-play" id="vidPlayIcon"></i>
+        </button>
+
+        <div class="h-vid-controls" id="vidControls">
+          <div class="h-vid-progress" id="vidProgress">
+            <div class="h-vid-progress-fill" id="vidProgressFill"></div>
+          </div>
+          <div class="h-vid-btns">
+            <button class="h-vid-btn" id="vidPlaySmall" aria-label="Play / Pause">
+              <i class="fa-solid fa-play" id="vidPlaySmallIcon"></i>
+            </button>
+            <button class="h-vid-btn" id="vidMuteBtn" aria-label="Mute / Unmute">
+              <i class="fa-solid fa-volume-xmark" id="vidMuteIcon"></i>
+            </button>
+            <span class="h-vid-time">
+              <span id="vidCurrent">0:00</span>
+              <span class="sep">/</span>
+              <span id="vidDuration">0:00</span>
+            </span>
+            <div class="h-vid-spacer"></div>
+            <button class="h-vid-btn" id="vidFsBtn" aria-label="Fullscreen">
+              <i class="fa-solid fa-expand" id="vidFsIcon"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="h-vid-text" data-aos="fade-left" data-aos-duration="900">
+        <div class="h-tag"><i class="fa-solid fa-film"></i> The Experience</div>
+        <h2 class="h-title">More Than a Trip. <span>It's a Story.</span></h2>
+        <p class="h-sub">Press play to see what our guides capture on expedition — the moments that don't make it into brochures.</p>
+
+        <div class="h-vid-features">
+          <div class="h-vid-feature"><i class="fa-solid fa-video"></i> Shot on location by our own guides</div>
+          <div class="h-vid-feature"><i class="fa-solid fa-mountain"></i> 2026 Himalaya expedition reel</div>
+          <div class="h-vid-feature"><i class="fa-solid fa-clock"></i> 3 min 42 sec · 4K quality</div>
+        </div>
+
+        <a href="404.html" class="h-btn primary"><i class="fa-solid fa-play"></i> Watch Full Expedition Film</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     10 — COMPARE
+     ========================================================= -->
+<section class="h-compare">
+  <div class="h-wrap">
+    <div class="h-section-head center-head" data-aos="fade-up">
+      <div>
+        <div class="h-tag"><i class="fa-solid fa-user-tag"></i> How You Travel</div>
+        <h2 class="h-title">Three Ways to <span>Adventure</span></h2>
+        <p class="h-sub">Every Stackly trip fits one of three traveller profiles. Which one are you?</p>
+      </div>
+    </div>
+
+    <div class="h-compare-grid">
+      <div class="h-compare-card" data-aos="fade-up">
+        <div class="h-compare-card-icon"><i class="fa-solid fa-person-hiking"></i></div>
+        <h3>Solo Explorer</h3>
+        <p>Independent, curious, and ready to reset. Best for first-timers and veteran trekkers alike.</p>
+        <ul class="h-compare-list">
+          <li><i class="fa-solid fa-check"></i> Perfect for solo travellers</li>
+          <li><i class="fa-solid fa-check"></i> Group size max 8</li>
+          <li><i class="fa-solid fa-check"></i> Full itinerary flexibility</li>
+          <li><i class="fa-solid fa-check"></i> Single-room upgrades</li>
+        </ul>
+        <a href="404.html" class="h-compare-cta outline">Explore Solo Trips</a>
+      </div>
+
+      <div class="h-compare-card featured" data-aos="fade-up" data-aos-delay="100">
+        <span class="h-compare-badge">★ Most Popular</span>
+        <div class="h-compare-card-icon"><i class="fa-solid fa-users"></i></div>
+        <h3>Group Leader</h3>
+        <p>Bring your crew. We handle the logistics, guides, and permits — you just show up and lead.</p>
+        <ul class="h-compare-list">
+          <li><i class="fa-solid fa-check"></i> Custom group departures</li>
+          <li><i class="fa-solid fa-check"></i> Group discounts (6+)</li>
+          <li><i class="fa-solid fa-check"></i> Dedicated coordinator</li>
+          <li><i class="fa-solid fa-check"></i> Flexible payment plans</li>
+          <li><i class="fa-solid fa-check"></i> Private guide on request</li>
+        </ul>
+        <a href="404.html" class="h-compare-cta primary">Book Group Trip</a>
+      </div>
+
+      <div class="h-compare-card" data-aos="fade-up" data-aos-delay="200">
+        <div class="h-compare-card-icon"><i class="fa-solid fa-user-tie"></i></div>
+        <h3>Local Guide</h3>
+        <p>Turn your trail knowledge into a career. Join our network of 47 certified regional experts.</p>
+        <ul class="h-compare-list">
+          <li><i class="fa-solid fa-check"></i> Competitive per-day rates</li>
+          <li><i class="fa-solid fa-check"></i> Year-round bookings</li>
+          <li><i class="fa-solid fa-check"></i> Full insurance coverage</li>
+          <li><i class="fa-solid fa-check"></i> Training & certification</li>
+        </ul>
+        <a href="404.html" class="h-compare-cta outline">Apply as Guide</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     11 — POSTCARD GRID (only caption link clickable)
+     ========================================================= -->
+<section class="h-postcard-grid">
+  <div class="h-wrap">
+    <div class="h-section-head center-head" data-aos="fade-up">
+      <div>
+        <div class="h-tag"><i class="fa-solid fa-envelope"></i> Postcards Home</div>
+        <h2 class="h-title">Where Will You <span>Send Yours?</span></h2>
+        <p class="h-sub">Eight classic destinations our travellers keep coming back to.</p>
+      </div>
+    </div>
+
+    <div class="h-postcards-row">
+      <div class="h-postcard" data-aos="fade-up">
+        <div class="h-postcard-img">
+          <img src="trek6.webp" alt="Everest" loading="lazy">
+        </div>
+        <a href="404.html" class="h-postcard-caption"><i class="fa-solid fa-mountain"></i> Everest</a>
+      </div>
+      <div class="h-postcard" data-aos="fade-up" data-aos-delay="100">
+        <div class="h-postcard-img">
+          <img src="safari1.webp" alt="Iceland" loading="lazy">
+        </div>
+        <a href="404.html" class="h-postcard-caption"><i class="fa-solid fa-snowflake"></i> Iceland</a>
+      </div>
+      <div class="h-postcard" data-aos="fade-up" data-aos-delay="200">
+        <div class="h-postcard-img">
+          <img src="scuba1.webp" alt="Serengeti" loading="lazy">
+        </div>
+        <a href="404.html" class="h-postcard-caption"><i class="fa-solid fa-binoculars"></i> Serengeti</a>
+      </div>
+      <div class="h-postcard" data-aos="fade-up" data-aos-delay="300">
+        <div class="h-postcard-img">
+          <img src="river1.webp" alt="Ladakh" loading="lazy">
+        </div>
+        <a href="404.html" class="h-postcard-caption"><i class="fa-solid fa-water"></i> Ladakh</a>
+      </div>
+    </div>
+
+    <div class="h-postcards-row">
+      <div class="h-postcard" data-aos="fade-up">
+        <div class="h-postcard-img">
+          <img src="clim3.webp" alt="Andaman" loading="lazy">
+        </div>
+        <a href="404.html" class="h-postcard-caption"><i class="fa-solid fa-fish"></i> Andaman</a>
+      </div>
+      <div class="h-postcard" data-aos="fade-up" data-aos-delay="100">
+        <div class="h-postcard-img">
+          <img src="cyclingg1.webp" alt="Annapurna" loading="lazy">
+        </div>
+        <a href="404.html" class="h-postcard-caption"><i class="fa-solid fa-person-hiking"></i> Annapurna</a>
+      </div>
+      <div class="h-postcard" data-aos="fade-up" data-aos-delay="200">
+        <div class="h-postcard-img">
+          <img src="forest3.webp" alt="Trail" loading="lazy">
+        </div>
+        <a href="404.html" class="h-postcard-caption"><i class="fa-solid fa-route"></i> Trail Life</a>
+      </div>
+      <div class="h-postcard" data-aos="fade-up" data-aos-delay="300">
+        <div class="h-postcard-img">
+          <img src="at1.webp" alt="Mountains" loading="lazy">
+        </div>
+        <a href="404.html" class="h-postcard-caption"><i class="fa-solid fa-mountain-sun"></i> Peaks</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     12 — MILESTONES
+     ========================================================= -->
+<section class="h-milestones">
+  <div class="h-wrap">
+    <div class="h-section-head center-head" data-aos="fade-up">
+      <div>
+        <div class="h-tag"><i class="fa-solid fa-timeline"></i> Our Journey</div>
+        <h2 class="h-title">Milestones That <span>Shaped Us</span></h2>
+        <p class="h-sub">From a single trek in 2018 to 47 curated expeditions across 4 continents.</p>
+      </div>
+    </div>
+
+    <div class="h-milestones-list">
+      <div class="h-milestone" data-aos="fade-up">
+        <span class="h-milestone-year">2018</span>
+        <div class="h-milestone-content">
+          <div class="h-milestone-text">
+            <h4>Stackly is Born</h4>
+            <p>Three friends, one Everest Base Camp permit, and a mission: adventure travel done right.</p>
+          </div>
+          <div class="h-milestone-icon"><i class="fa-solid fa-seedling"></i></div>
+        </div>
+      </div>
+
+      <div class="h-milestone" data-aos="fade-up" data-aos-delay="100">
+        <span class="h-milestone-year">2020</span>
+        <div class="h-milestone-content">
+          <div class="h-milestone-text">
+            <h4>Regional Expansion</h4>
+            <p>Added Africa, Iceland, and Ladakh to our destinations. First 1,000 travellers guided.</p>
+          </div>
+          <div class="h-milestone-icon"><i class="fa-solid fa-globe"></i></div>
+        </div>
+      </div>
+
+      <div class="h-milestone" data-aos="fade-up" data-aos-delay="200">
+        <span class="h-milestone-year">2022</span>
+        <div class="h-milestone-content">
+          <div class="h-milestone-text">
+            <h4>Carbon-Neutral Commitment</h4>
+            <p>Became the first adventure travel agency in our region to fully offset all trip emissions.</p>
+          </div>
+          <div class="h-milestone-icon"><i class="fa-solid fa-leaf"></i></div>
+        </div>
+      </div>
+
+      <div class="h-milestone" data-aos="fade-up" data-aos-delay="300">
+        <span class="h-milestone-year">2024</span>
+        <div class="h-milestone-content">
+          <div class="h-milestone-text">
+            <h4>8,000 Travelers Guided</h4>
+            <p>Crossed 8,000 happy travellers with a 4.9★ average rating and zero serious incidents.</p>
+          </div>
+          <div class="h-milestone-icon"><i class="fa-solid fa-users"></i></div>
+        </div>
+      </div>
+
+      <div class="h-milestone" data-aos="fade-up" data-aos-delay="400">
+        <span class="h-milestone-year">2026</span>
+        <div class="h-milestone-content">
+          <div class="h-milestone-text">
+            <h4>47 Expeditions &amp; Counting</h4>
+            <p>Our largest catalogue yet — and we're just getting started.</p>
+          </div>
+          <div class="h-milestone-icon"><i class="fa-solid fa-mountain-sun"></i></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     13 — NEWSLETTER (name field letters+spaces only)
+     ========================================================= -->
+<section class="h-news">
+  <div class="h-news-bg"></div>
+  <div class="h-news-overlay"></div>
+
+  <div class="h-news-inner">
+    <div class="h-news-text" data-aos="fade-right" data-aos-duration="900">
+      <div class="h-tag"><i class="fa-solid fa-envelope"></i> Stay In The Loop</div>
+      <h2>Get Expedition <em>Alerts.</em></h2>
+      <p>New routes, seasonal deals, and trail tips — straight to your inbox. Join 12,000+ explorers who hear about it first.</p>
+    </div>
+
+    <form class="h-news-form" data-aos="fade-left" data-aos-duration="900" id="newsForm" novalidate>
+      <h3>Subscribe to our Journal</h3>
+      <p>One email per week. No spam, unsubscribe anytime.</p>
+      <div class="h-news-inputs">
+        <input type="text" id="newsName" placeholder="Your name" required aria-label="Your name" autocomplete="name">
+        <div class="h-news-error-msg" id="newsNameError">Only letters and spaces are allowed.</div>
+        <input type="email" id="newsEmail" placeholder="you@example.com" required aria-label="Email address" autocomplete="email">
+        <div class="h-news-error-msg" id="newsEmailError">Please enter a valid email address.</div>
+        <button type="submit">Subscribe <i class="fa-solid fa-arrow-right"></i></button>
+      </div>
+      <p class="h-news-note"><i class="fa-solid fa-lock"></i> We respect your privacy. Your data is never shared.</p>
+    </form>
+  </div>
+</section>
+
+<!-- =========================================================
+     14 — PRESS GRID
+     ========================================================= -->
+<section class="h-press">
+  <div class="h-wrap">
+    <div class="h-section-head center-head" data-aos="fade-up">
+      <div>
+        <div class="h-tag"><i class="fa-solid fa-award"></i> Featured In</div>
+        <h2 class="h-title">Trusted By The <span>Best</span></h2>
+      </div>
+    </div>
+
+    <div class="h-press-grid">
+      <a href="404.html" class="h-press-item" data-aos="fade-up"><i class="fa-solid fa-mountain"></i> Nat Geo</a>
+      <a href="404.html" class="h-press-item" data-aos="fade-up" data-aos-delay="100"><i class="fa-solid fa-leaf"></i> Lonely Planet</a>
+      <a href="404.html" class="h-press-item" data-aos="fade-up" data-aos-delay="200"><i class="fa-solid fa-compass"></i> Outdoor Mag</a>
+      <a href="404.html" class="h-press-item" data-aos="fade-up" data-aos-delay="300"><i class="fa-solid fa-award"></i> Condé Nast</a>
+      <a href="404.html" class="h-press-item" data-aos="fade-up" data-aos-delay="400"><i class="fa-solid fa-globe"></i> Travel + Leisure</a>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     15 — FINAL CTA
+     ========================================================= -->
+<section class="h-final-cta">
+  <div class="h-final-top" data-aos="fade-up">
+    <div class="h-tag"><i class="fa-solid fa-compass"></i> Let's Go</div>
+    <h2>The mountain is <em>waiting.</em></h2>
+    <p>Stop scrolling. Start planning. Talk to a real guide who's actually been there — and get matched to your perfect adventure today.</p>
+
+    <div class="h-final-btns">
+      <a href="404.html" class="h-btn primary"><i class="fa-solid fa-mountain-sun"></i> Find My Adventure</a>
+      <a href="404.html" class="h-btn outline"><i class="fa-solid fa-phone"></i> Talk to an Expert</a>
+    </div>
+
+    <div class="h-final-stats">
+      <div class="h-final-stat">
+        <h4><span class="counter" data-target="47">0</span>+</h4>
+        <p>Curated Tours</p>
+      </div>
+      <div class="h-final-stat">
+        <h4><span class="counter" data-target="12">0</span></h4>
+        <p>Countries</p>
+      </div>
+      <div class="h-final-stat">
+        <h4><span class="counter" data-target="4.9" data-decimals="1">0</span>★</h4>
+        <p>Guest Rating</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="h-final-band">
+    <img src="trek10.webp" alt="Mountains" loading="lazy">
+    <div class="h-final-band-content">
+      <h3>Where will your <em>story</em> begin?</h3>
+      <p>Join 8,400+ explorers who've trusted Stackly with their biggest adventures.</p>
+      <a href="404.html" class="h-btn primary"><i class="fa-solid fa-compass"></i> Browse All Trips</a>
+    </div>
+  </div>
+</section>
+
+<div id="footer-placeholder"></div>
+
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+  /* ===== AOS ===== */
+  AOS.init({
+    duration: 800,
+    easing: 'ease-out-cubic',
+    once: true,
+    offset: 80
+  });
+  window.addEventListener('load', () => AOS.refresh());
+
+  /* ============================================
+     HERO VIDEO — PLAY/PAUSE + MUTE
+     ============================================ */
+  const heroVideo = document.getElementById('heroVideo');
+  const heroPlayToggle = document.getElementById('heroPlayToggle');
+  const heroPlayIcon = document.getElementById('heroPlayIcon');
+  const heroPlayLabel = document.getElementById('heroPlayLabel');
+  const heroMuteBtn = document.getElementById('heroMuteBtn');
+
+  if (heroVideo && heroPlayToggle) {
+    heroPlayToggle.addEventListener('click', function () {
+      if (heroVideo.paused || heroVideo.ended) {
+        heroVideo.play().catch(() => {});
+      } else {
+        heroVideo.pause();
+      }
+    });
+
+    heroVideo.addEventListener('play', () => {
+      heroPlayIcon.innerHTML = '<i class="fa-solid fa-pause"></i>';
+      heroPlayLabel.textContent = 'Pause Film';
+    });
+    heroVideo.addEventListener('pause', () => {
+      heroPlayIcon.innerHTML = '<i class="fa-solid fa-play"></i>';
+      heroPlayLabel.textContent = 'Play Film';
+    });
+
+    if (heroMuteBtn) {
+      heroMuteBtn.addEventListener('click', function () {
+        heroVideo.muted = !heroVideo.muted;
+        heroMuteBtn.querySelector('i').className = heroVideo.muted
+          ? 'fa-solid fa-volume-xmark'
+          : 'fa-solid fa-volume-high';
+      });
+    }
+
+    heroVideo.addEventListener('error', () => {
+      heroVideo.style.display = 'none';
+      heroVideo.parentElement.style.background = '#152a1e';
+    });
+
+    const heroObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (!e.isIntersecting && !heroVideo.paused) {
+          heroVideo.pause();
+        }
+      });
+    }, { threshold: 0.15 });
+    heroObs.observe(heroVideo);
+  }
+
+  /* ============================================
+     FEATURE VIDEO — Full custom player
+     ============================================ */
+  const featureVideo = document.getElementById('featureVideo');
+  const vidPlayer = document.getElementById('vidPlayer');
+  const vidPlayBtn = document.getElementById('vidPlayBtn');
+  const vidPlaySmall = document.getElementById('vidPlaySmall');
+  const vidPlaySmallIcon = document.getElementById('vidPlaySmallIcon');
+  const vidMuteBtn = document.getElementById('vidMuteBtn');
+  const vidMuteIcon = document.getElementById('vidMuteIcon');
+  const vidProgress = document.getElementById('vidProgress');
+  const vidProgressFill = document.getElementById('vidProgressFill');
+  const vidCurrent = document.getElementById('vidCurrent');
+  const vidDuration = document.getElementById('vidDuration');
+  const vidFsBtn = document.getElementById('vidFsBtn');
+  const vidFsIcon = document.getElementById('vidFsIcon');
+
+  if (featureVideo && vidPlayBtn) {
+
+    function fmtTime(s) {
+      if (!isFinite(s) || s < 0) s = 0;
+      const m = Math.floor(s / 60);
+      const sec = Math.floor(s % 60);
+      return m + ':' + String(sec).padStart(2, '0');
+    }
+
+    function togglePlay(e) {
+      if (e) e.stopPropagation();
+      if (featureVideo.paused || featureVideo.ended) {
+        featureVideo.muted = false;
+        featureVideo.play().catch(() => {
+          featureVideo.muted = true;
+          featureVideo.play().catch(() => {});
+        });
+      } else {
+        featureVideo.pause();
+      }
+    }
+
+    vidPlayBtn.addEventListener('click', togglePlay);
+    vidPlaySmall.addEventListener('click', togglePlay);
+    featureVideo.addEventListener('click', function (e) {
+      if (e.target.closest('.h-vid-controls')) return;
+      togglePlay(e);
+    });
+
+    featureVideo.addEventListener('play', () => {
+      vidPlayBtn.classList.add('hidden');
+      vidPlayer.classList.add('playing');
+      vidPlaySmallIcon.className = 'fa-solid fa-pause';
+    });
+    featureVideo.addEventListener('pause', () => {
+      vidPlayBtn.classList.remove('hidden');
+      vidPlayer.classList.remove('playing');
+      vidPlaySmallIcon.className = 'fa-solid fa-play';
+      featureVideo.muted = true;
+      vidMuteIcon.className = 'fa-solid fa-volume-xmark';
+    });
+    featureVideo.addEventListener('ended', () => {
+      vidPlayBtn.classList.remove('hidden');
+      vidPlayer.classList.remove('playing');
+      vidPlaySmallIcon.className = 'fa-solid fa-play';
+      featureVideo.currentTime = 0;
+    });
+
+    featureVideo.addEventListener('timeupdate', () => {
+      if (featureVideo.duration) {
+        const pct = (featureVideo.currentTime / featureVideo.duration) * 100;
+        vidProgressFill.style.width = pct + '%';
+        vidCurrent.textContent = fmtTime(featureVideo.currentTime);
+      }
+    });
+    featureVideo.addEventListener('loadedmetadata', () => {
+      vidDuration.textContent = fmtTime(featureVideo.duration);
+    });
+
+    vidProgress.addEventListener('click', function (e) {
+      e.stopPropagation();
+      const rect = vidProgress.getBoundingClientRect();
+      const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+      if (featureVideo.duration) featureVideo.currentTime = pct * featureVideo.duration;
+    });
+
+    vidMuteBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      featureVideo.muted = !featureVideo.muted;
+      vidMuteIcon.className = featureVideo.muted
+        ? 'fa-solid fa-volume-xmark'
+        : 'fa-solid fa-volume-high';
+    });
+
+    vidFsBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      if (!document.fullscreenElement) {
+        vidPlayer.requestFullscreen?.().catch(() => {});
+      } else {
+        document.exitFullscreen?.();
+      }
+    });
+    document.addEventListener('fullscreenchange', () => {
+      vidFsIcon.className = document.fullscreenElement
+        ? 'fa-solid fa-compress'
+        : 'fa-solid fa-expand';
+    });
+
+    const vidObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (!e.isIntersecting && !featureVideo.paused) {
+          featureVideo.pause();
+        }
+      });
+    }, { threshold: 0.15 });
+    vidObs.observe(vidPlayer);
+  }
+
+  /* ============================================
+     NEWSLETTER FORM — NAME: only letters + spaces
+     ============================================ */
+  const newsForm = document.getElementById('newsForm');
+  const newsName = document.getElementById('newsName');
+  const newsEmail = document.getElementById('newsEmail');
+  const newsNameError = document.getElementById('newsNameError');
+  const newsEmailError = document.getElementById('newsEmailError');
+
+  if (newsName) {
+    newsName.addEventListener('input', function () {
+      // ⬇ LIVE STRIP — anything that is not letter or space is removed instantly
+      const cleaned = this.value.replace(/[^A-Za-z\s]/g, '');
+      if (cleaned !== this.value) {
+        this.value = cleaned;
+        newsNameError.textContent = 'Only letters and spaces are allowed.';
+        newsNameError.classList.add('show');
+      } else {
+        newsNameError.classList.remove('show');
+      }
+      this.classList.remove('error');
+    });
+
+    newsName.addEventListener('blur', function () {
+      // Empty check
+      if (!this.value.trim()) {
+        this.classList.add('error');
+        newsNameError.textContent = 'Please enter your name.';
+        newsNameError.classList.add('show');
+      } else {
+        this.classList.remove('error');
+        newsNameError.classList.remove('show');
+      }
+    });
+  }
+
+  if (newsEmail) {
+    newsEmail.addEventListener('input', function () {
+      this.classList.remove('error');
+      newsEmailError.classList.remove('show');
+    });
+  }
+
+  if (newsForm) {
+    newsForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      let valid = true;
+
+      // Name validation
+      const nameVal = newsName.value.trim();
+      if (!nameVal || !/^[A-Za-z\s]+$/.test(nameVal)) {
+        newsName.classList.add('error');
+        newsNameError.textContent = 'Please enter a valid name (letters and spaces only).';
+        newsNameError.classList.add('show');
+        valid = false;
+      }
+
+      // Email validation
+      const emailVal = newsEmail.value.trim();
+      if (!emailVal || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
+        newsEmail.classList.add('error');
+        newsEmailError.textContent = 'Please enter a valid email address.';
+        newsEmailError.classList.add('show');
+        valid = false;
+      }
+
+      if (!valid) return;
+
+      // Success → redirect to 404
+      window.location.href = '404.html';
+    });
+  }
+
+  /* ===== COUNTERS ===== */
+  function animateCounter(el) {
+    const target = parseFloat(el.getAttribute('data-target')) || 0;
+    const decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+    const duration = 1600;
+    const startTime = performance.now();
+    function update(now) {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const value = target * eased;
+      el.textContent = decimals > 0 ? value.toFixed(decimals) : Math.floor(value).toLocaleString();
+      if (progress < 1) requestAnimationFrame(update);
+      else el.textContent = decimals > 0 ? target.toFixed(decimals) : Math.floor(target).toLocaleString();
+    }
+    requestAnimationFrame(update);
+  }
+  const counterObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        if (!el.dataset.animated) {
+          el.dataset.animated = 'true';
+          animateCounter(el);
+        }
+      }
+    });
+  }, { threshold: 0.3 });
+  document.querySelectorAll('.counter').forEach(c => counterObs.observe(c));
+
+  /* ===== HEADER & FOOTER ===== */
+  fetch('header.html')
+    .then(r => r.ok ? r.text() : Promise.reject('Header not found'))
+    .then(d => {
+      document.getElementById('header-placeholder').innerHTML = d;
+      initHeader();
+      AOS.refresh();
+    })
+    .catch(err => console.error('Header load failed:', err));
+
+  fetch('footer.html')
+    .then(r => r.ok ? r.text() : Promise.reject('Footer not found'))
+    .then(d => {
+      document.getElementById('footer-placeholder').innerHTML = d;
+      if (typeof initFooter === 'function') initFooter();
+      AOS.refresh();
+    })
+    .catch(err => console.error('Footer load failed:', err));
+
+  function initHeader() {
+    const hamburger = document.getElementById('hamburgerBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    if (hamburger && mobileMenu) {
+      hamburger.addEventListener('click', function () {
+        hamburger.classList.toggle('active');
+        mobileMenu.classList.toggle('active');
+        document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+      });
+      document.addEventListener('click', function (e) {
+        if (mobileMenu.classList.contains('active')) {
+          if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) {
+            hamburger.classList.remove('active');
+            mobileMenu.classList.remove('active');
+            document.body.style.overflow = '';
+          }
+        }
+      });
+    }
+  }
+
+  window.handleLogout = function (e) {
+    if (e) e.preventDefault();
+    try {
+      sessionStorage.removeItem('stackly_session');
+      localStorage.removeItem('stackly_session');
+    } catch (err) {}
+    window.location.replace('login.html');
+  };
+
+  console.log('🏔️ Stackly Adventures — Landing page ready');
+});
+</script>
+
+</body>
+</html>
